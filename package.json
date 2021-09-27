@@ -1,0 +1,25 @@
+{
+  "name": "pinksoldier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakseono/PinkSoldier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nakseono/PinkSoldier/issues"
+  },
+  "homepage": "https://github.com/nakseono/PinkSoldier#readme",
+  "dependencies": {
+    "discord.js": "^13.1.0",
+    "node": "^16.10.0",
+    "nodemon": "^2.0.13"
+  }
+}

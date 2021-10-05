@@ -1,10 +1,30 @@
 const { Client, Intents } = require("discord.js");
 const { token } = require("./config.json");
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({
+  intents: [
+    Intents.FLAGS.GUILDS,
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "DIRECT_MESSAGES",
+  ],
+  partials: ["CHANNEL"],
+});
+
+const prefix = "!";
 
 client.once("ready", () => {
   console.log("Ready!");
+});
+
+client.on("messageCreate", (msg) => {
+  console.log(msg.content);
+  if (msg.content === "ping") {
+    msg.reply("pong");
+  }
+  if (msg.content.startsWith(prefix)) {
+    msg.reply("prefix");
+  }
 });
 
 client.on("interactionCreate", async (interaction) => {

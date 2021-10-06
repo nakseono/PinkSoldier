@@ -1,5 +1,6 @@
 const { Client, Intents } = require("discord.js");
-const { token } = require("./config.json");
+const { token, prefix } = require("./config.json");
+const axios = require("axios");
 
 const client = new Client({
   intents: [
@@ -11,14 +12,14 @@ const client = new Client({
   partials: ["CHANNEL"],
 });
 
-const prefix = "!";
-
 client.once("ready", () => {
-  console.log("Ready!");
+  console.log("핑크솔져 ON");
 });
 
 client.on("messageCreate", (msg) => {
-  console.log(msg.content);
+  if (!msg.author.bot) {
+    console.log(msg.content);
+  }
   if (msg.content === "ping") {
     msg.reply("pong");
   }

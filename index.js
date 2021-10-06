@@ -16,15 +16,26 @@ client.once("ready", () => {
   console.log("핑크솔져 ON");
 });
 
-client.on("messageCreate", (msg) => {
-  if (!msg.author.bot) {
-    console.log(msg.content);
+client.on("messageCreate", async (message) => {
+  const order = message.content;
+  const loaOrder = order.split(" ")[0];
+  const nickname = loaOrder[1];
+
+  // 봇 메시지만 제외하고 콘솔에 찍는 기능.
+  if (!message.author.bot) {
+    console.log(order);
   }
-  if (msg.content === "ping") {
-    msg.reply("pong");
-  }
-  if (msg.content.startsWith(prefix)) {
-    msg.reply("prefix");
+
+  // 접두사로 시작하는지 우선적으로 검사
+  if (order.startsWith(prefix)) {
+    if (loaOrder === "!로아") {
+      let encodedNick = encodeURI(nickname);
+      const loaInfo = await axios.get(
+        `https://lostark.game.onstove.com/Profile/Character/${encodedNick}`
+      );
+
+      console.log(loaInfo);
+    }
   }
 });
 

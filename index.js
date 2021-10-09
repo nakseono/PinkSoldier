@@ -1,6 +1,7 @@
 const { Client, Intents } = require("discord.js");
 const { token, prefix } = require("./config.json");
 const axios = require("axios");
+const cheerio = require("cheerio");
 
 const client = new Client({
   intents: [
@@ -13,28 +14,91 @@ const client = new Client({
 });
 
 client.once("ready", () => {
-  console.log("핑크솔져 ON");
+  console.log("Ready!");
 });
 
 client.on("messageCreate", async (message) => {
   const order = message.content;
-  const loaOrder = order.split(" ")[0];
+  const loaOrder = order.split(" ");
+  const loaInfoOrder = loaOrder[0];
   const nickname = loaOrder[1];
 
-  // 봇 메시지만 제외하고 콘솔에 찍는 기능.
+  //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
   if (!message.author.bot) {
     console.log(order);
   }
 
-  // 접두사로 시작하는지 우선적으로 검사
+  //! 접두사로 시작하는지 우선적으로 검사
   if (order.startsWith(prefix)) {
-    if (loaOrder === "!로아") {
-      let encodedNick = encodeURI(nickname);
+    if (loaInfoOrder === "!로아") {
       const loaInfo = await axios.get(
-        `https://lostark.game.onstove.com/Profile/Character/${encodedNick}`
+        `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+          nickname
+        )}`
       );
 
-      console.log(loaInfo);
+      const $ = cheerio.load(loaInfo.data);
+
+      const userName = $(".profile-character-info__name").text(); //! 닉네임
+
+      const userServer = $(".profile-character-info__server").text(); //! 서버
+
+      const userJob = $(".profile-character-info__img").attr("alt"); //! 직업
+
+      const userGuild = $(".game-info__guild").text().replace("길드", ""); //! 길드
+
+      const userTitle = $(".game-info__title").text().replace("칭호", ""); //! 장착중인 칭호
+
+      // const userEngrave = $(".profile-ability-engrave").text(); //! 각인
+
+      const userEngrave = $(
+        "div.profile-ability-engrave > div > div > ul > li > span"
+      ).text();
+
+      const userArea = $(".game-info__wisdom").text().replace("영지", ""); //! 영지
+
+      const userAbility = $(".profile-ability-battle").text(); //! 특성
+
+      const userLevel = $(".level-info2__item")
+        .text()
+        .replace("달성 아이템 레벨", "");
+
+      const userBattleLeve = $(".level-info__item")
+        .text()
+        .replace("전투 레벨", "");
+
+      const userGroupLevel = $(".level-info__expedition")
+        .text()
+        .replace("원정대 레벨", "");
+
+      // 수집형 포인트 $(".").text().replace("", "");
+
+      // 보유 캐릭터 리스트 $(".").text().replace("", "");
+
+      message.channel.send(userEngrave);
+      // console.log(userEngrave);
+
+      // 각인 효과
+      // let body4 = "";
+      // for (let i = 0; i < data["ability"].length; i++) {
+      //   body4 = body4 + `${data["ability"][i]}\n`;
+      // }
+      // body4 = body4 + "\n";
+
+      // 보유 캐릭터
+      // let body5 = "";
+      // for (let i = 0; i < data["own_job"].length; i++) {
+      //   body5 =
+      //     body5 +
+      //     `[${data["own_userName"][i]}](https://lostark.game.onstove.com/Profile/Character/${data["own_userName"][i]}) / ${data["own_job"][i]}\n`;
+      // }
+
+      // let imgSrc = "";
+      // for (let i = 0; i < lostArkData["job_images"].length; i++) {
+      //   if (lostArkData["job_images"][i]["jobName"] === data["job"]) {
+      //     imgSrc = lostArkData["job_images"][i]["imgSrc"];
+      //   }
+      // }
     }
   }
 });

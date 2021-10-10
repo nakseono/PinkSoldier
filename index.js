@@ -81,10 +81,30 @@ client.on("messageCreate", async (message) => {
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
         .setTitle(`${userName}`)
-        .addFields({
-          name: "기 본 정 보",
-          value: `\`서  버\` : ${userServer}\n\`클래스\` : ${userJob}\n\`길  드\` : ${userGuild}\n\`칭  호\` : ${userTitle}\n\`전  투\` : ${userBattleLevel}\n\`아이템\` : ${userLevel}\n\`영  지\` : ${userArea}`,
-        });
+        .addFields(
+          {
+            name: "기 본 정 보",
+            value: `\`서  버\` : ${userServer}\n\`클래스\` : ${userJob}\n\`길  드\` : ${userGuild}\n\`칭  호\` : ${userTitle}\n\`전  투\` : ${userBattleLevel}\n\`아이템\` : ${userLevel}\n\`원정대\` : ${userGroupLevel}\n\`영  지\` : ${userArea}`,
+            inline: true,
+          },
+          {
+            name: "\u200B",
+            value: "\u200B",
+            inline: true,
+          },
+          {
+            name: "착용 장비",
+            value: `test`,
+            inline: true,
+          }
+        )
+        .addFields({ name: "\u200B", value: "\u200B" })
+        .addFields(
+          { name: "기본 특성", value: "기본 특성", inline: true },
+          { name: "\u200B", value: "\u200B", inline: true },
+          { name: "각인 효과", value: "각인", inline: true }
+        );
+
       message.channel.send({ embeds: [embedMessage] });
     }
   }

@@ -83,7 +83,7 @@ client.on("messageCreate", async (message) => {
         .setTitle(`${userName}`)
         .addFields(
           {
-            name: "기 본 정 보",
+            name: "기본 정보",
             value: `\`서  버\` : ${userServer}\n\`클래스\` : ${userJob}\n\`길  드\` : ${userGuild}\n\`칭  호\` : ${userTitle}\n\`전  투\` : ${userBattleLevel}\n\`아이템\` : ${userLevel}\n\`원정대\` : ${userGroupLevel}\n\`영  지\` : ${userArea}`,
             inline: true,
           },
@@ -98,7 +98,6 @@ client.on("messageCreate", async (message) => {
             inline: true,
           }
         )
-        .addFields({ name: "\u200B", value: "\u200B" })
         .addFields(
           { name: "기본 특성", value: "기본 특성", inline: true },
           { name: "\u200B", value: "\u200B", inline: true },

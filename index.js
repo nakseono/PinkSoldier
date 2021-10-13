@@ -60,7 +60,7 @@ client.on("messageCreate", async (message) => {
         .text()
         .replace("영지", ""); //! 영지
 
-      const userAbility = $(".profile-ability-battle").text(); //! 특성
+      const userAbility = $(".profile-ability-battle > ul > li > span").text(); //! 특성
 
       const userLevel = $(".level-info2__item")
         .text()
@@ -99,9 +99,13 @@ client.on("messageCreate", async (message) => {
           }
         )
         .addFields(
-          { name: "기본 특성", value: "기본 특성", inline: true },
+          {
+            name: "기본 특성",
+            value: `${userAbility}`,
+            inline: true,
+          },
           { name: "\u200B", value: "\u200B", inline: true },
-          { name: "각인 효과", value: "각인", inline: true }
+          { name: "각인 효과", value: `${userEngrave}`, inline: true }
         );
 
       message.channel.send({ embeds: [embedMessage] });

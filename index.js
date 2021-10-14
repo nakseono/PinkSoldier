@@ -55,6 +55,8 @@ client.on("messageCreate", async (message) => {
       const userEngrave = $(
         "div.profile-ability-engrave > div > div > ul > li > span"
       ).text(); //! 각인
+      //! 위 내용 중, split을 각각 숫자가 아닌 문자열로 구분지어서 \n 해주면 되지 않을까?
+      //! 이건 특성도 마찬가지. 쭉 리스트업 해야하는 문자들은 이렇게 구분짓자.
 
       const userArea = $(".game-info__wisdom > span")
         .text()

@@ -1,4 +1,4 @@
--const axios = require("axios");
+const axios = require("axios");
 const cheerio = require("cheerio");
 
 const getHTML = (url) => {
@@ -15,7 +15,7 @@ const getUserInfo = (userName) => {
 
     let json = {};
 
-    //! <-- 기본 정보 -->
+    //? <-- 기본 정보 -->
 
     json["userName"] = $(`.profile-character-info__name`).text(); //! 닉네임
 
@@ -47,10 +47,26 @@ const getUserInfo = (userName) => {
         else if (index === 2) json["garden_name"] = $(this).text(); //! 영지 레벨
       });
 
-    /* <--  -->*/
+    //? <-- 착용 장비 -->
 
+    //? <-- 특성 정보 -->
 
+    let count = 0;
+    let temp = [];
+    $(".profile-ability-battle > ul > li")
+      .children()
+      .each(function (index, item) {
+        if ($(this).attr("class") !== "profile-ability-tooltip") {
+          if ($(this).text() !== undefined) {
+            temp[count] = $(this).text();
+            count = count + 1;
+          }
+        }
+      });
+    json["ability"] = temp;
 
-    
+    //? <<- 각인 효과 ->>
+
+    //? <<- 보유 캐릭터 정보 ->>
   });
 };

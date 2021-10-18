@@ -33,12 +33,17 @@ client.on("messageCreate", async (message) => {
   if (!message.author.bot) {
     if (loaInfoOrder === "!로아") {
       const nickname = loaOrder[1];
-      const data = lostArk.getUserInfo(nickname);
+      const userData = lostArk.getUserInfo(nickname);
+      console.log("index.js");
+      console.log(userData);
+      // message.channel.send(`치명 : ${userData["ability"][1]}`);
       // message.channel.send(data[0]);
     }
   }
 
   //! --------------------------------------------------------
+
+  const createLoaEmbed = (userName, data) => {};
 
   // if (order.startsWith(prefix)) {
   //   if (loaInfoOrder === "!로아") {
@@ -73,10 +78,6 @@ client.on("messageCreate", async (message) => {
   //   }
   // }
 });
-
-// 그리고 아래에 특성이랑 각인 효과.
-// 수집형 포인트
-// 보유 캐릭터 리스트업
 
 // Login to Discord with your client's token
 client.login(token);

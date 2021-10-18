@@ -8,7 +8,19 @@ const getHTML = (url) => {
 const getUserInfo = (userName) => {
   console.log(`getUserInfo 실행 : ${userName}`);
 
-  axios
+  // try {
+  //   const html = await axios
+  //   .get(
+  //     `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+  //       userName
+  //     )}`
+  //   )
+
+  //   const $ = cheerio.load(html.data);
+
+  // }
+
+  return axios
     .get(
       `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
         userName
@@ -74,7 +86,6 @@ const getUserInfo = (userName) => {
       //? <<- 보유 캐릭터 정보 ->>
 
       console.log(json);
-      return json;
     });
 };
 

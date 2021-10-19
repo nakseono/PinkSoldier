@@ -45,14 +45,6 @@ client.on("messageCreate", async (message) => {
 
   const createLoaEmbed = (userName, data) => {};
 
-  // if (order.startsWith(prefix)) {
-  //   if (loaInfoOrder === "!로아") {
-  //     const loaInfo = await axios.get(
-  //       `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
-  //         nickname
-  //       )}`
-  //     );
-
   //     const embedMessage = new MessageEmbed()
   //       .setColor("#ff3399")
   //       .setTitle(`${userName}`)
@@ -75,11 +67,8 @@ client.on("messageCreate", async (message) => {
   //       );
 
   //     message.channel.send({ embeds: [embedMessage] });
-  //   }
-  // }
 });
 
-// Login to Discord with your client's token
 client.login(token);
 
 //? 구현해야 할 기능

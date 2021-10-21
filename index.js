@@ -92,7 +92,14 @@ client.on("messageCreate", async (message) => {
           inline: true,
         }
       )
-      .addFields({ name: "특성 정보", value: `${abilityBody}`, inline: true });
+      .addFields(
+        { name: "특성 정보", value: `${abilityBody}`, inline: true },
+        {
+          name: "\u200B",
+          value: "\u200B",
+          inline: true,
+        }
+      );
 
     return embedMessage;
   };

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { resolve } = require("path");
 
 const getHTML = (url) => {
   axios.get(url);
@@ -85,7 +86,8 @@ const getUserInfo = (userName) => {
 
       //? <<- 보유 캐릭터 정보 ->>
 
-      console.log(json);
+      // console.log(json);
+      return json;
     });
 };
 

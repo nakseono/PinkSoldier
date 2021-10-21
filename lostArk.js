@@ -69,6 +69,7 @@ const getUserInfo = (userName) => {
 
       let count = 0;
       let temp = [];
+
       $(".profile-ability-battle > ul > li")
         .children()
         .each(function (index, item) {
@@ -79,13 +80,27 @@ const getUserInfo = (userName) => {
             }
           }
         });
+
       json["ability"] = temp;
 
       //! <<- 각인 효과 ->>
 
+      count = 0;
+      temp = [];
+
+      $(".profile-ability-engrave > div > div > ul > li > span").each(function (
+        index,
+        item
+      ) {
+        temp[count] = $(this).text();
+        count = count + 1;
+      });
+
+      json["engrave"] = temp;
+
       //! <<- 보유 캐릭터 정보 ->>
 
-      // console.log(json);
+      console.log(json);
       return json;
     });
 };

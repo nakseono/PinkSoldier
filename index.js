@@ -72,6 +72,14 @@ client.on("messageCreate", async (message) => {
 
     //? ----------------------------------------------------
 
+    let engraveBody = "";
+
+    for (let k = 0; k < data["engrave"].length; k++) {
+      engraveBody += `${data["engrave"][k]}\n`;
+    }
+
+    //? ----------------------------------------------------
+
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
@@ -92,11 +100,22 @@ client.on("messageCreate", async (message) => {
           inline: true,
         }
       )
+
+      .addFields({
+        name: "\u200B",
+        value: "\u200B",
+      })
+
       .addFields(
         { name: "특성 정보", value: `${abilityBody}`, inline: true },
         {
           name: "\u200B",
           value: "\u200B",
+          inline: true,
+        },
+        {
+          name: "각인 정보",
+          value: `${engraveBody}`,
           inline: true,
         }
       );

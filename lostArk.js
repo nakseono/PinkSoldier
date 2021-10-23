@@ -6,19 +6,7 @@ const getHTML = (url) => {
 };
 
 const getUserInfo = (userName) => {
-  console.log(`getUserInfo 실행 : ${userName}`);
-
-  // try {
-  //   const html = await axios
-  //   .get(
-  //     `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
-  //       userName
-  //     )}`
-  //   )
-
-  //   const $ = cheerio.load(html.data);
-
-  // }
+  // console.log(`getUserInfo 실행 : ${userName}`);
 
   return axios
     .get(
@@ -51,7 +39,7 @@ const getUserInfo = (userName) => {
         if (index === 1) json["itemLevel"] = $(this).text();
       }); // 아이템 레벨
 
-      const userGroupLevel = $(".level-info__expedition")
+      json["userGroupLevel"] = $(".level-info__expedition")
         .text()
         .replace("원정대 레벨", ""); // 원정대 레벨
 
@@ -60,15 +48,37 @@ const getUserInfo = (userName) => {
         .each(function (index, item) {
           if (index === 1) json["garden_level"] = $(this).text();
           // 영지 레벨
-          else if (index === 2) json["garden_name"] = $(this).text(); // 영지 레벨
+          else if (index === 2) json["garden_name"] = $(this).text(); // 영지 이름
         });
 
-      //! <-- 착용 장비 -->
+      //! <-- 착용 장비 --> <보류>
 
-      //! <-- 특성 정보 -->
+      // let equip = $(
+      //   "#profile-ability.lui-tab__content.profile-ability > script"
+      // )[0].children[0].data;
+
+      //! <-- 기본 특성 정보 -->
 
       let count = 0;
       let temp = [];
+
+      $(".profile-ability-basic > ul > li")
+        .children()
+        .each(function (index, item) {
+          if ($(this).attr("class") !== "profile-ability-tooltip") {
+            if ($(this).text() !== undefined) {
+              temp[count] = $(this).text();
+              count = count + 1;
+            }
+          }
+        });
+
+      json["basic-ability"] = temp;
+
+      //! <-- 전투 특성 정보 -->
+
+      count = 0;
+      temp = [];
 
       $(".profile-ability-battle > ul > li")
         .children()
@@ -100,7 +110,6 @@ const getUserInfo = (userName) => {
 
       //! <<- 보유 캐릭터 정보 ->>
 
-      console.log(json);
       return json;
     });
 };

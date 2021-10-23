@@ -1,9 +1,8 @@
 const { Client, Intents } = require("discord.js");
 const { token, prefix } = require("./config.json");
-const axios = require("axios");
-const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 const lostArk = require("./lostArk.js");
+const classImage = require("./classImage.json");
 
 const client = new Client({
   intents: [
@@ -45,7 +44,7 @@ client.on("messageCreate", async (message) => {
   //! --------------------------------------------------------
 
   const createLoaEmbed = (userName, data) => {
-    //! 기본 특성 정보 가공
+    //? ------- 기본 특성 정보 가공 -------
 
     let basicAbilityBody = "";
 
@@ -58,7 +57,7 @@ client.on("messageCreate", async (message) => {
       }
     }
 
-    //! 전투 특성 정보 가공
+    //? ------- 전투 특성 정보 가공 -------
 
     let abilityBody = "";
 
@@ -83,7 +82,7 @@ client.on("messageCreate", async (message) => {
       }
     }
 
-    //? ----------------------------------------------------
+    //? ------- 각인 정보 가공 -------
 
     let engraveBody = "";
 
@@ -91,18 +90,20 @@ client.on("messageCreate", async (message) => {
       engraveBody += `${data["engrave"][k]}\n`;
     }
 
-    //? ----------------------------------------------------
+    //? ------- 썸네일 정보 가공 -------
 
-    //   {
-    //     name: "각인 정보",
-    //     value: `${engraveBody}`,
-    //     inline: true,
-    //   }
-    // )
+    let thumbnailURL = "";
+
+    for (let l = 0; l < classImage["job_images"].length; l++) {
+      if (classImage["job_images"][l][`jobName`] === data["job"]) {
+        thumbnailURL = classImage["job_images"][l]["imgSrc"];
+      }
+    }
 
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
+      .setThumbnail(`${thumbnailURL}`)
       .addFields(
         {
           name: "기본 정보",
@@ -112,6 +113,11 @@ client.on("messageCreate", async (message) => {
         {
           name: "레벨 정보",
           value: `\`전  투\` : ${data["level"]}\n\`아이템\` : ${data["itemLevel"]}\n\`원정대\` : ${data["userGroupLevel"]}\n\`영  지\` : ${data["garden_level"]}`,
+          inline: true,
+        },
+        {
+          name: "\u200B",
+          value: "\u200B",
           inline: true,
         }
       )
@@ -127,13 +133,12 @@ client.on("messageCreate", async (message) => {
           value: `${basicAbilityBody}`,
           inline: true,
         },
-
+        { name: "전투 특성", value: `${abilityBody}`, inline: true },
         {
-          name: "\u200B",
-          value: "\u200B",
+          name: "각인 정보",
+          value: `${engraveBody}`,
           inline: true,
-        },
-        { name: "전투 특성", value: `${abilityBody}`, inline: true }
+        }
       );
 
     return embedMessage;

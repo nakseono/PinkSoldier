@@ -35,7 +35,7 @@ client.on("messageCreate", async (message) => {
       const userName = loaOrder[1];
       lostArk.getUserInfo(userName).then((data) => {
         const embed = createLoaEmbed(userName, data);
-        console.log(`embed: ${embed}`);
+        // console.log(`embed: ${embed}`);
 
         message.channel.send({ embeds: [embed] });
       });
@@ -45,8 +45,21 @@ client.on("messageCreate", async (message) => {
   //! --------------------------------------------------------
 
   const createLoaEmbed = (userName, data) => {
-    // userName이랑 data(json형태) 로 넘겨주면
-    //! 특성 정보 가공
+    //! 기본 특성 정보 가공
+
+    let basicAbilityBody = "";
+
+    for (let p = 1; p < data["basic-ability"].length; p++) {
+      if ((p = 1)) {
+        basicAbilityBody += `\`공격력\`: ${data["basic-ability"][p]}\n`;
+      }
+      if ((p = 3)) {
+        basicAbilityBody += `\`생명력\`: ${data["basic-ability"][p]}\n`;
+      }
+    }
+
+    //! 전투 특성 정보 가공
+
     let abilityBody = "";
 
     for (let i = 1; i < data["ability"].length; i++) {
@@ -80,23 +93,25 @@ client.on("messageCreate", async (message) => {
 
     //? ----------------------------------------------------
 
+    //   {
+    //     name: "각인 정보",
+    //     value: `${engraveBody}`,
+    //     inline: true,
+    //   }
+    // )
+
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
       .addFields(
         {
           name: "기본 정보",
-          value: `\`서  버\` : ${data["server"]}\n\`클래스\` : ${data["job"]}\n\`길  드\` : ${data["guild"]}\n\`칭  호\` : ${data["title"]}\n\`전  투\` : ${data["level"]}\n\`아이템\` : ${data["itemLevel"]}\n\`원정대\` : ${data["garden_level"]}\n\`영  지\` : ${data["garden_name"]}`,
+          value: `\`서  버\` : ${data["server"]}\n\`클래스\` : ${data["job"]}\n\`길  드\` : ${data["guild"]}\n\`칭  호\` : ${data["title"]}`,
           inline: true,
         },
         {
-          name: "\u200B",
-          value: "\u200B",
-          inline: true,
-        },
-        {
-          name: "착용 장비",
-          value: `test`,
+          name: "레벨 정보",
+          value: `\`전  투\` : ${data["level"]}\n\`아이템\` : ${data["itemLevel"]}\n\`원정대\` : ${data["userGroupLevel"]}\n\`영  지\` : ${data["garden_level"]}`,
           inline: true,
         }
       )
@@ -107,17 +122,18 @@ client.on("messageCreate", async (message) => {
       })
 
       .addFields(
-        { name: "특성 정보", value: `${abilityBody}`, inline: true },
+        {
+          name: "기본 특성",
+          value: `${basicAbilityBody}`,
+          inline: true,
+        },
+
         {
           name: "\u200B",
           value: "\u200B",
           inline: true,
         },
-        {
-          name: "각인 정보",
-          value: `${engraveBody}`,
-          inline: true,
-        }
+        { name: "전투 특성", value: `${abilityBody}`, inline: true }
       );
 
     return embedMessage;

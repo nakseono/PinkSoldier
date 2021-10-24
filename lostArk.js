@@ -6,7 +6,7 @@ const getHTML = (url) => {
 };
 
 const getUserInfo = (userName) => {
-  // console.log(`getUserInfo 실행 : ${userName}`);
+  console.log(`lostArk.js - getUserInfo 실행 : ${userName}`);
 
   return axios
     .get(

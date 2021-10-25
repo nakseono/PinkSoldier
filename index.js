@@ -19,22 +19,21 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
-  const order = message.data;
-  const loaOrder = message.content.split(" ");
-  const loaInfoOrder = loaOrder[0];
+  const order = message.content.split(" ")[0];
+  const orderUserName = message.content.split(" ")[1];
 
   //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
   if (!message.author.bot) {
-    console.log(order);
+    console.log(message.data);
   }
 
   //! 봇 메시지가 아니며, 접두사로 시작하는지 우선적으로 검사
+  //! 이후 각 명령어에 따라서 각기 다른 결과 출력
   if (!message.author.bot) {
-    if (loaInfoOrder === "!로아") {
-      const userName = loaOrder[1];
+    if (order === `${prefix}로아`) {
+      const userName = orderUserName;
       lostArk.getUserInfo(userName).then((data) => {
         const embed = createLoaEmbed(userName, data);
-        // console.log(`embed: ${embed}`);
 
         message.channel.send({ embeds: [embed] });
       });
@@ -100,6 +99,8 @@ client.on("messageCreate", async (message) => {
       }
     }
 
+    //? ------- 종합해서 임베드 만들기 -------
+
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
@@ -147,11 +148,21 @@ client.on("messageCreate", async (message) => {
 
 client.login(token);
 
-//? 구현해야 할 기능
+//? DONE
 //? 1. 로스트아크 전투정보실 DATA
-//? 2. YouTube API 연동해서 노래 기능까지 추가
-//? 3. 로스트아크 일정표에 맞춰서 모험섬, 카오스게이트 등 알림기능
-//? 4. xlsx 모듈 이용해서 수요눕클회 스프레트 시트에서 일정 안 만진사람 알림가도록
-//? 5. 보유 캐릭터 목록 표시해서 주간 수입 보상 합계
-//? 6. 경매 최적가 계산기 (~골보다 싸면 입찰)
-//? 7. 각 군단장 보상 및 더보기 비용 등. : 참고링크 - https://www.inven.co.kr/board/lostark/4821/83355
+
+//? 진행 중 기능
+//? 4. 경매 최적가 계산기 (~골보다 싸면 입찰)
+
+//? 구현해야 할 기능
+//? - 로스트아크 일정표에 맞춰서 모험섬, 카오스게이트 등 알림기능
+//? - 보유 캐릭터 목록 표시해서 주간 수입 보상 합계
+//? - 각 군단장 보상 및 더보기 비용 등. : 참고링크 - https://www.inven.co.kr/board/lostark/4821/83355
+//? - 더 많은 정보를 원한다면? - 로아와 링크 걸기.
+//! 코드 리팩토링 및 스플릿
+
+//? +@
+//? YouTube API 연동해서 노래 기능까지 추가
+
+//? 할까?
+//? xlsx 모듈 이용해서 수요눕클회 스프레트 시트에서 일정 안 만진사람 알림가도록 - 스프레드 시트 이제 눕클회에서 안 쓰일 것 같은데...

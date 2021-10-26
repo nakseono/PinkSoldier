@@ -19,31 +19,51 @@ client.once("ready", () => {
 });
 
 client.on("messageCreate", async (message) => {
-  const order = message.data;
-  const loaOrder = message.content.split(" ");
-  const loaInfoOrder = loaOrder[0];
+  const order = message.content.split(" ")[0];
+  const orderWithOutPrefix = message.content.split(" ")[1];
 
   //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
   if (!message.author.bot) {
-    console.log(order);
+    console.log(message.data);
   }
 
   //! 봇 메시지가 아니며, 접두사로 시작하는지 우선적으로 검사
+  //! 이후 각 명령어에 따라서 각기 다른 결과 출력
   if (!message.author.bot) {
-    if (loaInfoOrder === "!로아") {
-      const userName = loaOrder[1];
-      lostArk.getUserInfo(userName).then((data) => {
-        const embed = createLoaEmbed(userName, data);
-        // console.log(`embed: ${embed}`);
+    if (order === `${prefix}정보`) {
+      lostArk.getUserInfo(orderWithOutPrefix).then((data) => {
+        const embed = createLoaInfoEmbed(orderWithOutPrefix, data);
 
         message.channel.send({ embeds: [embed] });
       });
+    }
+
+    if (order === `${prefix}경매`) {
+      //   입찰할때는 최적가 계산은
+      //  구매 최적가 = 경매가 x 0.95 x 3/4 (4인)
+      //  구매 최적가 = 경매가 x 0.95 x 7/8 (8인)
+      //  구매 최적가 = 경매가 x 0.95 x 15/16 (16인)
+      // 로 계산하면 된다.
+      const embed = createAuctionEmbed(orderWithOutPrefix);
+      message.channel.send({ embeds: [embed] });
     }
   }
 
   //! --------------------------------------------------------
 
-  const createLoaEmbed = (userName, data) => {
+  function createAuctionEmbed(value) {
+    const people4 = Math.floor(value * 0.95 * (3 / 4));
+    const people8 = Math.floor(value * 0.95 * (7 / 8));
+
+    const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
+      name: `경매 아이템 ${value} 골드 분배금 계산`,
+      value: `\`4인 기준\` ${people4} 골드 까지만 입찰!\n\`8인 기준\` ${people8} 골드 까지만 입찰 하십시오.`,
+    });
+
+    return embedMessage;
+  }
+
+  const createLoaInfoEmbed = (userName, data) => {
     //? ------- 기본 특성 정보 가공 -------
 
     let basicAbilityBody = "";
@@ -100,6 +120,8 @@ client.on("messageCreate", async (message) => {
       }
     }
 
+    //? ------- 종합해서 임베드 만들기 -------
+
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
@@ -147,11 +169,21 @@ client.on("messageCreate", async (message) => {
 
 client.login(token);
 
+//? DONE
+//? - 로스트아크 전투정보실 DATA
+//? - 경매 최적가 계산기 (~골보다 싸면 입찰)
+
+//? 진행 중 기능
+
 //? 구현해야 할 기능
-//? 1. 로스트아크 전투정보실 DATA
-//? 2. YouTube API 연동해서 노래 기능까지 추가
-//? 3. 로스트아크 일정표에 맞춰서 모험섬, 카오스게이트 등 알림기능
-//? 4. xlsx 모듈 이용해서 수요눕클회 스프레트 시트에서 일정 안 만진사람 알림가도록
-//? 5. 보유 캐릭터 목록 표시해서 주간 수입 보상 합계
-//? 6. 경매 최적가 계산기 (~골보다 싸면 입찰)
-//? 7. 각 군단장 보상 및 더보기 비용 등. : 참고링크 - https://www.inven.co.kr/board/lostark/4821/83355
+//? - 로스트아크 일정표에 맞춰서 모험섬, 카오스게이트 등 알림기능
+//? - 보유 캐릭터 목록 표시해서 주간 수입 보상 합계
+//? - 각 군단장 보상 및 더보기 비용 등. : 참고링크 - https://www.inven.co.kr/board/lostark/4821/83355
+//? - 더 많은 정보를 원한다면? - 로아와 링크 걸기.
+//! 코드 리팩토링 및 스플릿
+
+//? +@
+//? YouTube API 연동해서 노래 기능까지 추가
+
+//? 할까?
+//? xlsx 모듈 이용해서 수요눕클회 스프레트 시트에서 일정 안 만진사람 알림가도록 - 스프레드 시트 이제 눕클회에서 안 쓰일 것 같은데...

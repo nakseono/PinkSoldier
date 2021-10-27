@@ -77,7 +77,7 @@ const createLoaInfoEmbed = (userName, data) => {
       },
       {
         name: "\u200B",
-        value: "\u200B",
+        value: `\u200B`,
         inline: true,
       }
     )
@@ -104,4 +104,13 @@ const createLoaInfoEmbed = (userName, data) => {
   return embedMessage;
 };
 
-module.exports = { createLoaInfoEmbed };
+const createLoawaLinkEmbed = (userName) => {
+  const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
+    name: `링크 클릭시 로아와 페이지로 이동합니다.`,
+    value: `https://loawa.com/char/${userName}`,
+  });
+
+  return embedMessage;
+};
+
+module.exports = { createLoaInfoEmbed, createLoawaLinkEmbed };

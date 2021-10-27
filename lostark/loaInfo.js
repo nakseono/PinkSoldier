@@ -1,10 +1,6 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const getHTML = (url) => {
-  axios.get(url);
-};
-
 const getUserInfo = (userName) => {
   console.log(`lostArk.js - getUserInfo 실행 : ${userName}`);
 

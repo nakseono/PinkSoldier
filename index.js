@@ -1,8 +1,8 @@
 const { Client, Intents } = require("discord.js");
 const { token, prefix } = require("./config.json");
 const { MessageEmbed } = require("discord.js");
-const lostArk = require("./lostArk.js");
-const classImage = require("./classImage.json");
+const loaInfo = require("./lostark/loaInfo.js");
+const classImage = require("./lostark/classImage.json");
 
 const client = new Client({
   intents: [
@@ -31,7 +31,7 @@ client.on("messageCreate", async (message) => {
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
   if (!message.author.bot) {
     if (order === `${prefix}정보`) {
-      lostArk.getUserInfo(orderWithOutPrefix).then((data) => {
+      loaInfo.getUserInfo(orderWithOutPrefix).then((data) => {
         const embed = createLoaInfoEmbed(orderWithOutPrefix, data);
 
         message.channel.send({ embeds: [embed] });
@@ -39,11 +39,6 @@ client.on("messageCreate", async (message) => {
     }
 
     if (order === `${prefix}경매`) {
-      //   입찰할때는 최적가 계산은
-      //  구매 최적가 = 경매가 x 0.95 x 3/4 (4인)
-      //  구매 최적가 = 경매가 x 0.95 x 7/8 (8인)
-      //  구매 최적가 = 경매가 x 0.95 x 15/16 (16인)
-      // 로 계산하면 된다.
       const embed = createAuctionEmbed(orderWithOutPrefix);
       message.channel.send({ embeds: [embed] });
     }

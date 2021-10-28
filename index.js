@@ -6,6 +6,7 @@ const {
   createLoaInfoEmbed,
   createLoawaLinkEmbed,
 } = require("./lostark/loaInfo/loaInfoEmbed");
+const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
 const { createAuctionEmbed } = require("./lostark/loaAuction");
 const { returnOrderList } = require("./orderList");
 
@@ -21,6 +22,9 @@ const client = new Client({
 
 client.once("ready", () => {
   console.log("핑크솔져 준비 완료");
+  client.user.setPresence({
+    activities: [{ name: "!명령어" }],
+  });
 });
 
 client.on("messageCreate", async (message) => {
@@ -50,9 +54,15 @@ client.on("messageCreate", async (message) => {
       });
     }
 
-    if (order === `${prefix}분배`) {
+    if (order === `${prefix}경매`) {
       message.channel.send({
         embeds: [createAuctionEmbed(orderWithOutPrefix)],
+      });
+    }
+
+    if (order === `${prefix}분배`) {
+      message.channel.send({
+        embeds: [createAuctionbyPartyEmbed(orderWithOutPrefix)],
       });
     }
 

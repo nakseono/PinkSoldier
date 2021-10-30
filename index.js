@@ -1,6 +1,5 @@
 const { Client, Intents } = require("discord.js");
 const { token, prefix } = require("./config.json");
-const { MessageEmbed } = require("discord.js");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
 const {
   createLoaInfoEmbed,
@@ -9,15 +8,19 @@ const {
 const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
 const { createAuctionEmbed } = require("./lostark/loaAuction");
 const { returnOrderList } = require("./orderList");
+// const { createRewardEmbed } = require("./lostark/reward/Argus");
+// const { createValtanRewardEmbed } = require("./lostark/reward/valtan");
+const { addRoleEmbed } = require("./addCalendarRole");
 
 const client = new Client({
+  disableEveryone: true,
   intents: [
     Intents.FLAGS.GUILDS,
     "GUILDS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
   ],
-  partials: ["CHANNEL"],
+  partials: ["CHANNEL", "MESSAGE", "REACTION"],
 });
 
 client.once("ready", () => {
@@ -25,6 +28,35 @@ client.once("ready", () => {
   client.user.setPresence({
     activities: [{ name: "!명령어" }],
   });
+});
+
+client.on("messageReactionAdd", async (reaction, user) => {
+  if (reaction.message.partial) await reaction.message.fetch();
+  if (reaction.partial) await reaction.fetch();
+  if (user.bot) return;
+  if (!reaction.message.guild) return;
+  if (reaction.message.id === "903609289262903396") {
+    if (reaction.emoji.name === ":right_line:") {
+      await reaction.message.guild.members.cache
+        .get(user.id)
+        .roles.add("903116247309385770");
+      user.send("You have obtained a role!");
+    }
+  }
+});
+client.on("messageReactionRemove", async (reaction, user) => {
+  if (reaction.message.partial) await reaction.message.fetch();
+  if (reaction.partial) await reaction.fetch();
+  if (user.bot) return;
+  if (!reaction.message.guild) return;
+  if (reaction.message.id === "903609289262903396") {
+    if (reaction.emoji.name === ":right_line:") {
+      await reaction.message.guild.members.cache
+        .get(user.id)
+        .roles.remove("903116247309385770");
+      user.send("One of your roles has been removed!");
+    }
+  }
 });
 
 client.on("messageCreate", async (message) => {
@@ -71,9 +103,19 @@ client.on("messageCreate", async (message) => {
         embeds: [createLoawaLinkEmbed(orderWithOutPrefix)],
       });
     }
-  }
 
-  //! --------------------------------------------------------
+    if (order === `${prefix}발탄`) {
+      message.channel.send({
+        embeds: [createValtanRewardEmbed()],
+      });
+    }
+
+    if (order === `${prefix}알림`) {
+      message.channel.send({
+        embeds: [addRoleEmbed()],
+      });
+    }
+  }
 });
 
 client.login(token);

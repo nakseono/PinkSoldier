@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 const createAuctionEmbed = (value) => {
-  const people4 = value * 0.6478;
-  const people8 = value * 0.7556;
+  const people4 = Math.floor(value * 0.6478);
+  const people8 = Math.floor(value * 0.7556);
 
   const embedMessage = new MessageEmbed()
     .setColor("#ff3399")

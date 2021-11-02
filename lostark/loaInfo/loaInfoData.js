@@ -69,7 +69,7 @@ const getUserInfo = (userName) => {
           }
         });
 
-      json["basic-ability"] = temp;
+      json["basicAbility"] = temp;
 
       //! <-- 전투 특성 정보 -->
 

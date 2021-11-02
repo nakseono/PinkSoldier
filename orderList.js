@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 
-const returnOrderList = () => {
+const returnOrderList = (message) => {
   const embedMessage = new MessageEmbed()
     .setColor("#ff3399")
     .setTitle(`핑크솔져 명령어 리스트`)
@@ -27,7 +27,7 @@ const returnOrderList = () => {
       }
     );
 
-  return embedMessage;
+  message.channel.send({ embeds: [embedMessage] });
 };
 
 module.exports = { returnOrderList };

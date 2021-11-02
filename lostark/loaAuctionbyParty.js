@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 
-const createAuctionbyPartyEmbed = (value) => {
+const createAuctionbyPartyEmbed = (value, message) => {
   const people4 = Math.floor(value * 0.95 * (3 / 4));
   const people8 = Math.floor(value * 0.95 * (7 / 8));
 
@@ -20,7 +20,7 @@ const createAuctionbyPartyEmbed = (value) => {
       }
     );
 
-  return embedMessage;
+  message.channel.send({ embeds: [embedMessage] });
 };
 
 module.exports = { createAuctionbyPartyEmbed };

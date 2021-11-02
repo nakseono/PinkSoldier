@@ -1,7 +1,7 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Message } = require("discord.js");
 const classImage = require("../classImage.json");
 
-const createLoaInfoEmbed = (userName, data) => {
+const createLoaInfoEmbed = (userName, data, message) => {
   //? ------- 기본 특성 정보 가공 -------
 
   let basicAbilityBody = "";
@@ -101,16 +101,16 @@ const createLoaInfoEmbed = (userName, data) => {
       }
     );
 
-  return embedMessage;
+  message.channel.send({ embeds: [embedMessage] });
 };
 
-const createLoawaLinkEmbed = (userName) => {
+const createLoawaLinkEmbed = (userName, message) => {
   const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
     name: `링크 클릭시 로아와 페이지로 이동합니다.`,
     value: `https://loawa.com/char/${userName}`,
   });
 
-  return embedMessage;
+  message.channel.send({ embeds: [embedMessage] });
 };
 
 module.exports = { createLoaInfoEmbed, createLoawaLinkEmbed };

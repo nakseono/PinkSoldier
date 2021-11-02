@@ -42,41 +42,28 @@ client.on("messageCreate", async (message) => {
   //   console.log(message.data);
   // }
 
+  // message.channel.send({ embeds: [embedMessage] });
+
   //! 봇 메시지가 아니며, 접두사로 시작하는지 우선적으로 검사
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
   if (!message.author.bot) {
-    if (order === `${prefix}명령어`) {
-      message.channel.send({
-        embeds: [returnOrderList()],
-      });
-    }
+    if (order === `${prefix}명령어`) returnOrderList(message);
 
-    if (order === `${prefix}정보`) {
-      getUserInfo(orderWithOutPrefix).then((data) => {
-        // getUserInfo로 유저이름을 보내서 함수를 실행시키고, 해당 함수의 결과로 출력된 data를 임베드로 가공한다.
-        message.channel.send({
-          embeds: [createLoaInfoEmbed(orderWithOutPrefix, data)],
-        });
-      });
-    }
+    if (order === `${prefix}정보`)
+      createLoaInfoEmbed(
+        orderWithOutPrefix,
+        getUserInfo(orderWithOutPrefix),
+        message
+      );
 
-    if (order === `${prefix}경매`) {
-      message.channel.send({
-        embeds: [createAuctionEmbed(orderWithOutPrefix)],
-      });
-    }
+    if (order === `${prefix}경매`)
+      createAuctionEmbed(orderWithOutPrefix, message);
 
-    if (order === `${prefix}분배`) {
-      message.channel.send({
-        embeds: [createAuctionbyPartyEmbed(orderWithOutPrefix)],
-      });
-    }
+    if (order === `${prefix}분배`)
+      createAuctionbyPartyEmbed(orderWithOutPrefix, message);
 
-    if (order === `${prefix}로아와`) {
-      message.channel.send({
-        embeds: [createLoawaLinkEmbed(orderWithOutPrefix)],
-      });
-    }
+    if (order === `${prefix}로아와`)
+      createLoawaLinkEmbed(orderWithOutPrefix, message);
 
     if (order === `${prefix}청소`) doMessageClear(message, client);
 

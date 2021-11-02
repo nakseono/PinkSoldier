@@ -11,11 +11,14 @@ const { returnOrderList } = require("./orderList");
 // const { createRewardEmbed } = require("./lostark/reward/Argus");
 // const { createValtanRewardEmbed } = require("./lostark/reward/valtan");
 const { addRoleEmbed } = require("./addCalendarRole");
+const { doMessageClear } = require("./messageClear");
 
 const client = new Client({
   disableEveryone: true,
   intents: [
     Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     "GUILDS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
@@ -28,35 +31,6 @@ client.once("ready", () => {
   client.user.setPresence({
     activities: [{ name: "!명령어" }],
   });
-});
-
-client.on("messageReactionAdd", async (reaction, user) => {
-  if (reaction.message.partial) await reaction.message.fetch();
-  if (reaction.partial) await reaction.fetch();
-  if (user.bot) return;
-  if (!reaction.message.guild) return;
-  if (reaction.message.id === "903609289262903396") {
-    if (reaction.emoji.name === ":right_line:") {
-      await reaction.message.guild.members.cache
-        .get(user.id)
-        .roles.add("903116247309385770");
-      user.send("You have obtained a role!");
-    }
-  }
-});
-client.on("messageReactionRemove", async (reaction, user) => {
-  if (reaction.message.partial) await reaction.message.fetch();
-  if (reaction.partial) await reaction.fetch();
-  if (user.bot) return;
-  if (!reaction.message.guild) return;
-  if (reaction.message.id === "903609289262903396") {
-    if (reaction.emoji.name === ":right_line:") {
-      await reaction.message.guild.members.cache
-        .get(user.id)
-        .roles.remove("903116247309385770");
-      user.send("One of your roles has been removed!");
-    }
-  }
 });
 
 client.on("messageCreate", async (message) => {
@@ -104,15 +78,68 @@ client.on("messageCreate", async (message) => {
       });
     }
 
-    if (order === `${prefix}발탄`) {
-      message.channel.send({
-        embeds: [createValtanRewardEmbed()],
-      });
+    if (order === `${prefix}클리어`) {
+      // const messages = await message.channel.messages.fetch({ limit: 31 });
+      // if (messages) {
+      //   if (message.channel.type === "GUILD_TEXT") {
+      //     message.channel.bulkDelete(messages);
+      //   }
+      // }
+
+      doMessageClear(message);
     }
 
     if (order === `${prefix}알림`) {
-      message.channel.send({
+      const addEmoji = `<:play:897771801634041888>`;
+      const removeEmoji = `<:ash:904697223416262716>`;
+
+      const calendarRole = message.guild.roles.cache.find(
+        (role) => role.name === "Calendar"
+      );
+
+      let embed = message.channel.send({
         embeds: [addRoleEmbed()],
+      });
+
+      (await embed).react(`✅`);
+      (await embed).react(removeEmoji);
+
+      client.on("messageReactionAdd", async (reaction, user) => {
+        if (reaction.message.partial) await reaction.message.fetch();
+        if (reaction.partial) await reaction.fetch();
+        if (user.bot) return;
+        if (!reaction.message.guild) return;
+
+        console.log(`add : ${user.id}`);
+
+        if (reaction.message.channel.id == "904694895757889558") {
+          console.log(`click`);
+          if (reaction.emoji.name === `✅`) {
+            console.log("add check");
+            reaction.message.guild.members.cache
+              .get(user.id)
+              .roles.add(calendarRole);
+          } else return;
+        }
+      });
+
+      client.on("messageReactionRemove", async (reaction, user) => {
+        if (reaction.message.partial) await reaction.message.fetch();
+        if (reaction.partial) await reaction.fetch();
+        if (user.bot) return;
+        if (!reaction.message.guild) return;
+
+        console.log(`remove : ${user.id}`);
+
+        if (reaction.message.channel.id == "904694895757889558") {
+          console.log(`click`);
+          if (reaction.emoji.name === `✅`) {
+            console.log("remove check");
+            reaction.message.guild.members.cache
+              .get(user.id)
+              .roles.remove(calendarRole);
+          } else return;
+        }
       });
     }
   }

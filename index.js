@@ -78,70 +78,9 @@ client.on("messageCreate", async (message) => {
       });
     }
 
-    if (order === `${prefix}클리어`) {
-      // const messages = await message.channel.messages.fetch({ limit: 31 });
-      // if (messages) {
-      //   if (message.channel.type === "GUILD_TEXT") {
-      //     message.channel.bulkDelete(messages);
-      //   }
-      // }
+    if (order === `${prefix}청소`) doMessageClear(message, client);
 
-      doMessageClear(message);
-    }
-
-    if (order === `${prefix}알림`) {
-      const addEmoji = `<:play:897771801634041888>`;
-      const removeEmoji = `<:ash:904697223416262716>`;
-
-      const calendarRole = message.guild.roles.cache.find(
-        (role) => role.name === "Calendar"
-      );
-
-      let embed = message.channel.send({
-        embeds: [addRoleEmbed()],
-      });
-
-      (await embed).react(`✅`);
-      (await embed).react(removeEmoji);
-
-      client.on("messageReactionAdd", async (reaction, user) => {
-        if (reaction.message.partial) await reaction.message.fetch();
-        if (reaction.partial) await reaction.fetch();
-        if (user.bot) return;
-        if (!reaction.message.guild) return;
-
-        console.log(`add : ${user.id}`);
-
-        if (reaction.message.channel.id == "904694895757889558") {
-          console.log(`click`);
-          if (reaction.emoji.name === `✅`) {
-            console.log("add check");
-            reaction.message.guild.members.cache
-              .get(user.id)
-              .roles.add(calendarRole);
-          } else return;
-        }
-      });
-
-      client.on("messageReactionRemove", async (reaction, user) => {
-        if (reaction.message.partial) await reaction.message.fetch();
-        if (reaction.partial) await reaction.fetch();
-        if (user.bot) return;
-        if (!reaction.message.guild) return;
-
-        console.log(`remove : ${user.id}`);
-
-        if (reaction.message.channel.id == "904694895757889558") {
-          console.log(`click`);
-          if (reaction.emoji.name === `✅`) {
-            console.log("remove check");
-            reaction.message.guild.members.cache
-              .get(user.id)
-              .roles.remove(calendarRole);
-          } else return;
-        }
-      });
-    }
+    if (order === `${prefix}알림`) addRoleEmbed(message, client);
   }
 });
 

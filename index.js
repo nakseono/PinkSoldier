@@ -12,6 +12,7 @@ const { returnOrderList } = require("./orderList");
 // const { createValtanRewardEmbed } = require("./lostark/reward/valtan");
 const { addRoleEmbed } = require("./addCalendarRole");
 const { doMessageClear } = require("./messageClear");
+const { loaEvent } = require("./lostark/loaEvent");
 
 const client = new Client({
   disableEveryone: true,
@@ -67,6 +68,8 @@ client.on("messageCreate", (message) => {
     if (order === `${prefix}청소`) doMessageClear(message, client);
 
     if (order === `${prefix}알림`) addRoleEmbed(message, client);
+
+    if (order === `${prefix}이벤트`) loaEvent(message);
   }
 });
 

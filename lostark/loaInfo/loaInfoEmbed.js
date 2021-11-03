@@ -1,4 +1,4 @@
-const { MessageEmbed, Message } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const classImage = require("../classImage.json");
 
 const createLoaInfoEmbed = (userName, data, message) => {

@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 const getUserInfo = (userName) => {
-  console.log(`lostArk.js - getUserInfo 실행 : ${userName}`);
+  // console.log(`lostArk.js - getUserInfo 실행 : ${userName}`);
 
   return axios
     .get(
@@ -69,7 +69,7 @@ const getUserInfo = (userName) => {
           }
         });
 
-      json["basicAbility"] = temp;
+      json["basic-ability"] = temp;
 
       //! <-- 전투 특성 정보 -->
 
@@ -106,6 +106,7 @@ const getUserInfo = (userName) => {
 
       //! <<- 보유 캐릭터 정보 ->>
 
+      // console.log(`data: ${json}`);
       return json;
     });
 };

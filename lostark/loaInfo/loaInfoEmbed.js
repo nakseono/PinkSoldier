@@ -2,6 +2,8 @@ const { MessageEmbed, Message } = require("discord.js");
 const classImage = require("../classImage.json");
 
 const createLoaInfoEmbed = (userName, data, message) => {
+  // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
+
   //? ------- 기본 특성 정보 가공 -------
 
   let basicAbilityBody = "";

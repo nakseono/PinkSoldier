@@ -33,7 +33,7 @@ client.once("ready", () => {
   });
 });
 
-client.on("messageCreate", async (message) => {
+client.on("messageCreate", (message) => {
   const order = message.content.split(" ")[0];
   const orderWithOutPrefix = message.content.split(" ")[1];
 
@@ -46,15 +46,14 @@ client.on("messageCreate", async (message) => {
 
   //! 봇 메시지가 아니며, 접두사로 시작하는지 우선적으로 검사
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
+
   if (!message.author.bot) {
     if (order === `${prefix}명령어`) returnOrderList(message);
 
     if (order === `${prefix}정보`)
-      createLoaInfoEmbed(
-        orderWithOutPrefix,
-        getUserInfo(orderWithOutPrefix),
-        message
-      );
+      getUserInfo(orderWithOutPrefix).then((data) => {
+        createLoaInfoEmbed(orderWithOutPrefix, data, message);
+      });
 
     if (order === `${prefix}경매`)
       createAuctionEmbed(orderWithOutPrefix, message);

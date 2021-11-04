@@ -60,6 +60,9 @@ const incomeCalc = (message, userName) => {
 
       // console.log(`ownList : ${JSON.stringify(ownList)}`);
 
+      //! 레이드 보상 리스트업
+      let reward = countingRaidReward(ownList);
+
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
         .setTitle(`${userName}의 주간 수입 정산`)
@@ -77,6 +80,39 @@ const incomeCalc = (message, userName) => {
           {
             name: `\`레벨\``,
             value: `${makeLevelList(ownList)}`,
+            inline: true,
+          },
+          {
+            name: `\`주간 컨텐츠\``,
+            value: `
+            쿠크세이튼 [\`4500G\`] 
+            비아키스 하드 [\`4500G\`]
+            발탄 하드 [\`4500G\`]
+            비아키스 노말 [\`3300G\`]
+            발탄 노말 [\`3300G\`]
+            아르고스 (~3페) [\`3300G\`]
+            오레하 하드 [\`1700G\`]
+            오레하 노말 [\`1500G\`]
+            `,
+            inline: true,
+          },
+          // {
+          //   name: "\u200B",
+          //   value: `\u200B`,
+          //   inline: true,
+          // },
+          {
+            name: `\`해당 캐릭터 수\``,
+            value: `
+            : \`${reward.koukuSaton}\` 캐릭터
+            : \`${reward.biackissHard}\` 캐릭터
+            : \`${reward.valtanHard}\` 캐릭터
+            : \`${reward.biackissNormal}\` 캐릭터
+            : \`${reward.valtanNormal}\` 캐릭터
+            : \`${reward.argus}\` 캐릭터
+            : \`${reward.orehaHard}\` 캐릭터
+            : \`${reward.orehaNormal}\` 캐릭터
+            `,
             inline: true,
           }
         );
@@ -176,32 +212,39 @@ const countingRaidReward = (list) => {
 
   for (let i = 0; i < list.length; i++) {
     let char = list[i]["level"];
-    if(char > 1325){
-      result.orehaNormal++
+    if (char >= 1325) {
+      result.orehaNormal++;
     }
-    if(char > 1355){
-      result.orehaHard++
-      result.orehaNormal--
+    if (char >= 1355) {
+      result.orehaHard++;
+      result.orehaNormal--;
     }
-    if(char > 1370){
-      result.argus++
+    if (char >= 1370) {
+      result.argus++;
     }
-    if(char > 1415){
-      result.valtanNormal++
-      result.orehaHard--
+    if (char >= 1415) {
+      result.valtanNormal++;
+      result.orehaHard--;
     }
-    if(char > 1430){
-      result.biackissNormal++
+    if (char >= 1430) {
+      result.biackissNormal++;
     }
-    if(char > 1445){
-      result.valtanHard++
-      result.valtanNormal--
+    if (char >= 1445) {
+      result.valtanHard++;
+      result.valtanNormal--;
     }
-    if(char > 1460){
-      result.biackissHard++
-      result.biackissHard++
+    if (char >= 1460) {
+      result.biackissHard++;
+      result.biackissNormal--;
+    }
+    if (char >= 1475) {
+      result.koukuSaton++;
+      result.argus--;
+    }
+  }
 
-    }
+  // console.log(`raidReward : ${JSON.stringify(result)}`);
+  return result;
 };
 
 module.exports = { incomeCalc };

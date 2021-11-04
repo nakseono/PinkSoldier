@@ -63,6 +63,17 @@ const incomeCalc = (message, userName) => {
       //! 레이드 보상 리스트업
       let reward = countingRaidReward(ownList);
 
+      let rewardImcomeResult =
+        reward.koukuSaton * 4500 +
+        reward.biackissHard * 4500 +
+        reward.valtanHard * 4500 +
+        reward.biackissNormal * 3300 +
+        reward.valtanNormal * 3300 +
+        reward.argus * 3300 +
+        reward.orehaHard * 1700 +
+        reward.orehaNormal * 1500;
+
+      //! 총 임베드 메시지 생성
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
         .setTitle(`${userName}의 주간 수입 정산`)
@@ -85,35 +96,43 @@ const incomeCalc = (message, userName) => {
           {
             name: `\`주간 컨텐츠\``,
             value: `
-            쿠크세이튼 [\`4500G\`] 
-            비아키스 하드 [\`4500G\`]
-            발탄 하드 [\`4500G\`]
-            비아키스 노말 [\`3300G\`]
-            발탄 노말 [\`3300G\`]
-            아르고스 (~3페) [\`3300G\`]
-            오레하 하드 [\`1700G\`]
-            오레하 노말 [\`1500G\`]
+            쿠크세이튼 [\`4500골드\`] 
+            비아키스 하드 [\`4500골드\`]
+            발탄 하드 [\`4500골드\`]
+            비아키스 노말 [\`3300골드\`]
+            발탄 노말 [\`3300골드\`]
+            아르고스 (~3페) [\`3300골드\`]
+            오레하 하드 [\`1700골드\`]
+            오레하 노말 [\`1500골드\`]
+
+            총 보상 골드 합계 : \`${rewardImcomeResult}\`
             `,
             inline: true,
           },
-          // {
-          //   name: "\u200B",
-          //   value: `\u200B`,
-          //   inline: true,
-          // },
           {
             name: `\`해당 캐릭터 수\``,
             value: `
-            : \`${reward.koukuSaton}\` 캐릭터
-            : \`${reward.biackissHard}\` 캐릭터
-            : \`${reward.valtanHard}\` 캐릭터
-            : \`${reward.biackissNormal}\` 캐릭터
-            : \`${reward.valtanNormal}\` 캐릭터
-            : \`${reward.argus}\` 캐릭터
-            : \`${reward.orehaHard}\` 캐릭터
-            : \`${reward.orehaNormal}\` 캐릭터
+            :  \`${reward.koukuSaton}\` 캐릭터
+            :  \`${reward.biackissHard}\` 캐릭터
+            :  \`${reward.valtanHard}\` 캐릭터
+            :  \`${reward.biackissNormal}\` 캐릭터
+            :  \`${reward.valtanNormal}\` 캐릭터
+            :  \`${reward.argus}\` 캐릭터
+            :  \`${reward.orehaHard}\` 캐릭터
+            :  \`${reward.orehaNormal}\` 캐릭터
             `,
             inline: true,
+          },
+          {
+            name: `\`참 고 사 항\``,
+            value: `
+            - 버스비는 포함하지 않았습니다.
+            - 순수히 \'클리어했을 때 보상으로 주는 골드\'만을 계산했습니다.
+            - 보유중인 각 캐릭터의 레벨을 기준으로
+              가장 상위 단계의 컨텐츠를 클리어한다고 가정한 값입니다.
+            - 아브렐슈드는 계산에 포함되지 않습니다.
+            (1475 쿠크세이튼까지 수행한 것과 똑같이 계산했습니다.)
+            `,
           }
         );
       //TODO : 레이드 해당 숫자 카운팅

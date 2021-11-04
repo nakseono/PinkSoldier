@@ -104,9 +104,6 @@ const getUserInfo = (userName) => {
 
       json["engrave"] = temp;
 
-      //! <<- 보유 캐릭터 정보 ->>
-
-      // console.log(`data: ${json}`);
       return json;
     });
 };

@@ -72,7 +72,7 @@ client.on("messageCreate", (message) => {
 
     if (order === `${prefix}이벤트`) loaEvent(message);
 
-    if (order === `${prefix}test`) incomeCalc(message, orderWithOutPrefix);
+    if (order === `${prefix}정산`) incomeCalc(message, orderWithOutPrefix);
   }
 });
 

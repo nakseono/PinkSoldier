@@ -2,6 +2,9 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 
+const moyahoURL =
+  "https://drive.google.com/uc?export=download&id=1ANQ2PttQuDCv8KG5gOpMog9VSTBC5VoV";
+
 const incomeCalc = (message, userName) => {
   console.log(`수입 정산 실행 - ${userName}`);
   axios
@@ -76,6 +79,7 @@ const incomeCalc = (message, userName) => {
       //! 총 임베드 메시지 생성
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
+        .setThumbnail(`${moyahoURL}`)
         .setTitle(`${userName}의 주간 수입 정산`)
         .addFields(
           {
@@ -130,7 +134,7 @@ const incomeCalc = (message, userName) => {
             - 순수히 \'클리어했을 때 보상으로 주는 골드\'만을 계산했습니다.
             - 보유중인 각 캐릭터의 레벨을 기준으로
               가장 상위 단계의 컨텐츠를 클리어한다고 가정한 값입니다.
-            - 아브렐슈드는 계산에 포함되지 않습니다.
+            - 아브렐슈드는 개인별 편차가 커 계산에 포함되지 않습니다.
             (1475 쿠크세이튼까지 수행한 것과 똑같이 계산했습니다.)
             `,
           }

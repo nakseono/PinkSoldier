@@ -3,6 +3,7 @@ const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 
 const incomeCalc = (message, userName) => {
+  console.log(`수입 정산 실행 - ${userName}`);
   axios
     .get(
       `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
@@ -12,10 +13,12 @@ const incomeCalc = (message, userName) => {
     .then(async (html) => {
       const $ = cheerio.load(html.data);
       let json = {}; // 전체 데이터가 들어갈 곳
+      let mainServer = $(`.profile-character-info__server`).text();
 
       //! 캐릭터 닉네임 가져옴
       count = 0;
       temp = [];
+
       $(".profile-character-list__char > li > span > button").each(function (
         index,
         item
@@ -26,20 +29,57 @@ const incomeCalc = (message, userName) => {
 
       json["ownChar"] = temp;
 
-      json["level"] = await callItemLevel(json);
+      json["level"] = await callItemLevel(json, mainServer);
 
-      json["job"] = await callCharJob(json);
+      json["job"] = await callCharJob(json, mainServer);
 
       // console.log(`json : ${JSON.stringify(json)}`);
+
+      //! 아래는 리스트를 레벨 순으로, 그리고 다른 서버의 캐릭터들은 제외하는 로직
+
+      let list = [];
+
+      for (let n = 0; n < json["ownChar"].length; n++) {
+        let temp = { name: ``, level: ``, job: `` };
+        temp[`name`] = json["ownChar"][n];
+        temp[`level`] = json["level"][n];
+        temp[`job`] = json["job"][n];
+        list.push(temp);
+      }
+
+      let filterByLevel = (arr) => {
+        if (arr.level === undefined) {
+          return false;
+        }
+        return true;
+      };
+
+      let ownList = list
+        .sort((a, b) => b["level"] - a["level"])
+        .filter(filterByLevel);
+
+      // console.log(`ownList : ${JSON.stringify(ownList)}`);
 
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
         .setTitle(`${userName}의 주간 수입 정산`)
-        .addFields({
-          name: `보유 캐릭터 목록`,
-          value: `${makeCharListEmbed(json)}`,
-        });
-      //TODO : 직업 / 레벨 / 캐릭터 이름
+        .addFields(
+          {
+            name: `\`닉네임\``,
+            value: `${makeNicknameList(ownList)}`,
+            inline: true,
+          },
+          {
+            name: `\`직업\``,
+            value: `${makeJobList(ownList)}`,
+            inline: true,
+          },
+          {
+            name: `\`레벨\``,
+            value: `${makeLevelList(ownList)}`,
+            inline: true,
+          }
+        );
       //TODO : 레이드 해당 숫자 카운팅
       //TODO : 주간 총 정산
       //TODO : 유의사항 기록
@@ -48,7 +88,7 @@ const incomeCalc = (message, userName) => {
     });
 };
 
-const callItemLevel = async (json) => {
+const callItemLevel = async (json, mainServer) => {
   let ownLevel = [];
   for (let i = 0; i < json["ownChar"].length; i++) {
     await axios
@@ -59,12 +99,15 @@ const callItemLevel = async (json) => {
       )
       .then((html) => {
         const $ = cheerio.load(html.data);
-
-        $(".level-info2__item > span").each(function (index, item) {
-          if (index === 1) {
-            ownLevel[i] = $(this).text();
-          }
-        });
+        if ($(`.profile-character-info__server`).text() === mainServer) {
+          $(".level-info2__item > span").each(function (index, item) {
+            if (index === 1) {
+              ownLevel.push(
+                Number($(this).text().replace("Lv.", "").replace(",", ""))
+              );
+            }
+          });
+        }
 
         // console.log(`test : ${ownLevel}`);
       });
@@ -72,7 +115,7 @@ const callItemLevel = async (json) => {
   return ownLevel;
 };
 
-const callCharJob = async (json) => {
+const callCharJob = async (json, mainServer) => {
   let ownJob = [];
   for (let k = 0; k < json["ownChar"].length; k++) {
     await axios
@@ -83,8 +126,9 @@ const callCharJob = async (json) => {
       )
       .then((html) => {
         const $ = cheerio.load(html.data);
-
-        ownJob[k] = $(".profile-character-info__img").attr("alt");
+        if ($(`.profile-character-info__server`).text() === mainServer) {
+          ownJob.push($(".profile-character-info__img").attr("alt"));
+        }
 
         // console.log(`test : ${ownJob}`);
       });
@@ -92,18 +136,72 @@ const callCharJob = async (json) => {
   return ownJob;
 };
 
-const makeCharListEmbed = (json) => {
-  let list = [];
-  for (let j = 0; j < json["ownChar"].length; j++) {
-    //TODO : 번호 / 직업 / 레벨 / 캐릭터 이름
-    //ex) 1. 배틀마스터 | 1465 | 낙서노
-    list.push(
-      `${j + 1}. ${json["job"][j]} | ${json["level"][j]} | ${
-        json["ownChar"][j]
-      }\n`
-    );
+//! <->
+
+const makeNicknameList = (list) => {
+  let temp = [];
+  for (let i = 0; i < list.length; i++) {
+    temp.push(`${i + 1}. ${list[i]["name"]}\n`);
   }
-  return list.join("");
+  return temp.join("");
+};
+
+const makeJobList = (list) => {
+  let temp = [];
+  for (let i = 0; i < list.length; i++) {
+    temp.push(`${list[i]["job"]}\n`);
+  }
+  return temp.join("");
+};
+
+const makeLevelList = (list) => {
+  let temp = [];
+  for (let i = 0; i < list.length; i++) {
+    temp.push(`${list[i]["level"]}\n`);
+  }
+  return temp.join("");
+};
+
+const countingRaidReward = (list) => {
+  const result = {
+    orehaNormal: 0,
+    orehaHard: 0,
+    argus: 0,
+    valtanNormal: 0,
+    valtanHard: 0,
+    biackissNormal: 0,
+    biackissHard: 0,
+    koukuSaton: 0,
+  };
+
+  for (let i = 0; i < list.length; i++) {
+    let char = list[i]["level"];
+    if(char > 1325){
+      result.orehaNormal++
+    }
+    if(char > 1355){
+      result.orehaHard++
+      result.orehaNormal--
+    }
+    if(char > 1370){
+      result.argus++
+    }
+    if(char > 1415){
+      result.valtanNormal++
+      result.orehaHard--
+    }
+    if(char > 1430){
+      result.biackissNormal++
+    }
+    if(char > 1445){
+      result.valtanHard++
+      result.valtanNormal--
+    }
+    if(char > 1460){
+      result.biackissHard++
+      result.biackissHard++
+
+    }
 };
 
 module.exports = { incomeCalc };

@@ -5,7 +5,10 @@ const { MessageEmbed } = require("discord.js");
 const moyahoURL =
   "https://drive.google.com/uc?export=download&id=1ANQ2PttQuDCv8KG5gOpMog9VSTBC5VoV";
 
-const incomeCalc = (message, userName) => {
+const loadingBar =
+  "https://drive.google.com/uc?export=download&id=1VjOQeD8k8T6eYKWuBYVfHETXvVTy5I0F";
+
+const incomeCalc = (message, userName, client) => {
   console.log(`수입 정산 실행 - ${userName}`);
   axios
     .get(
@@ -32,6 +35,8 @@ const incomeCalc = (message, userName) => {
 
       json["ownChar"] = temp;
 
+      // console.log(`ownChar : ${JSON.stringify(json)}`);
+
       json["level"] = await callItemLevel(json, mainServer);
 
       json["job"] = await callCharJob(json, mainServer);
@@ -51,7 +56,7 @@ const incomeCalc = (message, userName) => {
       }
 
       let filterByLevel = (arr) => {
-        if (arr.level === undefined) {
+        if (arr.level === "anotherServer") {
           return false;
         }
         return true;
@@ -79,7 +84,7 @@ const incomeCalc = (message, userName) => {
       //! 총 임베드 메시지 생성
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
-        .setThumbnail(`${moyahoURL}`)
+        // .setThumbnail(`${moyahoURL}`)
         .setTitle(`${userName}의 주간 수입 정산`)
         .addFields(
           {
@@ -139,10 +144,10 @@ const incomeCalc = (message, userName) => {
             `,
           }
         );
-      //TODO : 레이드 해당 숫자 카운팅
-      //TODO : 주간 총 정산
-      //TODO : 유의사항 기록
 
+      const already = await message.channel.messages.fetch({ limit: 1 });
+
+      message.channel.bulkDelete(already);
       message.channel.send({ embeds: [embedMessage] });
     });
 };
@@ -166,6 +171,8 @@ const callItemLevel = async (json, mainServer) => {
               );
             }
           });
+        } else {
+          ownLevel.push("anotherServer");
         }
 
         // console.log(`test : ${ownLevel}`);
@@ -187,6 +194,8 @@ const callCharJob = async (json, mainServer) => {
         const $ = cheerio.load(html.data);
         if ($(`.profile-character-info__server`).text() === mainServer) {
           ownJob.push($(".profile-character-info__img").attr("alt"));
+        } else {
+          ownJob.push("anotherServer");
         }
 
         // console.log(`test : ${ownJob}`);
@@ -270,4 +279,15 @@ const countingRaidReward = (list) => {
   return result;
 };
 
-module.exports = { incomeCalc };
+const watingMessage = (message, userName) => {
+  const waitingEmbed = new MessageEmbed()
+    .setColor("#ff3399")
+    // .setThumbnail(`${loadingBar}`)
+    .setTitle(`${userName}의 데이터를 불러오는 중입니다.`)
+    .setDescription(
+      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용 XD`
+    );
+  message.channel.send({ embeds: [waitingEmbed] });
+};
+
+module.exports = { incomeCalc, watingMessage };

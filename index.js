@@ -1,4 +1,7 @@
 const { Client, Intents } = require("discord.js");
+const cron = require("node-cron");
+const axios = require("axios");
+
 const { token, prefix } = require("./config.json");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
 const {
@@ -79,3 +82,12 @@ client.on("messageCreate", (message) => {
 });
 
 client.login(token);
+
+cron.schedule(`* * * * * *`, () => {
+  axios.post(
+    "https://discord.com/api/webhooks/906025451397480459/GBay7gmU3cx8k314PgZHVfxALZvTWMk_ajIol8DxKLJ2l81Ca1XbrszL-3DICn_kUDS8",
+    {
+      content: "test",
+    }
+  );
+});

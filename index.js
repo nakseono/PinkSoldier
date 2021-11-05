@@ -13,7 +13,7 @@ const { returnOrderList } = require("./orderList");
 const { addRoleEmbed } = require("./addCalendarRole");
 const { doMessageClear } = require("./messageClear");
 const { loaEvent } = require("./lostark/loaEvent");
-const { incomeCalc } = require("./lostark/incomeCalc");
+const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
 
 const client = new Client({
   disableEveryone: true,
@@ -72,7 +72,9 @@ client.on("messageCreate", (message) => {
 
     if (order === `${prefix}이벤트`) loaEvent(message);
 
-    if (order === `${prefix}정산`) incomeCalc(message, orderWithOutPrefix);
+    if (order === `${prefix}정산`)
+      watingMessage(message, orderWithOutPrefix),
+        incomeCalc(message, orderWithOutPrefix, client);
   }
 });
 

@@ -11,12 +11,13 @@ const {
 const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
 const { createAuctionEmbed } = require("./lostark/loaAuction");
 const { returnOrderList } = require("./orderList");
-// const { createRewardEmbed } = require("./lostark/reward/Argus");
-// const { createValtanRewardEmbed } = require("./lostark/reward/valtan");
 const { addRoleEmbed } = require("./addCalendarRole");
 const { doMessageClear } = require("./messageClear");
 const { loaEvent } = require("./lostark/loaEvent");
 const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
+// const { monAlarm } = require("./lostark/loaAlarm");
+const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
+const { makeRole } = require("./lostark/alarmSetting/makeRole");
 
 const client = new Client({
   disableEveryone: true,
@@ -38,7 +39,7 @@ client.once("ready", () => {
   });
 });
 
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
   const order = message.content.split(" ")[0];
   const orderWithOutPrefix = message.content.split(" ")[1];
 
@@ -47,9 +48,7 @@ client.on("messageCreate", (message) => {
   //   console.log(message.data);
   // }
 
-  // message.channel.send({ embeds: [embedMessage] });
-
-  //! 봇 메시지가 아니며, 접두사로 시작하는지 우선적으로 검사
+  //! 봇 메시지가 아닌지 우선적으로 검사
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
   if (!message.author.bot) {
@@ -71,23 +70,27 @@ client.on("messageCreate", (message) => {
 
     if (order === `${prefix}청소`) doMessageClear(message, client);
 
-    if (order === `${prefix}알림`) addRoleEmbed(message, client);
-
     if (order === `${prefix}이벤트`) loaEvent(message);
 
     if (order === `${prefix}정산`)
       watingMessage(message, orderWithOutPrefix),
         incomeCalc(message, orderWithOutPrefix, client);
+
+    if (order === `${prefix}알림`) addRoleEmbed(message, client);
+
+    if (order === `${prefix}알람세팅`) {
+      let channelID = await makeAlarmChannel(message);
+
+      console.log(`ID : ${channelID}`);
+    }
+
+    if (order === `${prefix}역할`) {
+      let role = await makeRole(message);
+      console.log(`makeRole : ${role}`);
+    }
   }
 });
 
 client.login(token);
 
-cron.schedule(`* * * * * *`, () => {
-  axios.post(
-    "https://discord.com/api/webhooks/906025451397480459/GBay7gmU3cx8k314PgZHVfxALZvTWMk_ajIol8DxKLJ2l81Ca1XbrszL-3DICn_kUDS8",
-    {
-      content: "test",
-    }
-  );
-});
+// cron.schedule("* * * * * *", monAlarm);

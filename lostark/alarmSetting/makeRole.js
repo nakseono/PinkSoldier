@@ -1,14 +1,16 @@
 const makeRole = async (message) => {
-  await message.guild.roles
+  const temp = await message.guild.roles
     .create({
-      data: {
-        name: "loaAlarm",
-        color: "BLUE",
-      },
-      reason: "alarm to specific role",
+      name: "loaAlarm",
+      color: "BLUE",
     })
-    .then(console.log(`역할 만듦.`))
+    .then((data) => {
+      // console.log(`RoleId for loaAlarm : ${data.id}`);
+      return data.id;
+    })
     .catch(console.error);
+
+  return temp;
 };
 
 module.exports = { makeRole };

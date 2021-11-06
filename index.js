@@ -80,13 +80,10 @@ client.on("messageCreate", async (message) => {
 
     if (order === `${prefix}알람세팅`) {
       let channelID = await makeAlarmChannel(message);
+      let roleId = await makeRole(message);
 
-      console.log(`ID : ${channelID}`);
-    }
-
-    if (order === `${prefix}역할`) {
-      let role = await makeRole(message);
-      console.log(`makeRole : ${role}`);
+      console.log(`RoleID : ${roleId}`);
+      console.log(`ChannelID : ${channelID}`);
     }
   }
 });

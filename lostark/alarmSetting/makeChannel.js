@@ -11,7 +11,7 @@ const makeAlarmChannel = async (message) => {
       ],
     })
     .then((result) => {
-      console.log(`this is channel ID : ${result.id}`);
+      // console.log(`this is channel ID : ${result.id}`);
       return result.id;
     });
 

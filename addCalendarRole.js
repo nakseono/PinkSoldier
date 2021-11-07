@@ -16,9 +16,14 @@ const addRoleEmbed = async (message, client, roleID) => {
   (await sendedEmbed).react(addEmoji);
   (await sendedEmbed).react(removeEmoji);
 
-  const alarmRole = message.guild.roles.cache.find(
-    (role) => role.name === "loaAlarm"
-  );
+  let alarmRole;
+  if (roleID) {
+    alarmRole = roleID;
+  } else {
+    alarmRole = message.guild.roles.cache.find(
+      (role) => role.name === "loaAlarm"
+    );
+  }
 
   client.on("messageReactionAdd", async (reaction, user) => {
     if (reaction.message.partial) await reaction.message.fetch();

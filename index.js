@@ -16,6 +16,7 @@ const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
 const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
 const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
+const { madeNotice, whenStart } = require("./allServerNotice");
 
 const client = new Client({
   disableEveryone: true,
@@ -37,18 +38,7 @@ client.once("ready", () => {
   //   activities: [{ name: "!명령어" }],
   // });
 
-  const noticeMessage = new MessageEmbed()
-    .setColor("#ff3399")
-    .setTitle(`설정해주세요!`)
-    .setDescription(
-      `핑크솔져는 업데이트 되었을 때(서버가 내려갔다가 다시 올렸을 때) 로스트아크 스케쥴 알림이 초기화 됩니다.\n이 알림이 보였다면 \`!알람\` 명령어를 다시 실행시켜주세요! 번거롭게 해드려 죄송합니다!`
-    );
-
-  client.guilds.cache.forEach((guild) => {
-    guild.channels.cache
-      .find((x) => x.name.includes("test"))
-      .send({ embeds: [noticeMessage] });
-  });
+  whenStart(client);
 });
 
 client.on("messageCreate", async (message) => {
@@ -67,18 +57,7 @@ client.on("messageCreate", async (message) => {
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
   if (!message.author.bot) {
-    if (order === `!@#공지`) {
-      noticeMessage = new MessageEmbed()
-        .setColor("#ff3399")
-        .setTitle("핑크솔져봇 공지사항")
-        .setDescription(message.content.replace("!@#공지", ""));
-
-      client.guilds.cache.forEach((guild) => {
-        guild.channels.cache
-          .find((x) => x.name.includes("test"))
-          .send({ embeds: [noticeMessage] });
-      });
-    }
+    if (order === `!@#공지`) madeNotice(client, message);
 
     if (order === `${prefix}명령어`) returnOrderList(message);
 
@@ -107,18 +86,22 @@ client.on("messageCreate", async (message) => {
     if (order === `${prefix}알람세팅`) {
       channelID = await makeAlarmChannel(message);
       roleID = await makeRole(message);
-      addRoleEmbed(message, client, roleID);
-      loaAlarm(client, channelID, roleID);
 
-      console.log(`RoleID : ${roleID}`);
-      console.log(`ChannelID : ${channelID}`);
+      // console.log(`ChannelID : ${channelID}`);
+      // console.log(`RoleID : ${roleID}`);
+
+      addRoleEmbed(message, client, roleID);
+
+      loaAlarm(client, message, channelID, roleID);
     }
 
-    // if (order === `${prefix}알람`) ;
+    if (order === `${prefix}알람역할`) {
+      addRoleEmbed(message, client);
+    }
 
-    // if (order === `${prefix}알람실행`) {
-    //   console.log(`알람 실행 channelID : ${channelID} roleID : ${roleID}`);
-    // }
+    if (order === `${prefix}알람실행`) {
+      loaAlarm(client, message);
+    }
   }
 });
 

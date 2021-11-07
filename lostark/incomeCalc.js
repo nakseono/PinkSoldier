@@ -85,7 +85,7 @@ const incomeCalc = (message, userName, client) => {
       const embedMessage = new MessageEmbed()
         .setColor("#ff3399")
         // .setThumbnail(`${moyahoURL}`)
-        .setTitle(`${userName}의 주간 수입 정산`)
+        .setTitle(`${userName}님의 주간 수입 정산`)
         .addFields(
           {
             name: `\`닉네임\``,
@@ -135,6 +135,7 @@ const incomeCalc = (message, userName, client) => {
           {
             name: `\`참 고 사 항\``,
             value: `
+            - 검색한 캐릭터가 속한 서버의 캐릭터만 불러왔습니다.
             - 버스비는 포함하지 않았습니다.
             - 순수히 \'클리어했을 때 보상으로 주는 골드\'만을 계산했습니다.
             - 보유중인 각 캐릭터의 레벨을 기준으로
@@ -283,9 +284,9 @@ const watingMessage = (message, userName) => {
   const waitingEmbed = new MessageEmbed()
     .setColor("#ff3399")
     // .setThumbnail(`${loadingBar}`)
-    .setTitle(`${userName}의 데이터를 불러오는 중입니다.`)
+    .setTitle(`${userName}님의 데이터를 불러오는 중입니다.`)
     .setDescription(
-      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용 XD`
+      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용`
     );
   message.channel.send({ embeds: [waitingEmbed] });
 };

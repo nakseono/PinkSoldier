@@ -60,11 +60,12 @@ client.on("messageCreate", async (message) => {
 
     if (order === `${prefix}명령어`) returnOrderList(message);
 
-    if (order === `${prefix}정보`)
-      watingMessage(message, orderWithOutPrefix),
-        getUserInfo(orderWithOutPrefix).then((data) => {
-          createLoaInfoEmbed(orderWithOutPrefix, data, message);
-        });
+    if (order === `${prefix}정보`) {
+      watingMessage(message, orderWithOutPrefix);
+      getUserInfo(orderWithOutPrefix).then((data) => {
+        createLoaInfoEmbed(orderWithOutPrefix, data, message);
+      });
+    }
 
     if (order === `${prefix}경매`)
       createAuctionEmbed(orderWithOutPrefix, message);

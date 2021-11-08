@@ -1,4 +1,4 @@
-const { Client, Intents, MessageEmbed } = require("discord.js");
+const { Client, Intents } = require("discord.js");
 
 const { token, prefix } = require("./config.json");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
@@ -44,9 +44,6 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   const order = message.content.split(" ")[0];
   const orderWithOutPrefix = message.content.split(" ")[1];
-
-  let roleID;
-  let channelID;
 
   //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
   // if (!message.author.bot) {
@@ -106,5 +103,3 @@ client.on("messageCreate", async (message) => {
 });
 
 client.login(token);
-
-// cron.schedule("* * * * * *", monAlarm);

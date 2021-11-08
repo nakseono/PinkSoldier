@@ -8,7 +8,9 @@ const madeNotice = (client, message) => {
 
   client.guilds.cache.forEach((guild) => {
     guild.channels.cache
-      .find((x) => x.name.includes("test"))
+      .find((x) =>
+        x.name.includes("로스트아크-알람" || "공지" || "일반" || "general")
+      )
       .send({ embeds: [noticeMessage] });
   });
 };
@@ -22,9 +24,11 @@ const whenStart = (client) => {
     );
 
   client.guilds.cache.forEach((guild) => {
-    guild.channels.cache
-      .find((x) => x.name.includes("test"))
-      .send({ embeds: [againExeNotice] });
+    if (guild.channels.cache.find((x) => x.name === "로스트아크-알람")) {
+      guild.channels.cache
+        .find((x) => x.name.includes("로스트아크-알람"))
+        .send({ embeds: [againExeNotice] });
+    }
   });
 };
 

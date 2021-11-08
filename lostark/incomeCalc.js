@@ -2,12 +2,6 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 
-const moyahoURL =
-  "https://drive.google.com/uc?export=download&id=1ANQ2PttQuDCv8KG5gOpMog9VSTBC5VoV";
-
-const loadingBar =
-  "https://drive.google.com/uc?export=download&id=1VjOQeD8k8T6eYKWuBYVfHETXvVTy5I0F";
-
 const incomeCalc = (message, userName, client) => {
   console.log(`수입 정산 실행 - ${userName}`);
   axios

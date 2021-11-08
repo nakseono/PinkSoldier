@@ -103,6 +103,9 @@ const createLoaInfoEmbed = (userName, data, message) => {
       }
     );
 
+  const already = await message.channel.messages.fetch({ limit: 1 });
+
+  message.channel.bulkDelete(already);
   message.channel.send({ embeds: [embedMessage] });
 };
 

@@ -1,6 +1,6 @@
 const { Client, Intents } = require("discord.js");
 
-// const { token, prefix } = require("./config.json");
+const { token, prefix } = require("./config.json");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
 const {
   createLoaInfoEmbed,
@@ -17,8 +17,6 @@ const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
 const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice, whenStart } = require("./allServerNotice");
-
-const prefix = process.env.PREFIX;
 
 const client = new Client({
   disableEveryone: true,
@@ -104,4 +102,4 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.login(process.env.TOKEN);
+client.login(token);

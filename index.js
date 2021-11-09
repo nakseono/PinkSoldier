@@ -10,7 +10,7 @@ const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
 const { createAuctionEmbed } = require("./lostark/loaAuction");
 const { returnOrderList } = require("./orderList");
 const { addRoleEmbed } = require("./lostark/alarmSetting/addAlarmRole");
-const { doMessageClear } = require("./messageClear");
+// const { doMessageClear } = require("./messageClear");
 const { loaEvent } = require("./lostark/loaEvent");
 const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
 const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
@@ -75,7 +75,7 @@ client.on("messageCreate", async (message) => {
     if (order === `${prefix}로아와`)
       createLoawaLinkEmbed(orderWithOutPrefix, message);
 
-    if (order === `${prefix}청소`) doMessageClear(message, client);
+    // if (order === `${prefix}청소`) doMessageClear(message, client);
 
     if (order === `${prefix}이벤트`) loaEvent(message);
 

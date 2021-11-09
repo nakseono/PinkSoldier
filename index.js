@@ -81,7 +81,7 @@ client.on("messageCreate", async (message) => {
 
     if (order === `${prefix}정산`)
       watingMessage(message, orderWithOutPrefix),
-        incomeCalc(message, orderWithOutPrefix, client);
+        incomeCalc(message, orderWithOutPrefix);
 
     if (order === `${prefix}알람세팅`) {
       channelID = await makeAlarmChannel(message);
@@ -90,7 +90,7 @@ client.on("messageCreate", async (message) => {
       // console.log(`ChannelID : ${channelID}`);
       // console.log(`RoleID : ${roleID}`);
 
-      addRoleEmbed(message, client);
+      addRoleEmbed(message, client, roleID);
 
       loaAlarm(message, client);
     }

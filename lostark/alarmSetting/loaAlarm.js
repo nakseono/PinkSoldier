@@ -1,6 +1,6 @@
 const cron = require("node-cron");
 
-const loaAlarm = (message, client) => {
+const loaAlarm = (message, client, roleID) => {
   // console.log("알람 실행");
 
   //? 알람 전달 할 채널과 역할 ID 찾는 파트.
@@ -8,9 +8,15 @@ const loaAlarm = (message, client) => {
     client.channels.cache.find((x) => x.name === "데일리-로아-알림")
   ).slice(2, -1);
 
-  let alarmRoleID = message.guild.roles.cache.find(
-    (role) => role.name === "loaAlarm"
-  );
+  let alarmRoleID;
+
+  if (roleID) {
+    alarmRoleID = roleID;
+  } else {
+    alarmRoleID = message.guild.roles.cache.find(
+      (role) => role.name === "loaAlarm"
+    );
+  }
 
   // console.log(`alarmChannelID : ${alarmChannelID}`);
   // console.log(`alarmRoleID : ${alarmRoleID}`);
@@ -75,6 +81,10 @@ const loaAlarm = (message, client) => {
   // let now = new Date();
   // console.log(now);
   // console.log(now.getHours());
+
+  // cron.schedule("* * * * *", () => {
+  //   client.channels.cache.get(`${alarmChannelID}`).send(message_MON_55);
+  // });
 
   //! 월
   cron.schedule(rule_MTTF_55(`MON`), () => {

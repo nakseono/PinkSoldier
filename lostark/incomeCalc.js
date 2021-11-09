@@ -2,8 +2,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 
-const incomeCalc = (message, userName, client) => {
-  console.log(`수입 정산 실행 - ${userName}`);
+const incomeCalc = (message, userName) => {
+  // console.log(`수입 정산 실행 - ${userName}`);
   axios
     .get(
       `https://lostark.game.onstove.com/Profile/Character/${encodeURI(

@@ -32,7 +32,7 @@ const loaAlarm = (message, client) => {
   // 그러면...
 
   const rule_MTTF = (day) => {
-    // MON TUE THU FRI 월화목금 11시 ~ 24시 -> 2~15
+    // MON TUE THU FRI SAT SUN 월화목금토일 11시 ~ 24시 -> 2~15
     return `50 2-15 * * ${day}`;
   };
 
@@ -43,10 +43,8 @@ const loaAlarm = (message, client) => {
   const rule_WED_23 = `50 14 * * WED`;
 
   const rule_SAT_09 = `50 23 * * FRI`;
-  const rule_SAT_after11 = `50 2-15 * * SAT`;
 
   const rule_SUN_09 = `50 23 * * SAT`;
-  const rule_SUN_after11 = `50 2-15 * * SUN`;
 
   // const test = `* 2 * * TUE`;
 
@@ -54,8 +52,64 @@ const loaAlarm = (message, client) => {
   // console.log(now);
   // console.log(now.getHours());
 
-  cron.schedule(test, () => {
+  //! 월
+  cron.schedule(rule_MTTF(`MON`), () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_MON);
+  });
+
+  //! 화
+  cron.schedule(rule_MTTF(`TUE`), () => {
     client.channels.cache.get(`${alarmChannelID}`).send(message_TUE);
+  });
+
+  //! 수 (5개)
+  cron.schedule(rule_WED_09, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_WED);
+  });
+
+  cron.schedule(rule_WED_11, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_WED);
+  });
+
+  cron.schedule(rule_WED_19, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_WED);
+  });
+
+  cron.schedule(rule_WED_21, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_WED);
+  });
+
+  cron.schedule(rule_WED_23, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_WED);
+  });
+
+  //! 목
+  cron.schedule(rule_MTTF(`THU`), () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_THU);
+  });
+
+  //! 금
+  cron.schedule(rule_MTTF(`FRI`), () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_FRI);
+  });
+
+  //! 토 (2개)
+  cron.schedule(rule_SAT_09, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT);
+  });
+
+  cron.schedule(rule_MTTF(`SAT`), () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT);
+  });
+
+  //! 일 (2개)
+
+  cron.schedule(rule_SUN_09, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN);
+  });
+
+  cron.schedule(rule_MTTF(`SUN`), () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN);
   });
 };
 

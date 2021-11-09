@@ -39,18 +39,13 @@ const loaAlarm = (client, message, channelID, roleID) => {
   //? 각 시간별 cron 표현식 정리.
   // [월, 화, 목, 금] 은 시간대가 같으니까 묶자.
   // 수요일..은 조금 어려울 것 같고, 주말에 다음날 8시 50분에도 알림이 가는데 해결해야할 듯.
+  // 현재 EC2 인스턴스가 한국 시간 기준으로 9시간이 느림. (10시 50분) -> (1시 50분)
+  // 그러면...
 
   const rule_MTTF = (day) => {
-    // MON TUE THU FRI 월화목금 11시 ~ 24시 -> 17 ~ 06
-    // 당일 17시 ~ 23시 / 다음날 00 ~ 06시?
-    return `50 10-23 * * ${day}`;
+    // MON TUE THU FRI 월화목금 11시 ~ 24시 -> 2~15
+    return `50 2-15 * * ${day}`;
   };
-
-  const rule_MON = `50 17-23 * * SUN`;
-  const rule_MON_nextDay = `50 0-6 * * MON`;
-
-  const rule_TUE = `50 17-23 * * MON`;
-  const rule_TUE_nextDay = `50 0-6 * * TUE`;
 
   const rule_WED_09 = `50 8 * * WED`;
   const rule_WED_11 = `50 10 * * WED`;
@@ -58,18 +53,13 @@ const loaAlarm = (client, message, channelID, roleID) => {
   const rule_WED_21 = `50 20 * * WED`;
   const rule_WED_23 = `50 22 * * WED`;
 
-  const rule_THU = `50 17-23 * * WED`;
-  const rule_THU_nextDay = `50 0-6 * * THU`;
-
-  const rule_FRI = `50 17-23 * * THU`;
-  const rule_FRI_nextDay = `50 0-6 * * FRI`;
-
   const rule_SAT_09 = `50 8 * * FRI`;
   const rule_SAT_after11 = `50 10-23 * * SAT`;
+
   const rule_SUN_09 = `50 8 * * SAT`;
   const rule_SUN_after11 = `50 10-23 * * SUN`;
 
-  const test = `* 10 * * MON`;
+  const test = `* 11 * * TUE`;
 
   let now = new Date();
   console.log(now);

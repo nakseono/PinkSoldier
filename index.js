@@ -9,7 +9,7 @@ const {
 const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
 const { createAuctionEmbed } = require("./lostark/loaAuction");
 const { returnOrderList } = require("./orderList");
-const { addRoleEmbed } = require("./addCalendarRole");
+const { addRoleEmbed } = require("./lostark/alarmSetting/addAlarmRole");
 const { doMessageClear } = require("./messageClear");
 const { loaEvent } = require("./lostark/loaEvent");
 const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
@@ -17,6 +17,7 @@ const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
 const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice, whenStart } = require("./allServerNotice");
+const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 
 const client = new Client({
   disableEveryone: true,
@@ -54,7 +55,7 @@ client.on("messageCreate", async (message) => {
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
   if (!message.author.bot) {
-    if (order === `!@#공지`) madeNotice(client, message);
+    if (order === `!!!공지`) madeNotice(client, message);
 
     if (order === `${prefix}명령어`) returnOrderList(message);
 
@@ -99,6 +100,7 @@ client.on("messageCreate", async (message) => {
     }
 
     if (order === `${prefix}알람실행`) {
+      alarmExeComment(message);
       loaAlarm(message, client);
     }
   }

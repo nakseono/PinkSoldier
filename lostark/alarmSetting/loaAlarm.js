@@ -1,27 +1,16 @@
 const cron = require("node-cron");
 
-const loaAlarm = (client, message, channelID, roleID) => {
+const loaAlarm = (message, client) => {
   // console.log("알람 실행");
 
   //? 알람 전달 할 채널과 역할 ID 찾는 파트.
-  let alarmChannelID;
-  let alarmRoleID;
+  let alarmChannelID = String(
+    client.channels.cache.find((x) => x.name === "로스트아크-알람")
+  ).slice(2, -1);
 
-  if (channelID) {
-    alarmChannelID = channelID;
-  } else {
-    alarmChannelID = String(
-      client.channels.cache.find((x) => x.name === "로스트아크-알람")
-    ).slice(2, -1);
-  }
-
-  if (roleID) {
-    alarmRoleID = roleID;
-  } else {
-    alarmRoleID = message.guild.roles.cache.find(
-      (role) => role.name === "loaAlarm"
-    );
-  }
+  let alarmRoleID = message.guild.roles.cache.find(
+    (role) => role.name === "loaAlarm"
+  );
 
   // console.log(`alarmChannelID : ${alarmChannelID}`);
   // console.log(`alarmRoleID : ${alarmRoleID}`);
@@ -47,23 +36,23 @@ const loaAlarm = (client, message, channelID, roleID) => {
     return `50 2-15 * * ${day}`;
   };
 
-  const rule_WED_09 = `50 8 * * WED`;
-  const rule_WED_11 = `50 10 * * WED`;
-  const rule_WED_19 = `50 18 * * WED`;
-  const rule_WED_21 = `50 20 * * WED`;
-  const rule_WED_23 = `50 22 * * WED`;
+  const rule_WED_09 = `50 23 * * TUE`;
+  const rule_WED_11 = `50 2 * * WED`;
+  const rule_WED_19 = `50 10 * * WED`;
+  const rule_WED_21 = `50 12 * * WED`;
+  const rule_WED_23 = `50 14 * * WED`;
 
-  const rule_SAT_09 = `50 8 * * FRI`;
-  const rule_SAT_after11 = `50 10-23 * * SAT`;
+  const rule_SAT_09 = `50 23 * * FRI`;
+  const rule_SAT_after11 = `50 2-15 * * SAT`;
 
-  const rule_SUN_09 = `50 8 * * SAT`;
-  const rule_SUN_after11 = `50 10-23 * * SUN`;
+  const rule_SUN_09 = `50 23 * * SAT`;
+  const rule_SUN_after11 = `50 2-15 * * SUN`;
 
-  const test = `* 11 * * TUE`;
+  // const test = `* 2 * * TUE`;
 
-  let now = new Date();
-  console.log(now);
-  console.log(now.getHours());
+  // let now = new Date();
+  // console.log(now);
+  // console.log(now.getHours());
 
   cron.schedule(test, () => {
     client.channels.cache.get(`${alarmChannelID}`).send(message_TUE);

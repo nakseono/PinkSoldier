@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const addEmoji = `⏰`;
 const removeEmoji = `🔕`;
 
-const addRoleEmbed = async (message, client, roleID) => {
+const addRoleEmbed = async (message, client) => {
   const embedMessage = new MessageEmbed()
     .setColor("#ff3399")
     .setTitle(`데일리 캘린더 알림`)
@@ -16,14 +16,9 @@ const addRoleEmbed = async (message, client, roleID) => {
   (await sendedEmbed).react(addEmoji);
   (await sendedEmbed).react(removeEmoji);
 
-  let alarmRole;
-  if (roleID) {
-    alarmRole = roleID;
-  } else {
-    alarmRole = message.guild.roles.cache.find(
-      (role) => role.name === "loaAlarm"
-    );
-  }
+  let alarmRole = message.guild.roles.cache.find(
+    (role) => role.name === "loaAlarm"
+  );
 
   client.on("messageReactionAdd", async (reaction, user) => {
     if (reaction.message.partial) await reaction.message.fetch();

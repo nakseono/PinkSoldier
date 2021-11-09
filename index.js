@@ -89,9 +89,9 @@ client.on("messageCreate", async (message) => {
       // console.log(`ChannelID : ${channelID}`);
       // console.log(`RoleID : ${roleID}`);
 
-      addRoleEmbed(message, client, roleID);
+      addRoleEmbed(message, client);
 
-      loaAlarm(client, message, channelID, roleID);
+      loaAlarm(message, client);
     }
 
     if (order === `${prefix}알람역할`) {
@@ -99,7 +99,7 @@ client.on("messageCreate", async (message) => {
     }
 
     if (order === `${prefix}알람실행`) {
-      loaAlarm(client, message);
+      loaAlarm(message, client);
     }
   }
 });

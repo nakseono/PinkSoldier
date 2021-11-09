@@ -35,9 +35,9 @@ const client = new Client({
 client.once("ready", () => {
   console.log("핑크솔져 준비 완료");
 
-  // client.user.setPresence({
-  //   activities: [{ name: "!명령어" }],
-  // });
+  client.user.setPresence({
+    activities: [{ name: "도움말은 !명령어" }],
+  });
 
   whenStart(client);
 });

@@ -41,27 +41,42 @@ const loaAlarm = (client, message, channelID, roleID) => {
   // 수요일..은 조금 어려울 것 같고, 주말에 다음날 8시 50분에도 알림이 가는데 해결해야할 듯.
 
   const rule_MTTF = (day) => {
-    // MON TUE THU FRI
+    // MON TUE THU FRI 월화목금 11시 ~ 24시 -> 17 ~ 06
+    // 당일 17시 ~ 23시 / 다음날 00 ~ 06시?
     return `50 10-23 * * ${day}`;
   };
 
-  const rule_WED_09 = `50 8 ? * WED *`;
-  const rule_WED_11 = `50 10 ? * WED *`;
-  const rule_WED_19 = `50 18 ? * WED *`;
-  const rule_WED_21 = `50 20 ? * WED *`;
-  const rule_WED_23 = `50 22 ? * WED *`;
+  const rule_MON = `50 17-23 * * SUN`;
+  const rule_MON_nextDay = `50 0-6 * * MON`;
 
-  const rule_SAT_09 = `50 8 ? * FRI *`;
-  const rule_SAT_after11 = `50 10-23 ? * SAT *`;
-  const rule_SUN_09 = `50 8 ? * SAT *`;
-  const rule_SUN_after11 = `50 10-23 ? * SUN *`;
+  const rule_TUE = `50 17-23 * * MON`;
+  const rule_TUE_nextDay = `50 0-6 * * TUE`;
+
+  const rule_WED_09 = `50 8 * * WED`;
+  const rule_WED_11 = `50 10 * * WED`;
+  const rule_WED_19 = `50 18 * * WED`;
+  const rule_WED_21 = `50 20 * * WED`;
+  const rule_WED_23 = `50 22 * * WED`;
+
+  const rule_THU = `50 17-23 * * WED`;
+  const rule_THU_nextDay = `50 0-6 * * THU`;
+
+  const rule_FRI = `50 17-23 * * THU`;
+  const rule_FRI_nextDay = `50 0-6 * * FRI`;
+
+  const rule_SAT_09 = `50 8 * * FRI`;
+  const rule_SAT_after11 = `50 10-23 * * SAT`;
+  const rule_SUN_09 = `50 8 * * SAT`;
+  const rule_SUN_after11 = `50 10-23 * * SUN`;
+
+  const test = `* 10 * * MON`;
 
   let now = new Date();
   console.log(now);
   console.log(now.getHours());
 
-  cron.schedule("* * * * * ", () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_MON);
+  cron.schedule(test, () => {
+    client.channels.cache.get(`${alarmChannelID}`).send(message_TUE);
   });
 };
 

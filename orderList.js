@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const returnOrderList = (message) => {
   const embedMessage = new MessageEmbed()
     .setColor("#ff3399")
-    .setTitle(`핑크솔져 명령어 리스트`)
+    .setTitle(`믹스테잎 명령어 리스트`)
     .addFields(
       {
         name: `\`!정보 [닉네임]\``,

@@ -117,9 +117,16 @@ const createLoaInfoEmbed = async (userName, data, message) => {
 
     message.channel.send({ embeds: [errorMessage] });
 
-    fs.appendFile("bugLog.txt", "file Write test123", (err) => {
-      console.log(err);
-    });
+    // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+    let now = new Date();
+
+    fs.appendFile(
+      "bugLog.txt",
+      `${now} / !정보 ${userName} / ${error}\n`,
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 };
 

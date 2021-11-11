@@ -1,1 +1,2 @@
-file Write test123
+Fri Nov 12 2021 01:24:28 GMT+0900 (대한민국 표준시) / !정보 [낙서노] / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 12 2021 01:24:51 GMT+0900 (대한민국 표준시) / !정보 [낙서노] / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.

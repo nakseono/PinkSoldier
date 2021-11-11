@@ -83,26 +83,26 @@ client.on("messageCreate", async (message) => {
       watingMessage(message, orderWithOutPrefix),
         incomeCalc(message, orderWithOutPrefix);
 
-    if (order === `${prefix}알람세팅`) {
-      channelID = await makeAlarmChannel(message);
-      roleID = await makeRole(message);
+    // if (order === `${prefix}알람세팅`) {
+    //   channelID = await makeAlarmChannel(message);
+    //   roleID = await makeRole(message);
 
-      // console.log(`ChannelID : ${channelID}`);
-      // console.log(`RoleID : ${roleID}`);
+    //   // console.log(`ChannelID : ${channelID}`);
+    //   // console.log(`RoleID : ${roleID}`);
 
-      addRoleEmbed(message, client, roleID);
+    //   addRoleEmbed(message, client, roleID);
 
-      loaAlarm(message, client);
-    }
+    //   loaAlarm(message, client);
+    // }
 
-    if (order === `${prefix}알람역할`) {
-      addRoleEmbed(message, client);
-    }
+    // if (order === `${prefix}알람역할`) {
+    //   addRoleEmbed(message, client);
+    // }
 
-    if (order === `${prefix}알람실행`) {
-      alarmExeComment(message);
-      loaAlarm(message, client);
-    }
+    // if (order === `${prefix}알람실행`) {
+    //   alarmExeComment(message);
+    //   loaAlarm(message, client);
+    // }
   }
 });
 

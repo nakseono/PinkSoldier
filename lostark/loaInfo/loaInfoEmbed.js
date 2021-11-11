@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const classImage = require("../classImage.json");
+const fs = require("fs");
 
 const createLoaInfoEmbed = async (userName, data, message) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
@@ -113,9 +114,12 @@ const createLoaInfoEmbed = async (userName, data, message) => {
     const already = await message.channel.messages.fetch({ limit: 1 });
 
     message.channel.bulkDelete(already);
+
     message.channel.send({ embeds: [errorMessage] });
 
-    console.log(error);
+    fs.appendFile("bugLog.txt", "file Write test123", (err) => {
+      console.log(err);
+    });
   }
 };
 

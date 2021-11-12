@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const classImage = require("../classImage.json");
 const fs = require("fs");
 
-const createLoaInfoEmbed = async (userName, data, message) => {
+const createLoaInfoEmbed = async (userName, data, message, errorMessage) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
 
   //? ------- 기본 특성 정보 가공 -------
@@ -111,6 +111,7 @@ const createLoaInfoEmbed = async (userName, data, message) => {
 
     message.channel.send({ embeds: [embedMessage] });
   } catch (error) {
+    // 에러 메시지 출력
     const already = await message.channel.messages.fetch({ limit: 1 });
 
     message.channel.bulkDelete(already);
@@ -124,33 +125,19 @@ const createLoaInfoEmbed = async (userName, data, message) => {
       "bugLog.txt",
       `${now} / !정보 ${userName} / ${error}\n`,
       (err) => {
-        console.log(err);
+        // console.log(`정보 에러 : ${err}`);
       }
     );
   }
 };
 
 const createLoawaLinkEmbed = async (userName, message) => {
-  try {
-    const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
-      name: `링크 클릭시 로아와 페이지로 이동합니다.`,
-      value: `https://loawa.com/char/${userName}`,
-    });
+  const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
+    name: `링크 클릭시 로아와 페이지로 이동합니다.`,
+    value: `https://loawa.com/char/${userName}`,
+  });
 
-    message.channel.send({ embeds: [embedMessage] });
-  } catch (error) {
-    const already = await message.channel.messages.fetch({ limit: 1 });
-
-    message.channel.bulkDelete(already);
-    console.log(error);
-  }
+  message.channel.send({ embeds: [embedMessage] });
 };
-
-const errorMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`에러가 발생했습니다!`)
-  .setDescription(
-    `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요 XD`
-  );
 
 module.exports = { createLoaInfoEmbed, createLoawaLinkEmbed };

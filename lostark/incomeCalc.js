@@ -1,8 +1,9 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
+const fs = require("fs");
 
-const incomeCalc = (message, userName) => {
+const incomeCalc = async (message, userName, errorMessage) => {
   // console.log(`수입 정산 실행 - ${userName}`);
   axios
     .get(
@@ -31,9 +32,9 @@ const incomeCalc = (message, userName) => {
 
       // console.log(`ownChar : ${JSON.stringify(json)}`);
 
-      json["level"] = await callItemLevel(json, mainServer);
+      json["level"] = await callItemLevel(json, mainServer, errorMessage);
 
-      json["job"] = await callCharJob(json, mainServer);
+      json["job"] = await callCharJob(json, mainServer, errorMessage);
 
       // console.log(`json : ${JSON.stringify(json)}`);
 
@@ -76,29 +77,30 @@ const incomeCalc = (message, userName) => {
         reward.orehaNormal * 1500;
 
       //! 총 임베드 메시지 생성
-      const embedMessage = new MessageEmbed()
-        .setColor("#ff3399")
-        // .setThumbnail(`${moyahoURL}`)
-        .setTitle(`${userName}님의 주간 수입 정산`)
-        .addFields(
-          {
-            name: `\`닉네임\``,
-            value: `${makeNicknameList(ownList)}`,
-            inline: true,
-          },
-          {
-            name: `\`직업\``,
-            value: `${makeJobList(ownList)}`,
-            inline: true,
-          },
-          {
-            name: `\`레벨\``,
-            value: `${makeLevelList(ownList)}`,
-            inline: true,
-          },
-          {
-            name: `\`주간 컨텐츠\``,
-            value: `
+      try {
+        const embedMessage = new MessageEmbed()
+          .setColor("#ff3399")
+          // .setThumbnail(`${moyahoURL}`)
+          .setTitle(`${userName}님의 주간 수입 정산`)
+          .addFields(
+            {
+              name: `\`닉네임\``,
+              value: `${makeNicknameList(ownList)}`,
+              inline: true,
+            },
+            {
+              name: `\`직업\``,
+              value: `${makeJobList(ownList)}`,
+              inline: true,
+            },
+            {
+              name: `\`레벨\``,
+              value: `${makeLevelList(ownList)}`,
+              inline: true,
+            },
+            {
+              name: `\`주간 컨텐츠\``,
+              value: `
             쿠크세이튼 [\`4500골드\`] 
             비아키스 하드 [\`4500골드\`]
             발탄 하드 [\`4500골드\`]
@@ -110,11 +112,11 @@ const incomeCalc = (message, userName) => {
 
             총 보상 골드 합계 : \`${rewardImcomeResult}\`
             `,
-            inline: true,
-          },
-          {
-            name: `\`해당 캐릭터 수\``,
-            value: `
+              inline: true,
+            },
+            {
+              name: `\`해당 캐릭터 수\``,
+              value: `
             :  \`${reward.koukuSaton}\` 캐릭터
             :  \`${reward.biackissHard}\` 캐릭터
             :  \`${reward.valtanHard}\` 캐릭터
@@ -124,11 +126,11 @@ const incomeCalc = (message, userName) => {
             :  \`${reward.orehaHard}\` 캐릭터
             :  \`${reward.orehaNormal}\` 캐릭터
             `,
-            inline: true,
-          },
-          {
-            name: `\`참 고 사 항\``,
-            value: `
+              inline: true,
+            },
+            {
+              name: `\`참 고 사 항\``,
+              value: `
             - 검색한 캐릭터가 속한 서버의 캐릭터만 불러왔습니다.
             - 버스비는 포함하지 않았습니다.
             - 순수히 \'클리어했을 때 보상으로 주는 골드\'만을 계산했습니다.
@@ -137,66 +139,111 @@ const incomeCalc = (message, userName) => {
             - 아브렐슈드는 개인별 편차가 커 계산에 포함되지 않습니다.
             (1475 쿠크세이튼까지 수행한 것과 똑같이 계산했습니다.)
             `,
+            }
+          );
+        const already = await message.channel.messages.fetch({ limit: 1 });
+
+        message.channel.bulkDelete(already);
+        message.channel.send({ embeds: [embedMessage] });
+      } catch (err) {
+        const already = await message.channel.messages.fetch({ limit: 1 });
+
+        message.channel.bulkDelete(already);
+
+        message.channel.send({ embeds: [errorMessage] });
+
+        // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+        let now = new Date();
+
+        fs.appendFile(
+          "bugLog.txt",
+          `${now} / !정산 ${userName} / ${err}\n`,
+          (err) => {
+            // console.log(`정산 에러 : ${err}`);
           }
         );
-
-      const already = await message.channel.messages.fetch({ limit: 1 });
-
-      message.channel.bulkDelete(already);
-      message.channel.send({ embeds: [embedMessage] });
+      }
     });
 };
 
-const callItemLevel = async (json, mainServer) => {
+const callItemLevel = async (json, mainServer, errorMessage) => {
   let ownLevel = [];
-  for (let i = 0; i < json["ownChar"].length; i++) {
-    await axios
-      .get(
-        `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
-          json["ownChar"][i]
-        )}`
-      )
-      .then((html) => {
-        const $ = cheerio.load(html.data);
-        if ($(`.profile-character-info__server`).text() === mainServer) {
-          $(".level-info2__item > span").each(function (index, item) {
-            if (index === 1) {
-              ownLevel.push(
-                Number($(this).text().replace("Lv.", "").replace(",", ""))
-              );
-            }
-          });
-        } else {
-          ownLevel.push("anotherServer");
-        }
+  try {
+    for (let i = 0; i < json["ownChar"].length; i++) {
+      await axios
+        .get(
+          `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+            json["ownChar"][i]
+          )}`
+        )
+        .then((html) => {
+          const $ = cheerio.load(html.data);
+          if ($(`.profile-character-info__server`).text() === mainServer) {
+            $(".level-info2__item > span").each(function (index, item) {
+              if (index === 1) {
+                ownLevel.push(
+                  Number($(this).text().replace("Lv.", "").replace(",", ""))
+                );
+              }
+            });
+          } else {
+            ownLevel.push("anotherServer");
+          }
 
-        // console.log(`test : ${ownLevel}`);
-      });
+          // console.log(`test : ${ownLevel}`);
+        });
+    }
+    return ownLevel;
+  } catch (err) {
+    // 에러 메시지 출력
+    const already = await message.channel.messages.fetch({ limit: 1 });
+
+    message.channel.bulkDelete(already);
+
+    message.channel.send({ embeds: [errorMessage] });
+
+    // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+    let now = new Date();
+
+    fs.appendFile("bugLog.txt", `${now} / !정산 ${userName} / ${err}\n`);
   }
-  return ownLevel;
 };
 
-const callCharJob = async (json, mainServer) => {
+const callCharJob = async (json, mainServer, errorMessage) => {
   let ownJob = [];
-  for (let k = 0; k < json["ownChar"].length; k++) {
-    await axios
-      .get(
-        `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
-          json["ownChar"][k]
-        )}`
-      )
-      .then((html) => {
-        const $ = cheerio.load(html.data);
-        if ($(`.profile-character-info__server`).text() === mainServer) {
-          ownJob.push($(".profile-character-info__img").attr("alt"));
-        } else {
-          ownJob.push("anotherServer");
-        }
+  try {
+    for (let k = 0; k < json["ownChar"].length; k++) {
+      await axios
+        .get(
+          `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+            json["ownChar"][k]
+          )}`
+        )
+        .then((html) => {
+          const $ = cheerio.load(html.data);
+          if ($(`.profile-character-info__server`).text() === mainServer) {
+            ownJob.push($(".profile-character-info__img").attr("alt"));
+          } else {
+            ownJob.push("anotherServer");
+          }
 
-        // console.log(`test : ${ownJob}`);
-      });
+          // console.log(`test : ${ownJob}`);
+        });
+    }
+    return ownJob;
+  } catch (err) {
+    // 에러 메시지 출력
+    const already = await message.channel.messages.fetch({ limit: 1 });
+
+    message.channel.bulkDelete(already);
+
+    message.channel.send({ embeds: [errorMessage] });
+
+    // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+    let now = new Date();
+
+    fs.appendFile("bugLog.txt", `${now} / !정산 ${userName} / ${err}\n`);
   }
-  return ownJob;
 };
 
 //! <->

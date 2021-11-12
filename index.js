@@ -1,4 +1,4 @@
-const { Client, Intents } = require("discord.js");
+const { Client, Intents, MessageEmbed } = require("discord.js");
 
 const { token, prefix } = require("./config.json");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
@@ -32,6 +32,13 @@ const client = new Client({
   partials: ["CHANNEL", "MESSAGE", "REACTION"],
 });
 
+const errorMessage = new MessageEmbed()
+  .setColor("#ff3399")
+  .setTitle(`에러가 발생했습니다!`)
+  .setDescription(
+    `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요 XD`
+  );
+
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");
 
@@ -62,15 +69,15 @@ client.on("messageCreate", async (message) => {
     if (order === `${prefix}정보`) {
       watingMessage(message, orderWithOutPrefix);
       getUserInfo(orderWithOutPrefix).then((data) => {
-        createLoaInfoEmbed(orderWithOutPrefix, data, message);
+        createLoaInfoEmbed(orderWithOutPrefix, data, message, errorMessage);
       });
     }
 
     if (order === `${prefix}경매`)
-      createAuctionEmbed(orderWithOutPrefix, message);
+      createAuctionEmbed(orderWithOutPrefix, message, errorMessage);
 
     if (order === `${prefix}분배`)
-      createAuctionbyPartyEmbed(orderWithOutPrefix, message);
+      createAuctionbyPartyEmbed(orderWithOutPrefix, message, errorMessage);
 
     if (order === `${prefix}로아와`)
       createLoawaLinkEmbed(orderWithOutPrefix, message);
@@ -81,7 +88,7 @@ client.on("messageCreate", async (message) => {
 
     if (order === `${prefix}정산`)
       watingMessage(message, orderWithOutPrefix),
-        incomeCalc(message, orderWithOutPrefix);
+        incomeCalc(message, orderWithOutPrefix, errorMessage);
 
     // if (order === `${prefix}알람세팅`) {
     //   channelID = await makeAlarmChannel(message);

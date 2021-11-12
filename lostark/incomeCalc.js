@@ -321,15 +321,4 @@ const countingRaidReward = (list) => {
   return result;
 };
 
-const watingMessage = (message, userName) => {
-  const waitingEmbed = new MessageEmbed()
-    .setColor("#ff3399")
-    // .setThumbnail(`${loadingBar}`)
-    .setTitle(`${userName}님의 데이터를 불러오는 중입니다.`)
-    .setDescription(
-      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용`
-    );
-  message.channel.send({ embeds: [waitingEmbed] });
-};
-
-module.exports = { incomeCalc, watingMessage };
+module.exports = { incomeCalc };

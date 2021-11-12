@@ -1,7 +1,9 @@
 const cron = require("node-cron");
+const fs = require("fs");
 
 const loaAlarm = (message, client, roleID) => {
-  // console.log("알람 실행");
+  let data = fs.readFileSync("alarmData.json", "utf-8");
+  console.log(data);
 
   //? 알람 전달 할 채널과 역할 ID 찾는 파트.
   let alarmChannelID = String(

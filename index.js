@@ -18,6 +18,7 @@ const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice, whenStart } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
+const fs = require("fs");
 
 const client = new Client({
   disableEveryone: true,
@@ -90,26 +91,35 @@ client.on("messageCreate", async (message) => {
       watingMessage(message, orderWithOutPrefix),
         incomeCalc(message, orderWithOutPrefix, errorMessage);
 
-    // if (order === `${prefix}알람세팅`) {
-    //   channelID = await makeAlarmChannel(message);
-    //   roleID = await makeRole(message);
+    if (order === `${prefix}알람세팅`) {
+      channelID = await makeAlarmChannel(message);
+      roleID = await makeRole(message);
 
-    //   // console.log(`ChannelID : ${channelID}`);
-    //   // console.log(`RoleID : ${roleID}`);
+      let idData = { channel: channelID, role: roleID };
 
-    //   addRoleEmbed(message, client, roleID);
+      let json = JSON.parse(fs.readFileSync("alarmData.json"));
+      console.log(`json : ${json}`);
+      json.push(idData);
+      console.log(`json push : ${JSON.stringify(json)}`);
 
-    //   loaAlarm(message, client);
-    // }
+      fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
 
-    // if (order === `${prefix}알람역할`) {
-    //   addRoleEmbed(message, client);
-    // }
+      // console.log(`ChannelID : ${channelID}`);
+      // console.log(`RoleID : ${roleID}`);
 
-    // if (order === `${prefix}알람실행`) {
-    //   alarmExeComment(message);
-    //   loaAlarm(message, client);
-    // }
+      addRoleEmbed(message, client, roleID);
+
+      loaAlarm(message, client);
+    }
+
+    if (order === `${prefix}알람역할`) {
+      addRoleEmbed(message, client);
+    }
+
+    if (order === `${prefix}알람실행`) {
+      alarmExeComment(message, client);
+      loaAlarm(message, client);
+    }
   }
 });
 

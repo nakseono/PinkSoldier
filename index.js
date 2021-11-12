@@ -1,6 +1,7 @@
 const { Client, Intents, MessageEmbed } = require("discord.js");
 
 const { token, prefix } = require("./config.json");
+const fs = require("fs");
 const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
 const {
   createLoaInfoEmbed,
@@ -12,13 +13,13 @@ const { returnOrderList } = require("./orderList");
 const { addRoleEmbed } = require("./lostark/alarmSetting/addAlarmRole");
 // const { doMessageClear } = require("./messageClear");
 const { loaEvent } = require("./lostark/loaEvent");
-const { incomeCalc, watingMessage } = require("./lostark/incomeCalc");
+const { incomeCalc } = require("./lostark/incomeCalc");
 const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
 const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice, whenStart } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
-const fs = require("fs");
+const { sasagaeEmbed } = require("./lostark/sasagae");
 
 const client = new Client({
   disableEveryone: true,
@@ -39,6 +40,17 @@ const errorMessage = new MessageEmbed()
   .setDescription(
     `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요 XD`
   );
+
+const watingMessage = (message, userName) => {
+  const waitingEmbed = new MessageEmbed()
+    .setColor("#ff3399")
+    // .setThumbnail(`${loadingBar}`)
+    .setTitle(`${userName}님의 데이터를 불러오는 중입니다.`)
+    .setDescription(
+      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용`
+    );
+  message.channel.send({ embeds: [waitingEmbed] });
+};
 
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");
@@ -98,9 +110,7 @@ client.on("messageCreate", async (message) => {
       let idData = { channel: channelID, role: roleID };
 
       let json = JSON.parse(fs.readFileSync("alarmData.json"));
-      console.log(`json : ${json}`);
       json.push(idData);
-      console.log(`json push : ${JSON.stringify(json)}`);
 
       fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
 
@@ -119,6 +129,11 @@ client.on("messageCreate", async (message) => {
     if (order === `${prefix}알람실행`) {
       alarmExeComment(message, client);
       loaAlarm(message, client);
+    }
+
+    if (order === `${prefix}사사게`) {
+      watingMessage(message, orderWithOutPrefix),
+        sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
     }
   }
 });

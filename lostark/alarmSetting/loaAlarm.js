@@ -82,20 +82,20 @@ const loaAlarm = (client) => {
     return `${alarmRoleID}\n\`\`\`diff\n일요일 로스트아크 일정\n\n- 카오스 게이트 & 필드 보스 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 필드 보스는 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
   };
 
-  cron.schedule("* * * * *", () => {
-    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+  // cron.schedule("* * * * *", () => {
+  //   let data = JSON.parse(fs.readFileSync("alarmData.json"));
 
-    for (let i = 0; i < data.length; i++) {
-      alarmChannelID[i] = data[i]["channel"];
-      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
-    }
+  //   for (let i = 0; i < data.length; i++) {
+  //     alarmChannelID[i] = data[i]["channel"];
+  //     alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+  //   }
 
-    for (let k = 0; k < alarmChannelID.length; k++) {
-      client.channels.cache
-        .get(`${alarmChannelID[k]}`)
-        .send(message_MON_55(alarmRoleID[k]));
-    }
-  });
+  //   for (let k = 0; k < alarmChannelID.length; k++) {
+  //     client.channels.cache
+  //       .get(`${alarmChannelID[k]}`)
+  //       .send(message_MON_55(alarmRoleID[k]));
+  //   }
+  // });
 
   //! 월
   cron.schedule(rule_MTTF_55(`MON`), () => {

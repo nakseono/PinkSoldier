@@ -38,7 +38,7 @@ const errorMessage = new MessageEmbed()
   .setColor("#ff3399")
   .setTitle(`에러가 발생했습니다!`)
   .setDescription(
-    `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
+    `올바른 명령을 요청했는지 \`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
   );
 
 const alreadyMessage = new MessageEmbed()

@@ -15,21 +15,4 @@ const madeNotice = (client, message) => {
   });
 };
 
-const whenStart = (client) => {
-  const againExeNotice = new MessageEmbed()
-    .setColor("#ff3399")
-    .setTitle(`확인해주세요!`)
-    .setDescription(
-      `믹스테잎은 업데이트 되었을 때 알림 받아오는 기능이 초기화 됩니다.\n이 알림이 보였다면, 그리고 데일리 로아 알림을 계속 받고싶으시다면\n\`!알람실행\` 명령어를 다시 입력시켜주세요!`
-    );
-
-  client.guilds.cache.forEach((guild) => {
-    if (guild.channels.cache.find((x) => x.name === "데일리-로아-알림")) {
-      guild.channels.cache
-        .find((x) => x.name.includes("데일리-로아-알림"))
-        .send({ embeds: [againExeNotice] });
-    }
-  });
-};
-
-module.exports = { madeNotice, whenStart };
+module.exports = { madeNotice };

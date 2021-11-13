@@ -1,51 +1,7 @@
 const cron = require("node-cron");
 const fs = require("fs");
 
-const loaAlarm = (message, client, roleID) => {
-  let data = fs.readFileSync("alarmData.json", "utf-8");
-  console.log(data);
-
-  //? 알람 전달 할 채널과 역할 ID 찾는 파트.
-  let alarmChannelID = String(
-    client.channels.cache.find((x) => x.name === "데일리-로아-알림")
-  ).slice(2, -1);
-
-  let alarmRoleID;
-
-  if (roleID) {
-    alarmRoleID = roleID;
-  } else {
-    alarmRoleID = message.guild.roles.cache.find(
-      (role) => role.name === "loaAlarm"
-    );
-  }
-
-  // console.log(`alarmChannelID : ${alarmChannelID}`);
-  // console.log(`alarmRoleID : ${alarmRoleID}`);
-
-  //? 알람 메시지들 정리.
-
-  const message_MON_55 = `${alarmRoleID}\n\`\`\`diff\n월요일 로스트아크 일정\n\n- 카오스 게이트 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_MON_58 = `${alarmRoleID}\n\`\`\`diff\n월요일 로스트아크 일정\n\n- 카오스 게이트 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_TUE_55 = `${alarmRoleID}\n\`\`\`diff\n화요일 로스트아크 일정\n\n- 필드 보스 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 필드 보스와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_TUE_58 = `${alarmRoleID}\n\`\`\`diff\n화요일 로스트아크 일정\n\n- 필드 보스 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 필드 보스와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_WED_55 = `${alarmRoleID}\n\`\`\`diff\n수요일 로스트아크 일정\n\n- 모험섬 출현 5분 전입니다.\n\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_WED_58 = `${alarmRoleID}\n\`\`\`diff\n수요일 로스트아크 일정\n\n- 모험섬 출현 2분 전입니다.\n\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_THU_55 = `${alarmRoleID}\n\`\`\`diff\n목요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_THU_58 = `${alarmRoleID}\n\`\`\`diff\n목요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_FRI_55 = `${alarmRoleID}\n\`\`\`diff\n금요일 로스트아크 일정\n\n- 필드 보스 & 모험섬 출현 5분 전입니다.\n\n+ 필드 보스는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_FRI_58 = `${alarmRoleID}\n\`\`\`diff\n금요일 로스트아크 일정\n\n- 필드 보스 & 모험섬 출현 2분 전입니다.\n\n+ 필드 보스는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
-  const message_SAT_55 = `${alarmRoleID}\n\`\`\`diff\n토요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
-  const message_SAT_58 = `${alarmRoleID}\n\`\`\`diff\n토요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
-  const message_SUN_55 = `${alarmRoleID}\n\`\`\`diff\n일요일 로스트아크 일정\n\n- 카오스 게이트 & 필드 보스 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 필드 보스는 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
-  const message_SUN_58 = `${alarmRoleID}\n\`\`\`diff\n일요일 로스트아크 일정\n\n- 카오스 게이트 & 필드 보스 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 필드 보스는 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
-
-  //? 각 시간별 cron 표현식 정리.
-  // [월, 화, 목, 금] 은 시간대가 같으니까 묶자.
-  // 수요일..은 조금 복잡할 것 같고, 주말에 다음날 8시 50분에도 알림이 가는데 해결해야할 듯.
-  // 현재 EC2 인스턴스가 한국 시간 기준으로 9시간이 느림. (10시 50분) -> (1시 50분)
-  // 그러면...
-
+const loaAlarm = (client) => {
   const rule_MTTF_55 = (day) => {
     // MON TUE THU FRI SAT SUN 월화목금토일 11시 ~ 24시 -> 2~15
     return `55 2-15 * * ${day}`;
@@ -56,11 +12,11 @@ const loaAlarm = (message, client, roleID) => {
     return `58 2-15 * * ${day}`;
   };
 
-  const rule_WED_09_55 = `55 23 * * TUE`;
-  const rule_WED_09_58 = `58 23 * * TUE`;
+  const rule_WED_11_55 = `55 1 * * WED`;
+  const rule_WED_11_58 = `58 1 * * WED`;
 
-  const rule_WED_11_55 = `55 2 * * WED`;
-  const rule_WED_11_58 = `58 2 * * WED`;
+  const rule_WED_13_55 = `55 3 * * WED`;
+  const rule_WED_13_58 = `58 3 * * WED`;
 
   const rule_WED_19_55 = `55 10 * * WED`;
   const rule_WED_19_58 = `58 10 * * WED`;
@@ -78,113 +34,427 @@ const loaAlarm = (message, client, roleID) => {
     return `58 23 * * ${day}`;
   };
 
-  // const test = `* 2 * * TUE`;
+  let alarmChannelID = [];
+  let alarmRoleID = [];
 
-  // let now = new Date();
-  // console.log(now);
-  // console.log(now.getHours());
+  //? 알람 메시지들 정리.
 
-  // cron.schedule("* * * * *", () => {
-  //   client.channels.cache.get(`${alarmChannelID}`).send(message_MON_55);
-  // });
+  const message_MON_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n월요일 로스트아크 일정\n\n- 카오스 게이트 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_MON_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n월요일 로스트아크 일정\n\n- 카오스 게이트 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_TUE_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n화요일 로스트아크 일정\n\n- 필드 보스 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 필드 보스와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_TUE_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n화요일 로스트아크 일정\n\n- 필드 보스 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 필드 보스와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_WED_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n수요일 로스트아크 일정\n\n- 모험섬 출현 5분 전입니다.\n\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_WED_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n수요일 로스트아크 일정\n\n- 모험섬 출현 2분 전입니다.\n\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_THU_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n목요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_THU_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n목요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_FRI_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n금요일 로스트아크 일정\n\n- 필드 보스 & 모험섬 출현 5분 전입니다.\n\n+ 필드 보스는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_FRI_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n금요일 로스트아크 일정\n\n- 필드 보스 & 모험섬 출현 2분 전입니다.\n\n+ 필드 보스는 매 정시마다, 모험섬은 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\`\`\``;
+  };
+  const message_SAT_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n토요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
+  };
+  const message_SAT_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n토요일 로스트아크 일정\n\n- 카오스 게이트 & 유령선 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 유령선은 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
+  };
+  const message_SUN_55 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n일요일 로스트아크 일정\n\n- 카오스 게이트 & 필드 보스 & 모험섬 출현 5분 전입니다.\n\n+ 카오스 게이트와 필드 보스는 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
+  };
+  const message_SUN_58 = (alarmRoleID) => {
+    return `${alarmRoleID}\n\`\`\`diff\n일요일 로스트아크 일정\n\n- 카오스 게이트 & 필드 보스 & 모험섬 출현 2분 전입니다.\n\n+ 카오스 게이트와 필드 보스는 매 정시마다,\n+ 모험섬은 9:00, 11:00, 13:00, 19:00, 21:00, 23:00 에 열립니다.\n\n+ 주말 모험섬은 1부 9:00, 11:00, 13:00 \n+ 2부 19:00, 21:00, 23:00 로 나뉘며, 각각 보상 획득이 가능합니다.\`\`\``;
+  };
+
+  cron.schedule("* * * * *", () => {
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_MON_55(alarmRoleID[k]));
+    }
+  });
 
   //! 월
   cron.schedule(rule_MTTF_55(`MON`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_MON_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_MON_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`MON`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_MON_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_MON_58(alarmRoleID[k]));
+    }
   });
 
   //! 화
   cron.schedule(rule_MTTF_55(`TUE`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_TUE_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_TUE_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`TUE`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_TUE_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_TUE_58(alarmRoleID[k]));
+    }
   });
 
   //! 수 (5개)
-  cron.schedule(rule_WED_09_55, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_55);
-  });
-  cron.schedule(rule_WED_09_58, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_58);
-  });
 
   cron.schedule(rule_WED_11_55, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_WED_11_58, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_58(alarmRoleID[k]));
+    }
+  });
+
+  cron.schedule(rule_WED_13_55, () => {
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_55(alarmRoleID[k]));
+    }
+  });
+  cron.schedule(rule_WED_13_58, () => {
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_58(alarmRoleID[k]));
+    }
   });
 
   cron.schedule(rule_WED_19_55, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_WED_19_58, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_58(alarmRoleID[k]));
+    }
   });
 
   cron.schedule(rule_WED_21_55, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_WED_21_58, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_58(alarmRoleID[k]));
+    }
   });
 
   cron.schedule(rule_WED_23_55, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_WED_23_58, () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_WED_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_WED_58(alarmRoleID[k]));
+    }
   });
 
   //! 목
   cron.schedule(rule_MTTF_55(`THU`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_THU_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_THU_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`THU`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_THU_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_THU_58(alarmRoleID[k]));
+    }
   });
 
   //! 금
   cron.schedule(rule_MTTF_55(`FRI`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_FRI_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_FRI_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`FRI`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_FRI_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_FRI_58(alarmRoleID[k]));
+    }
   });
 
   //! 토
   cron.schedule(rule_Weekend_55(`FRI`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SAT_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_Weekend_58(`FRI`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SAT_58(alarmRoleID[k]));
+    }
   });
 
   cron.schedule(rule_MTTF_55(`SAT`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SAT_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`SAT`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SAT_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SAT_58(alarmRoleID[k]));
+    }
   });
 
   //! 일
 
   cron.schedule(rule_Weekend_55(`SAT`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SUN_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_Weekend_58(`SAT`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SUN_58(alarmRoleID[k]));
+    }
   });
 
   cron.schedule(rule_MTTF_55(`SUN`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN_55);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SUN_55(alarmRoleID[k]));
+    }
   });
   cron.schedule(rule_MTTF_58(`SUN`), () => {
-    client.channels.cache.get(`${alarmChannelID}`).send(message_SUN_58);
+    let data = JSON.parse(fs.readFileSync("alarmData.json"));
+
+    for (let i = 0; i < data.length; i++) {
+      alarmChannelID[i] = data[i]["channel"];
+      alarmRoleID[i] = `<@&${data[i]["role"]}>`;
+    }
+    for (let k = 0; k < alarmChannelID.length; k++) {
+      client.channels.cache
+        .get(`${alarmChannelID[k]}`)
+        .send(message_SUN_58(alarmRoleID[k]));
+    }
   });
 };
 

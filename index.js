@@ -17,7 +17,7 @@ const { incomeCalc } = require("./lostark/incomeCalc");
 const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
 const { makeRole } = require("./lostark/alarmSetting/makeRole");
 const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
-const { madeNotice, whenStart } = require("./allServerNotice");
+const { madeNotice } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 const { sasagaeEmbed } = require("./lostark/sasagae");
 
@@ -58,8 +58,6 @@ client.once("ready", () => {
   client.user.setPresence({
     activities: [{ name: "도움말은 !명령어" }],
   });
-
-  whenStart(client);
 });
 
 client.on("messageCreate", async (message) => {
@@ -114,21 +112,16 @@ client.on("messageCreate", async (message) => {
 
       fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
 
-      // console.log(`ChannelID : ${channelID}`);
-      // console.log(`RoleID : ${roleID}`);
-
-      addRoleEmbed(message, client, roleID);
-
-      loaAlarm(message, client);
+      addRoleEmbed(message, client);
     }
 
     if (order === `${prefix}알람역할`) {
       addRoleEmbed(message, client);
     }
 
-    if (order === `${prefix}알람실행`) {
+    if (order === `!!!알람실행`) {
       alarmExeComment(message, client);
-      loaAlarm(message, client);
+      loaAlarm(client);
     }
 
     if (order === `${prefix}사사게`) {

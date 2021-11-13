@@ -52,15 +52,4 @@ const addRoleEmbed = async (message, client) => {
   });
 };
 
-const doAddRoleNotice = (message) => {
-  const embedMessage = new MessageEmbed()
-    .setColor("#ff3399")
-    .setTitle(`역할을 부여받으세요!`)
-    .setDescription(
-      `\`!알람역할\` 명령어를 통해 \`loaAlarm\` 역할을 부여받도록 도와주세요!
-      그리고 \`데일리-로아-알림\` 채널에서 세팅을 마저 끝내주세요! :)`
-    );
-  message.channel.send({ embeds: [embedMessage] });
-};
-
-module.exports = { addRoleEmbed, doAddRoleNotice };
+module.exports = { addRoleEmbed };

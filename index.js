@@ -38,8 +38,13 @@ const errorMessage = new MessageEmbed()
   .setColor("#ff3399")
   .setTitle(`에러가 발생했습니다!`)
   .setDescription(
-    `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요 XD`
+    `\`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
   );
+
+const alreadyMessage = new MessageEmbed()
+  .setColor("#ff3399")
+  .setTitle(`\`!알람세팅\` 명령어를 이미 실행했습니다.`)
+  .setDescription(`게시판의 이름을 변경하지는 않았는지 확인해주세요.`);
 
 const watingMessage = (message, userName) => {
   const waitingEmbed = new MessageEmbed()
@@ -102,17 +107,30 @@ client.on("messageCreate", async (message) => {
         incomeCalc(message, orderWithOutPrefix, errorMessage);
 
     if (order === `${prefix}알람세팅`) {
-      channelID = await makeAlarmChannel(message);
-      roleID = await makeRole(message);
-
-      let idData = { channel: channelID, role: roleID };
-
       let json = JSON.parse(fs.readFileSync("alarmData.json"));
-      json.push(idData);
+      let channelList = [];
+      for (let i = 0; i < json.length; i++) {
+        channelList[i] = json[i]["channel"];
+      }
 
-      fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+      if (
+        !message.guild.channels.cache.find(
+          (channel) => channel.id == channelList
+        )
+      ) {
+        channelID = await makeAlarmChannel(message);
+        roleID = await makeRole(message);
 
-      addRoleEmbed(message, client);
+        let idData = { channel: channelID, role: roleID };
+
+        json.push(idData);
+
+        fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+
+        addRoleEmbed(message, client);
+      } else {
+        message.channel.send({ embeds: [alreadyMessage] });
+      }
     }
 
     if (order === `${prefix}알람역할`) {

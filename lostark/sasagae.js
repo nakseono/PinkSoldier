@@ -36,6 +36,8 @@ const sasagaeEmbed = async (message, userName, errorMessage) => {
           list.push(temp[i][1].trim());
         }
 
+        // console.log(`글 리스트 : ${list}`);
+
         count = 0;
         temp = [];
 
@@ -43,7 +45,11 @@ const sasagaeEmbed = async (message, userName, errorMessage) => {
           .children()
           .each(function (index, item) {
             if ($(this).attr("class") === "subject-link") {
-              if ($(this).text() !== undefined && $(this).text() !== "") {
+              if (
+                $(this).text() !== undefined &&
+                $(this).text() !== "" &&
+                !$(this).text().includes("이용규칙")
+              ) {
                 temp[count] = $(this).attr("href");
                 count = count + 1;
               }
@@ -60,8 +66,12 @@ const sasagaeEmbed = async (message, userName, errorMessage) => {
           }
         }
 
+        // console.log(`글 링크 : ${arr}`);
+
         if (arr.length === 0) {
           sasagae(`검색 결과가 존재하지 않습니다!`, userName, message);
+        } else if (arr.length < 3) {
+          sasagae(arr.join(`\n`), userName, message);
         } else {
           sasagae(arr.slice(3).join(`\n`), userName, message);
         }

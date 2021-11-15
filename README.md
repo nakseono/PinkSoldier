@@ -1,6 +1,5 @@
 # mixTape - Discord Bot
 
----
 
 ## 기획 의도
 

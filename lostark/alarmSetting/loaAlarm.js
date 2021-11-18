@@ -18,14 +18,14 @@ const loaAlarm = (client) => {
   const rule_WED_13_55 = `55 3 * * WED`;
   const rule_WED_13_58 = `58 3 * * WED`;
 
-  const rule_WED_19_55 = `55 10 * * WED`;
-  const rule_WED_19_58 = `58 10 * * WED`;
+  const rule_WED_19_55 = `55 9 * * WED`;
+  const rule_WED_19_58 = `58 9 * * WED`;
 
-  const rule_WED_21_55 = `55 12 * * WED`;
-  const rule_WED_21_58 = `58 12 * * WED`;
+  const rule_WED_21_55 = `55 11 * * WED`;
+  const rule_WED_21_58 = `58 11 * * WED`;
 
-  const rule_WED_23_55 = `55 14 * * WED`;
-  const rule_WED_23_58 = `58 14 * * WED`;
+  const rule_WED_23_55 = `55 13 * * WED`;
+  const rule_WED_23_58 = `58 13 * * WED`;
 
   const rule_Weekend_55 = (day) => {
     return `55 23 * * ${day}`;

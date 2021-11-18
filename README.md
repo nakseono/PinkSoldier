@@ -25,12 +25,15 @@
 
 ## ScreenShots
 
-<center><img src="https://drive.google.com/uc?export=download&id=170NMxzrU2WWmHrm_KxNZuWVyt6Y2WR-h" width="600" height="">
+<center>
 
-<img src="https://drive.google.com/uc?export=download&id=1W48x2edH983SdvAHdeGY6IMfRlyG46vT" width="800" height="">
+<img src="https://drive.google.com/uc?export=download&id=1W48x2edH983SdvAHdeGY6IMfRlyG46vT" width="600" height="">
 
 <img src="https://drive.google.com/uc?export=download&id=1_hGFc08viF6_cZ27P7BEwMZdT8EoFNNQ" width="600" height="">
 
-<img src="https://drive.google.com/uc?export=download&id=1sSeSPZhNd19fEbKosFtIRWjAEOVgd32W" width="800" height="">
+<img src="https://drive.google.com/uc?export=download&id=1sSeSPZhNd19fEbKosFtIRWjAEOVgd32W" width="600" height="">
 
-<img src="https://drive.google.com/uc?export=download&id=1jfgacge-aEVuC1QzFNmtJRC2LmW1TcD4" width="800" height=""></center>
+<img src="https://drive.google.com/uc?export=download&id=1jfgacge-aEVuC1QzFNmtJRC2LmW1TcD4" width="600" height="">
+
+<img src="https://drive.google.com/uc?export=download&id=170NMxzrU2WWmHrm_KxNZuWVyt6Y2WR-h" width="600" height="">
+</center>

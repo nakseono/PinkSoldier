@@ -84,7 +84,7 @@ const sasagaeEmbed = async (message, userName, errorMessage) => {
 const sasagae = async (input, userName, message) => {
   const embedMessage = new MessageEmbed()
     .setColor("#ff3399")
-    .setTitle(`${userName} 에 대한 사사게 결과입니다.`)
+    .setTitle(`${userName} 에 대한 사사게 검색 결과입니다.`)
     .addFields(
       {
         name: `\`검 색 결 과\``,

@@ -3,13 +3,13 @@ const fs = require("fs");
 
 const loaAlarm = (client) => {
   const rule_MTTF_55 = (day) => {
-    // MON TUE THU FRI SAT SUN 월화목금토일 11시 ~ 24시 -> 2~15
-    return `55 2-15 * * ${day}`;
+    // MON TUE THU FRI SAT SUN 월화목금토일 11시 ~ 24시 -> 1~14
+    return `55 1-14 * * ${day}`;
   };
 
   const rule_MTTF_58 = (day) => {
     // MON TUE THU FRI SAT SUN 월화목금토일 11시 ~ 24시 -> 2~15
-    return `58 2-15 * * ${day}`;
+    return `58 1-14 * * ${day}`;
   };
 
   const rule_WED_11_55 = `55 1 * * WED`;
@@ -28,10 +28,10 @@ const loaAlarm = (client) => {
   const rule_WED_23_58 = `58 13 * * WED`;
 
   const rule_Weekend_55 = (day) => {
-    return `55 23 * * ${day}`;
+    return `55 22 * * ${day}`;
   };
   const rule_Weekend_58 = (day) => {
-    return `58 23 * * ${day}`;
+    return `58 22 * * ${day}`;
   };
 
   let alarmChannelID = [];

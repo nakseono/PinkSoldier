@@ -28,10 +28,10 @@ const loaAlarm = (client) => {
   const rule_WED_23_58 = `58 13 * * WED`;
 
   const rule_Weekend_55 = (day) => {
-    return `55 22 * * ${day}`;
+    return `55 23 * * ${day}`;
   };
   const rule_Weekend_58 = (day) => {
-    return `58 22 * * ${day}`;
+    return `58 23 * * ${day}`;
   };
 
   let alarmChannelID = [];

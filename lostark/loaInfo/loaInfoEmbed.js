@@ -1,6 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 const classImage = require("../classImage.json");
 const fs = require("fs");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const createLoaInfoEmbed = async (userName, data, message, errorMessage) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
@@ -132,12 +134,32 @@ const createLoaInfoEmbed = async (userName, data, message, errorMessage) => {
 };
 
 const createLoawaLinkEmbed = async (userName, message) => {
-  const embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
-    name: `링크 클릭시 로아와 페이지로 이동합니다.`,
-    value: `https://loawa.com/char/${userName}`,
-  });
+  let embedMessage;
 
-  message.channel.send({ embeds: [embedMessage] });
+  axios
+    .get(
+      `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+        userName
+      )}`
+    )
+    .then((html) => {
+      const $ = cheerio.load(html.data);
+
+      if ($(`.profile-character-info__name`).text()) {
+        embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
+          name: `링크 클릭시 로아와 페이지로 이동합니다.`,
+          value: `https://loawa.com/char/${userName}`,
+        });
+      } else {
+        embedMessage = new MessageEmbed()
+          .setColor("#ff3399")
+          .setTitle(`오류가 발생했습니다!`)
+          .setDescription(
+            `정보를 찾을 수 없습니다.\n입력한 유저 닉네임이 정확한지 확인해주세요.`
+          );
+      }
+      message.channel.send({ embeds: [embedMessage] });
+    });
 };
 
 module.exports = { createLoaInfoEmbed, createLoawaLinkEmbed };

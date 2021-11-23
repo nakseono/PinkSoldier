@@ -17,7 +17,7 @@ const makeAlarmChannel = async (message) => {
         {
           id: message.guild.roles.everyone,
           allow: ["VIEW_CHANNEL"],
-          deny: [],
+          deny: ["SEND_MESSAGES"],
         },
       ],
     })

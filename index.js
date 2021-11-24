@@ -20,6 +20,7 @@ const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 const { sasagaeEmbed } = require("./lostark/sasagae");
+const { makeOrderChannel } = require("./makeOrderCH");
 
 const client = new Client({
   disableEveryone: true,
@@ -80,7 +81,43 @@ client.on("messageCreate", async (message) => {
   if (!message.author.bot) {
     if (order === `!!!공지`) madeNotice(client, message);
 
+    if (order === `!!!알람실행`) {
+      alarmExeComment(message, client);
+      loaAlarm(client);
+    }
     if (order === `${prefix}명령어`) returnOrderList(message);
+
+    if (order === `${prefix}명령세팅`) {
+      let orderChannelList = [];
+
+      let fileRead = fs.readFileSync("orderChannelList.json");
+
+      for (let i = 0; i < fileRead.length; i++) {
+        orderChannelList.push(fileRead[i]);
+      }
+
+      console.log(`orderChannelList : ${orderChannelList}`);
+
+      if (
+        !message.guild.channels.cache.find(
+          (channel) => channel.id == orderChannelList
+        )
+      ) {
+        channelID = await makeOrderChannel(message);
+
+        console.log(`channelID : ${channelID} `);
+
+        orderChannelList.push(channelID);
+
+        console.log(`orderChannelList pushed : ${orderChannelList}`);
+
+        // fs.writeFileSync(
+        //   "orderChannelList.json",
+        //   JSON.stringify(channelID),
+        //   JSON
+        // );
+      }
+    }
 
     if (order === `${prefix}정보`) {
       watingMessage(message, orderWithOutPrefix);
@@ -135,11 +172,6 @@ client.on("messageCreate", async (message) => {
 
     if (order === `${prefix}알람역할`) {
       addRoleEmbed(message, client);
-    }
-
-    if (order === `!!!알람실행`) {
-      alarmExeComment(message, client);
-      loaAlarm(client);
     }
 
     if (order === `${prefix}사사게`) {

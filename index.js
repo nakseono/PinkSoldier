@@ -87,37 +87,37 @@ client.on("messageCreate", async (message) => {
     }
     if (order === `${prefix}명령어`) returnOrderList(message);
 
-    if (order === `${prefix}명령세팅`) {
-      let orderChannelList = [];
+    // if (order === `${prefix}명령세팅`) {
+    //   let orderChannelList = [];
 
-      let fileRead = fs.readFileSync("orderChannelList.json");
+    //   let fileRead = fs.readFileSync("orderChannelList.json");
 
-      for (let i = 0; i < fileRead.length; i++) {
-        orderChannelList.push(fileRead[i]);
-      }
+    //   for (let i = 0; i < fileRead.length; i++) {
+    //     orderChannelList.push(fileRead[i]);
+    //   }
 
-      console.log(`orderChannelList : ${orderChannelList}`);
+    //   console.log(`orderChannelList : ${orderChannelList}`);
 
-      if (
-        !message.guild.channels.cache.find(
-          (channel) => channel.id == orderChannelList
-        )
-      ) {
-        channelID = await makeOrderChannel(message);
+    //   if (
+    //     !message.guild.channels.cache.find(
+    //       (channel) => channel.id == orderChannelList
+    //     )
+    //   ) {
+    //     channelID = await makeOrderChannel(message);
 
-        console.log(`channelID : ${channelID} `);
+    //     console.log(`channelID : ${channelID} `);
 
-        orderChannelList.push(channelID);
+    //     orderChannelList.push(channelID);
 
-        console.log(`orderChannelList pushed : ${orderChannelList}`);
+    //     console.log(`orderChannelList pushed : ${orderChannelList}`);
 
-        // fs.writeFileSync(
-        //   "orderChannelList.json",
-        //   JSON.stringify(channelID),
-        //   JSON
-        // );
-      }
-    }
+    //     // fs.writeFileSync(
+    //     //   "orderChannelList.json",
+    //     //   JSON.stringify(channelID),
+    //     //   JSON
+    //     // );
+    //   }
+    // }
 
     if (order === `${prefix}정보`) {
       watingMessage(message, orderWithOutPrefix);

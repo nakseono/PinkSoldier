@@ -58,6 +58,13 @@ const watingMessage = (message, userName) => {
   message.channel.send({ embeds: [waitingEmbed] });
 };
 
+const orderChannelMessage = new MessageEmbed()
+  .setColor("#ff3399")
+  .setTitle(`올바른 채널에 명령해주세요!`)
+  .setDescription(
+    `\`!명령세팅\`을 통해 만들어진 \`믹스테잎_명령\`에 명령을 입력해주세요.`
+  );
+
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");
 
@@ -66,121 +73,139 @@ client.once("ready", () => {
   });
 });
 
-client.on("messageCreate", async (message) => {
-  const order = message.content.split(" ")[0];
-  const orderWithOutPrefix = message.content.split(" ")[1];
+client.on(
+  "messageCreate",
+  async (message) => {
+    const order = message.content.split(" ")[0];
+    const orderWithOutPrefix = message.content.split(" ")[1];
 
-  //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
-  // if (!message.author.bot) {
-  //   console.log(message.data);
-  // }
+    let json = JSON.parse(fs.readFileSync("orderChannelList.json"));
 
-  //! 봇 메시지가 아닌지 우선적으로 검사
-  //! 이후 각 명령어에 따라서 각기 다른 결과 출력
+    let orderChannelList = [];
 
-  if (!message.author.bot) {
-    if (order === `!!!공지`) madeNotice(client, message);
-
-    if (order === `!!!알람실행`) {
-      alarmExeComment(message, client);
-      loaAlarm(client);
+    for (let i = 0; i < json.length; i++) {
+      orderChannelList[i] = json[i];
     }
-    if (order === `${prefix}명령어`) returnOrderList(message);
 
-    if (order === `${prefix}명령세팅`) {
-      let json = JSON.parse(fs.readFileSync("orderChannelList.json"));
+    //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
+    // if (!message.author.bot) {
+    //   console.log(message.data);
+    // }
 
-      let orderChannelList = [];
+    //! 봇 메시지가 아닌지 우선적으로 검사
+    //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
-      for (let i = 0; i < json.length; i++) {
-        orderChannelList[i] = json[i];
+    if (!message.author.bot) {
+      if (order === `${prefix}명령세팅`) {
+        if (
+          !message.guild.channels.cache.find((channels) =>
+            orderChannelList.includes(channels.id)
+          )
+        ) {
+          channelID = await makeOrderChannel(message);
+
+          orderChannelList.push(channelID);
+
+          fs.writeFileSync(
+            "orderChannelList.json",
+            JSON.stringify(orderChannelList),
+            JSON
+          );
+        } else {
+          console.log("이미 명령어 채널이 존재함!");
+        }
       }
-
-      // console.log(`orderChannelList : ${orderChannelList}`);
-
-      if (
-        !message.guild.channels.cache.find((channels) =>
-          orderChannelList.includes(channels.id)
-        )
-      ) {
-        channelID = await makeOrderChannel(message);
-
-        // console.log(`channelID : ${channelID} `);
-
-        orderChannelList.push(channelID);
-
-        // console.log(`orderChannelList pushed : ${orderChannelList}`);
-
-        fs.writeFileSync(
-          "orderChannelList.json",
-          JSON.stringify(orderChannelList),
-          JSON
+      // if (
+      //   //
+      //   !message.guild.channels.cache.find((channels) =>
+      //     orderChannelList.includes(channels.id)
+      //   )
+      // ) {
+      //   if (
+      //     orderChannelList.includes(message.guild.channels.guild.systemChannelId)
+      //   ) {
+      if (order === `test`) {
+        let testObj = JSON.stringify(
+          message.guild.channels.guild.systemChannelId
         );
-      } else {
-        console.log("이미 명령어 채널이 존재함!");
-      }
-    }
-
-    if (order === `${prefix}정보`) {
-      watingMessage(message, orderWithOutPrefix);
-      getUserInfo(orderWithOutPrefix).then((data) => {
-        createLoaInfoEmbed(orderWithOutPrefix, data, message, errorMessage);
-      });
-    }
-
-    if (order === `${prefix}경매`)
-      createAuctionEmbed(orderWithOutPrefix, message, errorMessage);
-
-    if (order === `${prefix}분배`)
-      createAuctionbyPartyEmbed(orderWithOutPrefix, message, errorMessage);
-
-    if (order === `${prefix}로아와`)
-      createLoawaLinkEmbed(orderWithOutPrefix, message);
-
-    // if (order === `${prefix}청소`) doMessageClear(message, client);
-
-    if (order === `${prefix}이벤트`) loaEvent(message);
-
-    if (order === `${prefix}정산`)
-      watingMessage(message, orderWithOutPrefix),
-        incomeCalc(message, orderWithOutPrefix, errorMessage);
-
-    if (order === `${prefix}알람세팅`) {
-      let json = JSON.parse(fs.readFileSync("alarmData.json"));
-      let channelList = [];
-      for (let i = 0; i < json.length; i++) {
-        channelList[i] = json[i]["channel"];
+        console.log(`test : ${testObj}`);
+        // console.log(message.guild.channels.systemChannelId);
       }
 
-      if (
-        !message.guild.channels.cache.find(
-          (channel) => channel.id == channelList
-        )
-      ) {
-        channelID = await makeAlarmChannel(message);
-        roleID = await makeRole(message);
+      if (order === `!!!공지`) madeNotice(client, message);
 
-        let idData = { channel: channelID, role: roleID };
+      if (order === `!!!알람실행`) {
+        alarmExeComment(message, client);
+        loaAlarm(client);
+      }
 
-        json.push(idData);
+      if (order === `${prefix}명령어`) returnOrderList(message);
 
-        fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+      if (order === `${prefix}정보`) {
+        watingMessage(message, orderWithOutPrefix);
+        getUserInfo(orderWithOutPrefix).then((data) => {
+          createLoaInfoEmbed(orderWithOutPrefix, data, message, errorMessage);
+        });
+      }
 
+      if (order === `${prefix}경매`)
+        createAuctionEmbed(orderWithOutPrefix, message, errorMessage);
+
+      if (order === `${prefix}분배`)
+        createAuctionbyPartyEmbed(orderWithOutPrefix, message, errorMessage);
+
+      if (order === `${prefix}로아와`)
+        createLoawaLinkEmbed(orderWithOutPrefix, message);
+
+      // if (order === `${prefix}청소`) doMessageClear(message, client);
+
+      if (order === `${prefix}이벤트`) loaEvent(message);
+
+      if (order === `${prefix}정산`)
+        watingMessage(message, orderWithOutPrefix),
+          incomeCalc(message, orderWithOutPrefix, errorMessage);
+
+      if (order === `${prefix}알람세팅`) {
+        let json = JSON.parse(fs.readFileSync("alarmData.json"));
+        let channelList = [];
+        for (let i = 0; i < json.length; i++) {
+          channelList[i] = json[i]["channel"];
+        }
+
+        if (
+          !message.guild.channels.cache.find(
+            (channel) => channel.id == channelList
+          )
+        ) {
+          channelID = await makeAlarmChannel(message);
+          roleID = await makeRole(message);
+
+          let idData = { channel: channelID, role: roleID };
+
+          json.push(idData);
+
+          fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+
+          addRoleEmbed(message, client);
+        } else {
+          message.channel.send({ embeds: [alreadyMessage] });
+        }
+      }
+
+      if (order === `${prefix}알람역할`) {
         addRoleEmbed(message, client);
-      } else {
-        message.channel.send({ embeds: [alreadyMessage] });
       }
-    }
 
-    if (order === `${prefix}알람역할`) {
-      addRoleEmbed(message, client);
-    }
-
-    if (order === `${prefix}사사게`) {
-      watingMessage(message, orderWithOutPrefix),
-        sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
+      if (order === `${prefix}사사게`) {
+        watingMessage(message, orderWithOutPrefix),
+          sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
+      }
+    } else {
+      message.channel.send({ embeds: [orderChannelMessage] });
     }
   }
-});
+  // }
+  // }
+);
 
 client.login(token);

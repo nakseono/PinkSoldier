@@ -22,6 +22,8 @@
 
 [프로젝트 문서 링크](https://nakseono.notion.site/mixTape-9b03866908c74cb5ba17cf16b6dea9fd)
 
+[커뮤니티 공개 링크](https://www.inven.co.kr/board/lostark/4811/3541376)
+
 ## ScreenShots
 
 <center>

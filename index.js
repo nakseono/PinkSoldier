@@ -151,7 +151,7 @@ client.on("messageCreate", async (message) => {
     }
 
     if (order === `${prefix}사사게`) {
-      watingMessage(message, orderWithOutPrefix),
+      watingMessage(message, orderWithOutPrefix.split("/")),
         sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
     }
   }

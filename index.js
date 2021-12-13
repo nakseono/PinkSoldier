@@ -20,7 +20,6 @@ const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 const { sasagaeEmbed } = require("./lostark/sasagae");
-const { makeOrderChannel } = require("./makeOrderCH");
 
 const client = new Client({
   disableEveryone: true,
@@ -57,13 +56,6 @@ const watingMessage = (message, userName) => {
     );
   message.channel.send({ embeds: [waitingEmbed] });
 };
-
-const orderChannelMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`올바른 채널에 명령해주세요!`)
-  .setDescription(
-    `\`!명령세팅\`을 통해 만들어진 \`믹스테잎_명령\`에 명령을 입력해주세요.`
-  );
 
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");
@@ -115,15 +107,7 @@ client.on(
           console.log("이미 명령어 채널이 존재함!");
         }
       }
-      // if (
-      //   //
-      //   !message.guild.channels.cache.find((channels) =>
-      //     orderChannelList.includes(channels.id)
-      //   )
-      // ) {
-      //   if (
-      //     orderChannelList.includes(message.guild.channels.guild.systemChannelId)
-      //   ) {
+
       if (order === `test`) {
         let testObj = JSON.stringify(
           message.guild.channels.guild.systemChannelId

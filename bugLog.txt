@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Sat Nov 13 2021 05:56:04 GMT+0000 (Coordinated Universal Time) / !정보 빠매따시 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
 Sat Nov 13 2021 10:21:06 GMT+0000 (Coordinated Universal Time) / !정보 딜도 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
 Sat Nov 13 2021 10:21:13 GMT+0000 (Coordinated Universal Time) / !정보 딜도우 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
@@ -33,3 +34,114 @@ Thu Nov 18 2021 04:58:46 GMT+0000 (Coordinated Universal Time) / !정보 로아�
 Thu Nov 18 2021 05:09:57 GMT+0000 (Coordinated Universal Time) / !정산 ㅎ / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
 Thu Nov 18 2021 11:35:02 GMT+0000 (Coordinated Universal Time) / !정산 햇빛04 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
 Thu Nov 18 2021 12:12:48 GMT+0000 (Coordinated Universal Time) / !정산 우리집냥치펀치 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 19 2021 17:50:43 GMT+0000 (Coordinated Universal Time) / !정보 archepredue / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 20 2021 11:17:11 GMT+0000 (Coordinated Universal Time) / !정산 메레이셔 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 20 2021 12:12:12 GMT+0000 (Coordinated Universal Time) / !정산 뚠때늬펭긘 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 20 2021 15:57:58 GMT+0000 (Coordinated Universal Time) / !정산 숙코리롱 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 20 2021 16:11:57 GMT+0000 (Coordinated Universal Time) / !정산 필럐 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 20 2021 19:35:32 GMT+0000 (Coordinated Universal Time) / !정보 집중던지기그리고머쓱해요' / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 22 2021 07:37:26 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 22 2021 12:59:13 GMT+0000 (Coordinated Universal Time) / !정산 뚠때늬펭귄 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 22 2021 14:28:14 GMT+0000 (Coordinated Universal Time) / !정보 냥냥구통기타 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 23 2021 23:13:02 GMT+0000 (Coordinated Universal Time) / !정산 김솔타 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 23 2021 23:52:01 GMT+0000 (Coordinated Universal Time) / !정보 쏜슬 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 23 2021 23:52:34 GMT+0000 (Coordinated Universal Time) / !정산 쏜슬 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 23 2021 23:59:14 GMT+0000 (Coordinated Universal Time) / !정산 블레이드제주 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 23 2021 23:59:24 GMT+0000 (Coordinated Universal Time) / !정산 블레이드제주 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 00:00:28 GMT+0000 (Coordinated Universal Time) / !정산 방실이누나 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 00:00:44 GMT+0000 (Coordinated Universal Time) / !정산 니맘을드록바놨다 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 06:30:09 GMT+0000 (Coordinated Universal Time) / !정산 데몬나비 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 08:12:57 GMT+0000 (Coordinated Universal Time) / !정보 I레몬꿀차I / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 08:13:06 GMT+0000 (Coordinated Universal Time) / !정보 l레몬꿀차l / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 24 2021 16:27:10 GMT+0000 (Coordinated Universal Time) / !정산 퀸혜찡 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Nov 25 2021 14:41:51 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 26 2021 08:52:25 GMT+0000 (Coordinated Universal Time) / !정산 박카노 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 26 2021 15:39:32 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 26 2021 15:44:19 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Nov 26 2021 17:58:19 GMT+0000 (Coordinated Universal Time) / !정보 깅때뀨 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 03:13:30 GMT+0000 (Coordinated Universal Time) / !정산 모닉모니모닏 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 05:24:35 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 05:54:55 GMT+0000 (Coordinated Universal Time) / !정보 인파레이 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 11:41:48 GMT+0000 (Coordinated Universal Time) / !정산 영주늠바보다뇨 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 12:16:03 GMT+0000 (Coordinated Universal Time) / !정보 깅때뀨 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 27 2021 12:16:09 GMT+0000 (Coordinated Universal Time) / !정보 깅때규 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 28 2021 07:04:28 GMT+0000 (Coordinated Universal Time) / !정산 2877 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 28 2021 15:23:34 GMT+0000 (Coordinated Universal Time) / !정산 하프로세사아을구해볼까 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 29 2021 07:20:05 GMT+0000 (Coordinated Universal Time) / !정산 김민수23 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 29 2021 07:20:22 GMT+0000 (Coordinated Universal Time) / !정산 김민수15 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 29 2021 10:26:43 GMT+0000 (Coordinated Universal Time) / !정산 기분좋은도토리 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 29 2021 12:51:38 GMT+0000 (Coordinated Universal Time) / !정보 비커 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 29 2021 13:35:20 GMT+0000 (Coordinated Universal Time) / !정산 9080 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 01:02:34 GMT+0000 (Coordinated Universal Time) / !정보 뚜뜨다 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 01:02:35 GMT+0000 (Coordinated Universal Time) / !정보 뚜뜨다 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 11:01:08 GMT+0000 (Coordinated Universal Time) / !정산 휠체어기능사 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 23:06:00 GMT+0000 (Coordinated Universal Time) / !정산 상밍밍 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 23:06:22 GMT+0000 (Coordinated Universal Time) / !정산 베른의미녀 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 23:26:32 GMT+0000 (Coordinated Universal Time) / !정산 안녕못함123 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 23:26:54 GMT+0000 (Coordinated Universal Time) / !정산 안녕못함123 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 30 2021 23:44:41 GMT+0000 (Coordinated Universal Time) / !정산 베른의미녀 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Dec 01 2021 00:34:50 GMT+0000 (Coordinated Universal Time) / !정산 지리산건강원 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Dec 01 2021 04:25:36 GMT+0000 (Coordinated Universal Time) / !정산 손발못써버리 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Dec 01 2021 04:25:39 GMT+0000 (Coordinated Universal Time) / !정산 손발못써버림 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Dec 01 2021 09:51:19 GMT+0000 (Coordinated Universal Time) / !정보 발탄하드 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Dec 01 2021 12:59:35 GMT+0000 (Coordinated Universal Time) / !정산 겨울맞이운동 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Dec 02 2021 05:10:24 GMT+0000 (Coordinated Universal Time) / !정보 여경방 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Dec 02 2021 13:57:34 GMT+0000 (Coordinated Universal Time) / !정산 할머니어개방 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Dec 03 2021 05:04:11 GMT+0000 (Coordinated Universal Time) / !정산 4100 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Dec 05 2021 03:35:33 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Dec 05 2021 15:26:21 GMT+0000 (Coordinated Universal Time) / !정산 죽어라한남 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Dec 05 2021 16:45:50 GMT+0000 (Coordinated Universal Time) / !정산  / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Dec 06 2021 14:58:58 GMT+0000 (Coordinated Universal Time) / !정보 연수임 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Dec 06 2021 14:59:08 GMT+0000 (Coordinated Universal Time) / !정보 번쩍 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Dec 06 2021 15:40:19 GMT+0000 (Coordinated Universal Time) / !정산 정신차리니이세계정신용사 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 04:47:01 GMT+0000 (Coordinated Universal Time) / !정산 파르웨 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 08:00:00 GMT+0000 (Coordinated Universal Time) / !정산 듀리니 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 09:41:09 GMT+0000 (Coordinated Universal Time) / !정보 복숭아좋아하는사라 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 14:12:02 GMT+0000 (Coordinated Universal Time) / !정산 nexorder / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 15:57:35 GMT+0000 (Coordinated Universal Time) / !정산 니기럴거뚫렸다 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 21:34:37 GMT+0000 (Coordinated Universal Time) / !정산 아니글쎄내탓이아니라 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 21:35:07 GMT+0000 (Coordinated Universal Time) / !정산 아니글쎄내탓이아니라 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Dec 07 2021 21:35:24 GMT+0000 (Coordinated Universal Time) / !정산 이건내탓인거같아 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Fri Dec 10 2021 09:10:58 GMT+0000 (Coordinated Universal Time) / !정보 바드힐링 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Dec 11 2021 08:44:19 GMT+0000 (Coordinated Universal Time) / !정산 970-ㅇ;십ㄹ잉;거 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Dec 11 2021 12:08:44 GMT+0000 (Coordinated Universal Time) / !정보 쿠크세이튼 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Dec 12 2021 14:19:50 GMT+0000 (Coordinated Universal Time) / !정산 sSeteCinco / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Dec 12 2021 14:19:56 GMT+0000 (Coordinated Universal Time) / !정산 SeteCinco / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Dec 13 2021 09:07:21 GMT+0000 (Coordinated Universal Time) / !정산 쁥쁥ㅋ / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+=======
+Sat Nov 13 2021 05:56:04 GMT+0000 (Coordinated Universal Time) / !정보 빠매따시 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 10:21:06 GMT+0000 (Coordinated Universal Time) / !정보 딜도 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 10:21:13 GMT+0000 (Coordinated Universal Time) / !정보 딜도우 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 14:00:41 GMT+0000 (Coordinated Universal Time) / !정보 률엠 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 14:03:29 GMT+0000 (Coordinated Universal Time) / !정보 깨비랜드 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 16:59:42 GMT+0000 (Coordinated Universal Time) / !정산 석노사이더 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 16:59:57 GMT+0000 (Coordinated Universal Time) / !정보 석라스 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 17:36:24 GMT+0000 (Coordinated Universal Time) / !정보 석펠리오스 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 17:39:25 GMT+0000 (Coordinated Universal Time) / !정보 미스 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sat Nov 13 2021 20:37:53 GMT+0000 (Coordinated Universal Time) / !정산 bodygaurdd / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 03:43:52 GMT+0000 (Coordinated Universal Time) / !정보 포션안쓰는사람 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 03:44:14 GMT+0000 (Coordinated Universal Time) / !정보 모닥불좋아하는사람 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 03:46:11 GMT+0000 (Coordinated Universal Time) / !정보 [낙서노] / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 06:00:45 GMT+0000 (Coordinated Universal Time) / !정보 말티도 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 06:55:11 GMT+0000 (Coordinated Universal Time) / !정보 망ㅊㄹ검 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Sun Nov 14 2021 06:58:23 GMT+0000 (Coordinated Universal Time) / !정보 경호엉덩이팔도비빔면 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 07:40:54 GMT+0000 (Coordinated Universal Time) / !정산 묘이랑 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 07:41:46 GMT+0000 (Coordinated Universal Time) / !정산 랑이묘 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 07:42:29 GMT+0000 (Coordinated Universal Time) / !정산 랑이묘 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 12:36:54 GMT+0000 (Coordinated Universal Time) / !정산 바드삼정 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 15:33:50 GMT+0000 (Coordinated Universal Time) / !정산 워붕이달린다 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Mon Nov 15 2021 15:35:39 GMT+0000 (Coordinated Universal Time) / !정보 어ㅏㅈ / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 16 2021 09:12:47 GMT+0000 (Coordinated Universal Time) / !정보 초사이어인진혁 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 16 2021 13:04:02 GMT+0000 (Coordinated Universal Time) / !정산 1380 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Tue Nov 16 2021 17:48:10 GMT+0000 (Coordinated Universal Time) / !정보 뚠때늬펭귄 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 00:31:12 GMT+0000 (Coordinated Universal Time) / !정보 망겜전문가 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 00:31:32 GMT+0000 (Coordinated Universal Time) / !정보 망겜전문가 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 05:38:38 GMT+0000 (Coordinated Universal Time) / !정보 우헤헹헤헿헤헿헤헿헤헿헹3 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 05:38:44 GMT+0000 (Coordinated Universal Time) / !정보 우헤헹헤헿헤헿헤헿헤헿헹 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 18:53:16 GMT+0000 (Coordinated Universal Time) / !정산 투납 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Wed Nov 17 2021 22:54:27 GMT+0000 (Coordinated Universal Time) / !정보 undefined / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Nov 18 2021 04:58:46 GMT+0000 (Coordinated Universal Time) / !정보 로아뎌 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Nov 18 2021 05:09:57 GMT+0000 (Coordinated Universal Time) / !정산 ㅎ / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Nov 18 2021 11:35:02 GMT+0000 (Coordinated Universal Time) / !정산 햇빛04 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+Thu Nov 18 2021 12:12:48 GMT+0000 (Coordinated Universal Time) / !정산 우리집냥치펀치 / RangeError [EMBED_FIELD_VALUE]: MessageEmbed field values must be non-empty strings.
+>>>>>>> 57a9a4c3ca8a7d81e12d4d3e0bc77c5fab4574f0

@@ -6,7 +6,7 @@ const sasagaeEmbed = async (message, userName, errorMessage) => {
   if (userName.includes("/")) {
     // "김낙서/김낙떠/낙서노"
 
-    let searchGroup = userName.split(",");
+    let searchGroup = userName.split("/");
     // searchGroup = ["김낙서","김낙떠","낙서노"]
 
     console.log(`splitUserName : ${searchGroup}`);
@@ -200,7 +200,7 @@ const sasagaeGroup = async (obj, message) => {
       list = links.slice(3).join(`\n`);
     }
 
-    console.log(`${obj["userName"][i]} : ${list}`);
+    // console.log(`${obj["userName"][i]} : ${list}`);
 
     const embedMessage = new MessageEmbed()
       .setColor("#ff3399")

@@ -78,7 +78,20 @@ client.on("messageCreate", async (message) => {
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
   if (!message.author.bot) {
+    if (order === `test`) {
+      let testObj = JSON.stringify(
+        message.guild.channels.guild.systemChannelId
+      );
+      console.log(`test : ${testObj}`);
+      // console.log(message.guild.channels.systemChannelId);
+    }
+
     if (order === `!!!공지`) madeNotice(client, message);
+
+    if (order === `!!!알람실행`) {
+      alarmExeComment(message, client);
+      loaAlarm(client);
+    }
 
     if (order === `${prefix}명령어`) returnOrderList(message);
 
@@ -137,16 +150,13 @@ client.on("messageCreate", async (message) => {
       addRoleEmbed(message, client);
     }
 
-    if (order === `!!!알람실행`) {
-      alarmExeComment(message, client);
-      loaAlarm(client);
-    }
-
     if (order === `${prefix}사사게`) {
-      watingMessage(message, orderWithOutPrefix),
+      watingMessage(message, orderWithOutPrefix.split("/")),
         sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
     }
   }
 });
 
 client.login(token);
+
+//TODO : 사사게 닉네임을 / / / 등으로 나눠서 (또는 ,) 한 명씩 검색하지 않아도 한번에 사사게 리스트를 볼 수 있도록.

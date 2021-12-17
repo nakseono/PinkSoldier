@@ -21,6 +21,7 @@ const { madeNotice } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 const { sasagaeEmbed } = require("./lostark/sasagae");
 const { makeMusicChannel } = require("./music/makeMusicChannel");
+const { musicOrder } = require("./music/music");
 
 const client = new Client({
   disableEveryone: true,
@@ -86,101 +87,106 @@ client.on("messageCreate", async (message) => {
   //! 봇 메시지가 아닌지 우선적으로 검사
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력
 
-  if (!message.author.bot) {
-    if (order === `test`) {
-      let testObj = JSON.stringify(
-        message.guild.channels.guild.systemChannelId
-      );
-      console.log(`test : ${testObj}`);
-      // console.log(message.guild.channels.systemChannelId);
-    }
+  if (!musicChannelList.includes(message.channelId)) {
+    if (!message.author.bot) {
+      if (order === `!!!공지`) madeNotice(client, message);
 
-    if (order === `!!!공지`) madeNotice(client, message);
-
-    if (order === `!!!알람실행`) {
-      alarmExeComment(message, client);
-      loaAlarm(client);
-    }
-
-    if (order === `${prefix}명령어`) returnOrderList(message);
-
-    if (order === `${prefix}정보`) {
-      watingMessage(message, orderWithOutPrefix);
-      getUserInfo(orderWithOutPrefix).then((data) => {
-        createLoaInfoEmbed(orderWithOutPrefix, data, message, errorMessage);
-      });
-    }
-
-    if (order === `${prefix}경매`)
-      createAuctionEmbed(orderWithOutPrefix, message, errorMessage);
-
-    if (order === `${prefix}분배`)
-      createAuctionbyPartyEmbed(orderWithOutPrefix, message, errorMessage);
-
-    if (order === `${prefix}로아와`)
-      createLoawaLinkEmbed(orderWithOutPrefix, message);
-
-    // if (order === `${prefix}청소`) doMessageClear(message, client);
-
-    if (order === `${prefix}이벤트`) loaEvent(message);
-
-    if (order === `${prefix}정산`)
-      watingMessage(message, orderWithOutPrefix),
-        incomeCalc(message, orderWithOutPrefix, errorMessage);
-
-    if (order === `${prefix}알람세팅`) {
-      let json = JSON.parse(fs.readFileSync("alarmData.json"));
-      let channelList = [];
-      for (let i = 0; i < json.length; i++) {
-        channelList[i] = json[i]["channel"];
+      if (order === `!!!알람실행`) {
+        alarmExeComment(message, client);
+        loaAlarm(client);
       }
 
-      if (
-        !message.guild.channels.cache.find(
-          (channel) => channel.id == channelList
-        )
-      ) {
-        channelID = await makeAlarmChannel(message);
-        roleID = await makeRole(message);
+      if (order === `${prefix}명령어`) returnOrderList(message);
 
-        let idData = { channel: channelID, role: roleID };
+      if (order === `${prefix}정보`) {
+        watingMessage(message, orderWithOutPrefix);
+        getUserInfo(orderWithOutPrefix).then((data) => {
+          createLoaInfoEmbed(orderWithOutPrefix, data, message, errorMessage);
+        });
+      }
 
-        json.push(idData);
+      if (order === `${prefix}경매`)
+        createAuctionEmbed(orderWithOutPrefix, message, errorMessage);
 
-        fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+      if (order === `${prefix}분배`)
+        createAuctionbyPartyEmbed(orderWithOutPrefix, message, errorMessage);
 
+      if (order === `${prefix}로아와`)
+        createLoawaLinkEmbed(orderWithOutPrefix, message);
+
+      // if (order === `${prefix}청소`) doMessageClear(message, client);
+
+      if (order === `${prefix}이벤트`) loaEvent(message);
+
+      if (order === `${prefix}정산`)
+        watingMessage(message, orderWithOutPrefix),
+          incomeCalc(message, orderWithOutPrefix, errorMessage);
+
+      if (order === `${prefix}알람세팅`) {
+        let json = JSON.parse(fs.readFileSync("alarmData.json"));
+        let channelList = [];
+        for (let i = 0; i < json.length; i++) {
+          channelList[i] = json[i]["channel"];
+        }
+
+        if (
+          !message.guild.channels.cache.find(
+            (channel) => channel.id == channelList
+          )
+        ) {
+          channelID = await makeAlarmChannel(message);
+          roleID = await makeRole(message);
+
+          let idData = { channel: channelID, role: roleID };
+
+          json.push(idData);
+
+          fs.writeFileSync("alarmData.json", JSON.stringify(json), JSON);
+
+          addRoleEmbed(message, client);
+        } else {
+          message.channel.send({ embeds: [alreadyMessage] });
+        }
+      }
+
+      if (order === `${prefix}알람역할`) {
         addRoleEmbed(message, client);
-      } else {
-        message.channel.send({ embeds: [alreadyMessage] });
+      }
+
+      if (order === `${prefix}사사게`) {
+        watingMessage(message, orderWithOutPrefix.split("/")),
+          sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
+      }
+
+      if (order === `${prefix}음악세팅`) {
+        if (
+          !message.guild.channels.cache.find((channel) =>
+            musicChannelList.includes(channel.id)
+          )
+        ) {
+          channelID = await makeMusicChannel(message);
+
+          musicChannelList.push(channelID);
+
+          fs.writeFileSync(
+            "./music/musicChannelList.json",
+            JSON.stringify(musicChannelList),
+            JSON
+          );
+        } else {
+          message.channel.send({ embeds: [alreadyMessage] });
+        }
       }
     }
-
-    if (order === `${prefix}알람역할`) {
-      addRoleEmbed(message, client);
-    }
-
-    if (order === `${prefix}사사게`) {
-      watingMessage(message, orderWithOutPrefix.split("/")),
-        sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
-    }
-
-    if (order === `${prefix}음악세팅`) {
-      if (
-        !message.guild.channels.cache.find((channel) =>
-          musicChannelList.includes(channel.id)
-        )
-      ) {
-        channelID = await makeMusicChannel(message);
-
-        musicChannelList.push(channelID);
-
-        fs.writeFileSync(
-          "./music/musicChannelList.json",
-          JSON.stringify(musicChannelList),
-          JSON
-        );
+  } else {
+    if (!message.author.bot) {
+      if (order === `${prefix}스킵`) {
+        musicOrder(message, "skip");
+      } else if (order === `${prefix}정지`) {
+        musicOrder(message, "stop");
       } else {
-        message.channel.send({ embeds: [alreadyMessage] });
+        musicOrder(message, message.content);
+        console.log(`test : ${message.content}`);
       }
     }
   }

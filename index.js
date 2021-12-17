@@ -20,6 +20,7 @@ const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
 const { madeNotice } = require("./allServerNotice");
 const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
 const { sasagaeEmbed } = require("./lostark/sasagae");
+const { makeMusicChannel } = require("./music/makeMusicChannel");
 
 const client = new Client({
   disableEveryone: true,
@@ -43,7 +44,7 @@ const errorMessage = new MessageEmbed()
 
 const alreadyMessage = new MessageEmbed()
   .setColor("#ff3399")
-  .setTitle(`\`!알람세팅\` 명령어를 이미 실행했습니다.`)
+  .setTitle(`\`!알람세팅\` 또는 \`!음악세팅\` 명령어를 이미 실행했습니다.`)
   .setDescription(`게시판의 이름을 변경하지는 않았는지 확인해주세요.`);
 
 const watingMessage = (message, userName) => {
@@ -68,6 +69,14 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
   const order = message.content.split(" ")[0];
   const orderWithOutPrefix = message.content.split(" ")[1];
+
+  let json = JSON.parse(fs.readFileSync("./music/musicChannelList.json"));
+
+  let musicChannelList = [];
+
+  for (let i = 0; i < json.length; i++) {
+    musicChannelList[i] = json[i];
+  }
 
   //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
   // if (!message.author.bot) {
@@ -154,9 +163,27 @@ client.on("messageCreate", async (message) => {
       watingMessage(message, orderWithOutPrefix.split("/")),
         sasagaeEmbed(message, orderWithOutPrefix, errorMessage);
     }
+
+    if (order === `${prefix}음악세팅`) {
+      if (
+        !message.guild.channels.cache.find((channel) =>
+          musicChannelList.includes(channel.id)
+        )
+      ) {
+        channelID = await makeMusicChannel(message);
+
+        musicChannelList.push(channelID);
+
+        fs.writeFileSync(
+          "./music/musicChannelList.json",
+          JSON.stringify(musicChannelList),
+          JSON
+        );
+      } else {
+        message.channel.send({ embeds: [alreadyMessage] });
+      }
+    }
   }
 });
 
 client.login(token);
-
-//TODO : 사사게 닉네임을 / / / 등으로 나눠서 (또는 ,) 한 명씩 검색하지 않아도 한번에 사사게 리스트를 볼 수 있도록.

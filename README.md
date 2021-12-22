@@ -10,6 +10,8 @@
 
 이후 mixTape이라는 이름에 맞게 유튜브 영상 재생 기능도 추가 예정. (Youtube API 이용)
 
+~12.25 Done.
+
 ## Using Stack
 
 - discord.js

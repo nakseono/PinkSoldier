@@ -3,6 +3,7 @@
 
 //! 현재 내가 음성 채널에 없음에도 음악이 재생되는 문제,
 //! 음악 리스트가 추가된건지는 모르겠지만, 어쨌든 음원이 재생되지 않는 문제가 보여짐.
+//! ytdl 관련 모듈들 잘 찾아보는 중.
 
 const ytdl = require("ytdl-core");
 const yts = require("yt-search");

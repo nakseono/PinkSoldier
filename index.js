@@ -26,7 +26,7 @@ const { musicOrder } = require("./music/music");
 const client = new Client({
   disableEveryone: true,
   intents: [
-    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILDS, // GUILDS = server
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     "GUILDS",
@@ -80,9 +80,9 @@ client.on("messageCreate", async (message) => {
   }
 
   //! 봇 메시지만 제외하고 콘솔에 찍는 기능.
-  // if (!message.author.bot) {
-  //   console.log(message.data);
-  // }
+  if (!message.author.bot) {
+    console.log(message.data);
+  }
 
   //! 봇 메시지가 아닌지 우선적으로 검사
   //! 이후 각 명령어에 따라서 각기 다른 결과 출력

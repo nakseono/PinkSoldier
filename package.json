@@ -4,19 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon deploy-commands.js & nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nakseono/PinkSoldier.git"
+    "url": "git+https://github.com/nakseono/mixTape.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nakseono/PinkSoldier/issues"
+    "url": "https://github.com/nakseono/mixTape/issues"
   },
-  "homepage": "https://github.com/nakseono/PinkSoldier#readme",
+  "homepage": "https://github.com/nakseono/mixTape#readme",
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/opus": "^0.7.0",

@@ -19,8 +19,9 @@ const rest = new REST({ version: '9' }).setToken(token);
     try {
       await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
         body: commands,
-      })
-      console.log(`${guildId} 서버 명령어 배포 완료.`)
+      });
+      console.log(`${guildId} 서버 명령어 배포 완료.`);
+      // console.log(commands);
     } catch(err) {
       console.error(err)
     }

@@ -9,6 +9,7 @@ module.exports = {
         .setDescription('테스트를 위해 넣은 option 입니다.')
         .setRequired(true)),
 	async execute(interaction) {
+		// console.log();
 		await interaction.reply('퐁!');
 	},
 };

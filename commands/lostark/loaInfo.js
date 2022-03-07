@@ -4,14 +4,120 @@ const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const classImage = require("../classImage.json");
+const classImage = require("./classImage.json");
 
-const createLoaInfoEmbed = async (userName, data) => {
+const getUserInfo = (userName) => {
+  // console.log(`loaInfoData.js - getUserInfo 실행 : ${userName}`);
+
+  return axios
+    .get(
+      `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
+        userName
+      )}`
+    )
+    .then((html) => {
+      const $ = cheerio.load(html.data);
+
+      let json = {};
+
+      //! <-- 기본 정보 -->
+
+      json["userName"] = $(`.profile-character-info__name`).text(); // 닉네임
+
+      json["server"] = $(`.profile-character-info__server`)
+        .text()
+        .replace("@", ""); // 서버명
+
+      json["job"] = $(".profile-character-info__img").attr("alt"); // 직업명
+
+      json["guild"] = $(".game-info__guild").text().replace("길드", ""); // 길드명
+
+      json["title"] = $(".game-info__title").text().replace("칭호", ""); // 장착중인 칭호
+
+      json["level"] = $(".level-info__item").text().replace("전투 레벨", ""); // 전투 레벨
+
+      $(".level-info2__item > span").each(function (index, item) {
+        if (index === 1) json["itemLevel"] = $(this).text();
+      }); // 아이템 레벨
+
+      json["userGroupLevel"] = $(".level-info__expedition")
+        .text()
+        .replace("원정대 레벨", ""); // 원정대 레벨
+
+      $("div.game-info__wisdom")
+        .children()
+        .each(function (index, item) {
+          if (index === 1) json["garden_level"] = $(this).text();
+          // 영지 레벨
+          else if (index === 2) json["garden_name"] = $(this).text(); // 영지 이름
+        });
+
+      //! <-- 착용 장비 --> <보류>
+
+      // let equip = $(
+      //   "#profile-ability.lui-tab__content.profile-ability > script"
+      // )[0].children[0].data;
+
+      //! <-- 기본 특성 정보 -->
+
+      let count = 0;
+      let temp = [];
+
+      $(".profile-ability-basic > ul > li")
+        .children()
+        .each(function (index, item) {
+          if ($(this).attr("class") !== "profile-ability-tooltip") {
+            if ($(this).text() !== undefined) {
+              temp[count] = $(this).text();
+              count = count + 1;
+            }
+          }
+        });
+
+      json["basic-ability"] = temp;
+
+      //! <-- 전투 특성 정보 -->
+
+      count = 0;
+      temp = [];
+
+      $(".profile-ability-battle > ul > li")
+        .children()
+        .each(function (index, item) {
+          if ($(this).attr("class") !== "profile-ability-tooltip") {
+            if ($(this).text() !== undefined) {
+              temp[count] = $(this).text();
+              count = count + 1;
+            }
+          }
+        });
+
+      json["ability"] = temp;
+
+      //! <<- 각인 효과 ->>
+
+      count = 0;
+      temp = [];
+
+      $(".profile-ability-engrave > div > div > ul > li > span").each(function (
+        index,
+        item
+      ) {
+        temp[count] = $(this).text();
+        count = count + 1;
+      });
+
+      json["engrave"] = temp;
+
+      // console.log(`json data : ${JSON.stringify(json)}`)
+      return json;
+    });
+};
+
+const createLoaInfoEmbed = (userName, data) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
 
   //? ------- 기본 특성 정보 가공 -------
-
-  try {
     let basicAbilityBody = "";
 
     for (let p = 1; p < data["basic-ability"].length; p++) {
@@ -110,49 +216,47 @@ const createLoaInfoEmbed = async (userName, data) => {
       );
 
       return embedMessage; // 종합해서 embedMessage return.
-  } catch (error) {
-    // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+};
+
+
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('정보')
+		.setDescription('입력한 [닉네임] 에 대한 로아 정보를 출력합니다.')
+    .addStringOption(option =>
+      option.setName('닉네임') //! 옵션 이름에는 공백이 들어가면 안된다. 에러 발생함.
+        .setDescription('검색할 닉네임입니다.')
+        .setRequired(true)),
+	async execute(interaction) {
+    let userNickName = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
     let now = new Date();
 
-    fs.appendFile(
-      "bugLog.txt",
-      `${now} / !정보 ${userName} / ${error}\n`,
-      (err) => {
-        // console.log(`정보 에러 : ${err}`);
-      }
-    );
+    try {
+      let userData = await getUserInfo(userNickName)
+      let returnEmbed = await (createLoaInfoEmbed(userNickName, userData));
+      await interaction.reply({ embeds: [returnEmbed] });
 
-    console.error(error)
-  }
+      fs.appendFile(
+        "useLog.txt",
+        `${now} || /정보 ${userNickName}\n`,
+        (error) => {
+          // console.error(`정보 로그 남길 때 에러 발생 : ${error}`);
+        }
+      );
+  
+    } catch(error) {
+      // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
+
+      fs.appendFile(
+        "bugLog.txt",
+        `${now} || /정보 ${userNickName} || ${error}\n`,
+        (err) => {
+          // console.error(`정보 에러 : ${err}`);
+        }
+      );
+
+      console.error(`정보 에러 : ${error}`)
+    }
+	}
 };
 
-const createLoawaLinkEmbed = async (userName) => {
-  let embedMessage;
-
-  axios
-    .get(
-      `https://lostark.game.onstove.com/Profile/Character/${encodeURI(
-        userName
-      )}`
-    )
-    .then((html) => {
-      const $ = cheerio.load(html.data);
-
-      if ($(`.profile-character-info__name`).text()) {
-        embedMessage = new MessageEmbed().setColor("#ff3399").addFields({
-          name: `링크 클릭시 로아와 페이지로 이동합니다.`,
-          value: `https://loawa.com/char/${userName}`,
-        });
-      } else {
-        embedMessage = new MessageEmbed()
-          .setColor("#ff3399")
-          .setTitle(`오류가 발생했습니다!`)
-          .setDescription(
-            `정보를 찾을 수 없습니다.\n입력한 유저 닉네임이 정확한지 확인해주세요.`
-          );
-      }
-      message.channel.send({ embeds: [embedMessage] });
-    });
-};
-
-module.exports = { createLoaInfoEmbed, createLoawaLinkEmbed };

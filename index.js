@@ -42,11 +42,16 @@ const client = new Client({
 client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
+const loaCommandFiles = fs.readdirSync('./commands/lostark').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
+}
+
+for (const file of loaCommandFiles) {
+	const loaCommand = require(`./commands/lostark/${file}`);
+	client.commands.set(loaCommand.data.name, loaCommand);
 }
 
 
@@ -86,8 +91,8 @@ client.on('interactionCreate', async interaction => {
 
   // let testItem = interaction.slice(0,1);
 
-  console.log(`interaction: ${interaction}`);
-  console.log(`testItem: ${JSON.stringify(interaction.options)}`); //! 특정 커맨드 options를 가져오는 변수.
+  // console.log(`interaction: ${interaction}`);
+  // console.log(`testItem: ${JSON.stringify(interaction.options._hoistedOptions[0]["value"])}`); //! 특정 커맨드 options를 가져오는 변수.
 
 	const command = client.commands.get(interaction.commandName);
 

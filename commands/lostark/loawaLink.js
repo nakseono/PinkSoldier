@@ -28,7 +28,7 @@ const createLoawaLinkEmbed = async (userName) => {
           .setColor("#ff3399")
           .setTitle(`오류가 발생했습니다!`)
           .setDescription(
-            `정보를 찾을 수 없습니다.\n입력한 유저 닉네임이 정확한지 확인해주세요.`
+            `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`
           );
       }
       // console.log(`loawa: ${JSON.stringify(embedMessage)}`);
@@ -54,7 +54,7 @@ module.exports = {
       await interaction.reply({ embeds: [returnEmbed] });
 
       fs.appendFile(
-        "useLog.txt",
+        "logs/useLog.txt",
         `${now} || /로아와 ${userNickName}\n`,
         (error) => {
           // console.error(`로아와 로그 남길 때 에러 발생 : ${error}`);
@@ -65,7 +65,7 @@ module.exports = {
       console.error(`error: ${error}`)
 
       fs.appendFile(
-        "bugLog.txt",
+        "logs/useLog.txt",
         `${now} || /로아와 ${userNickName}\n`,
         (error) => {
           // console.error(`로아와 로그 남길 때 에러 발생 : ${error}`);

@@ -116,7 +116,16 @@ const getUserInfo = (userName) => {
 
 const createLoaInfoEmbed = (userName, data) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
+  let embedMessage;
 
+  if(data["userName"] === ""){
+    embedMessage = new MessageEmbed()
+      .setColor("#ff3399")
+      .setTitle(`오류가 발생했습니다!`)
+      .setDescription(
+        `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`
+      );
+  } else {
   //? ------- 기본 특성 정보 가공 -------
     let basicAbilityBody = "";
 
@@ -174,7 +183,7 @@ const createLoaInfoEmbed = (userName, data) => {
 
     //? ------- 종합해서 임베드 만들기 -------
 
-    const embedMessage = new MessageEmbed()
+    embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`${userName}`)
       .setThumbnail(`${thumbnailURL}`)
@@ -214,8 +223,9 @@ const createLoaInfoEmbed = (userName, data) => {
           inline: true,
         }
       );
-
-      return embedMessage; // 종합해서 embedMessage return.
+  }
+  // console.log(`test: ${embedMessage}`);
+  return embedMessage; // 종합해서 embedMessage return.
 };
 
 
@@ -237,18 +247,18 @@ module.exports = {
       await interaction.reply({ embeds: [returnEmbed] });
 
       fs.appendFile(
-        "useLog.txt",
+        "logs/useLog.txt",
         `${now} || /정보 ${userNickName}\n`,
         (error) => {
           // console.error(`정보 로그 남길 때 에러 발생 : ${error}`);
         }
       );
-  
+
     } catch(error) {
       // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
 
       fs.appendFile(
-        "bugLog.txt",
+        "logs/bugLog.txt",
         `${now} || /정보 ${userNickName} || ${error}\n`,
         (err) => {
           // console.error(`정보 에러 : ${err}`);

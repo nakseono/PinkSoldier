@@ -60,6 +60,7 @@ module.exports = {
 	async execute(interaction) {
     let now = new Date();
     let amount = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
+    console.log(`amount : ${amount}`);
 
     try {
       let returnEmbed = await createAuctionEmbed(amount);

@@ -4,7 +4,6 @@ const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-
 const sasagaeEmbed = async (userName) => {
   console.log("embed start");
   if (userName.includes("/")) {
@@ -168,15 +167,17 @@ const sasagaeEmbed = async (userName) => {
 
           let resultEmbed;
 
+          console.log(`링크 길이 : ${arr.length}`);
+
           if (arr.length === 0) {
-            console.log(`sasagae #1`)
+            console.log(`사사게 분기 #1`)
             resultEmbed = await sasagae(`검색 결과가 존재하지 않습니다!`, userName);
             console.log(`if문 내 resultEmbed : ${JSON.stringify(resultEmbed)}`);
           } else if (arr.length < 3) {
-            console.log(`sasagae #2`)
+            console.log(`사사게 분기 #2`)
             resultEmbed = await sasagae(arr.join(`\n`), userName);
           } else {
-            console.log(`sasagae #3`)
+            console.log(`사사게 분기 #3`)
             resultEmbed = await sasagae(arr.slice(3).join(`\n`), userName);
           }
 
@@ -281,10 +282,8 @@ module.exports = {
     console.log(`input name : ${userNickName}`);
 
     try {
-      console.log('1234');
       let returnEmbed = await sasagaeEmbed(userNickName);
       console.log(`returnEmbed : ${returnEmbed}`)
-      // returnEmbed = await sasagae("error", "낙서노");
 
       await interaction.reply({ embeds: [returnEmbed] });
     } catch(error) {

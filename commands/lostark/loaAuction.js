@@ -33,6 +33,7 @@ const createAuctionEmbed = async (value) => {
         }
       );
 
+      console.log(`return embed : ${embedMessage}`)
       return embedMessage;
   } catch (error) {
     // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
@@ -64,7 +65,7 @@ module.exports = {
 
     try {
       let returnEmbed = await createAuctionEmbed(amount);
-      console.log(returnEmbed);
+      console.log(`returnEmbed : ${returnEmbed}`);
 
       await interaction.reply({ embeds: [returnEmbed] });
 

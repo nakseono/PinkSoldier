@@ -63,3 +63,9 @@ Mon Mar 21 2022 19:31:06 GMT+0900 (대한민국 표준시) || /사사게 낙서�
 Mon Mar 21 2022 20:37:02 GMT+0900 (대한민국 표준시) || /사사게 낙서노/낙서노
 Mon Mar 21 2022 20:37:27 GMT+0900 (대한민국 표준시) || /사사게 낙서노/낙서노
 Mon Mar 21 2022 20:38:21 GMT+0900 (대한민국 표준시) || /사사게 낙서노/낙서
+Mon Mar 21 2022 23:00:44 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/김낙떠 || ReferenceError: userGroup is not defined
+Mon Mar 21 2022 23:12:33 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/준영이라규 || TypeError: Cannot read properties of undefined (reading '0')
+Mon Mar 21 2022 23:13:24 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/준영이라규 || TypeError: Cannot read properties of undefined (reading '0')
+Mon Mar 21 2022 23:14:22 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/준영이라규/김노세 || TypeError: Cannot read properties of undefined (reading '0')
+Mon Mar 21 2022 23:15:34 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/준영이라규 || TypeError: Cannot read properties of undefined (reading '0')
+Mon Mar 21 2022 23:15:51 GMT+0900 (대한민국 표준시) || /사사게 검색 이후 메시지 보낼 떄 에러 발생 낙서노/준영이라규 || TypeError: Cannot read properties of undefined (reading '0')

@@ -2,54 +2,6 @@ const fs = require("fs");
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const createAuctionEmbed = async (value) => {
-  let embedMessage;
-
-  try {
-    const people4 = Math.floor(value * 0.6478);
-    const people8 = Math.floor(value * 0.7556);
-
-    embedMessage = new MessageEmbed()
-      .setColor("#ff3399")
-      .setTitle(`경매 최대 입찰금 계산 - ${value}골드`)
-      .addFields(
-        {
-          name: `4인 기준`,
-          value: `\`${people4}\` 골드까지만 입찰하세용`,
-          // inline: true,
-        },
-        {
-          name: "8인 기준",
-          value: `\`${people8}\` 골드까지만 입찰하세용`,
-          // inline: true,
-        }
-      );
-
-      fs.appendFile(
-        "/logs/useLog.txt",
-        `${now} || /경매 ${value}\n`,
-        (err) => {
-          // console.log(`경매 에러 : ${err}`);
-        }
-      );
-
-      console.log(`return embed : ${embedMessage}`)
-      return embedMessage;
-  } catch (error) {
-    // 에러 메시지 기록 할 것 : 일시, 어떤 입력을 했는지 -> userName, 무슨 에러가 발생했는지
-    let now = new Date();
-
-    fs.appendFile(
-      "/logs/bugLog.txt",
-      `${now} || /경매 ${value} / ${error}\n`,
-      (err) => {
-        // console.log(`경매 에러 : ${err}`);
-      }
-    );
-  }
-};
-
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('경매')
@@ -61,27 +13,50 @@ module.exports = {
 	async execute(interaction) {
     let now = new Date();
     let amount = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
-    console.log(`amount : ${amount}`);
+    
+    const people4 = Math.floor(amount * 0.6478);
+    const people8 = Math.floor(amount * 0.7556);
+
+    const embedMessage = new MessageEmbed()
+    .setColor("#ff3399")
+    .setTitle(`경매 최대 입찰금 계산 - ${amount}골드`)
+    .addFields(
+      {
+        name: `4인 기준`,
+        value: `\`${people4}\` 골드까지만 입찰하세용`,
+        // inline: true,
+      },
+      {
+        name: "8인 기준",
+        value: `\`${people8}\` 골드까지만 입찰하세용`,
+        // inline: true,
+      }
+    );
+
+    const errorEmbedMessage = new MessageEmbed()
+      .setColor("#ff3399")
+      .setTitle(`에러가 발생했습니다!`)
+      .setDescription(
+        `아마도 숫자가 아닌 문자를 입력하신 것 같아요!\n그게 아니라면 올바른 명령을 요청했는지 \`/명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
+      );
 
     try {
-      let returnEmbed = await createAuctionEmbed(amount);
-      console.log(`returnEmbed : ${returnEmbed}`);
-
-      await interaction.reply({ embeds: [returnEmbed] });
-
       fs.appendFile(
-        "/logs/useLog.txt",
-        `${now} || /경매 ${value}\n`,
+        "logs/useLog.txt",
+        `${now} || /경매 ${amount}\n`,
         (err) => {
           // console.log(`경매 에러 : ${err}`);
         }
       );
+
+      isNaN(amount) ? await interaction.reply({ embeds: [errorEmbedMessage] }) : await interaction.reply({ embeds: [embedMessage] });
+
     } catch(error) {
       console.error(`error: ${error}`)
 
       fs.appendFile(
-        "/logs/bugLog.txt",
-        `${now} || /경매 ${value} / ${error}\n`,
+        "logs/bugLog.txt",
+        `${now} || /경매 ${amount} / ${error}\n`,
         (err) => {
           // console.log(`경매 에러 : ${err}`);
         }

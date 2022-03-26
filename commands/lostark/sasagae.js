@@ -267,22 +267,13 @@ const sasagaeUserSearch = async (username, interaction) => {
       // console.log(`notOkName: ${notOkName}`);
       // console.log(`okName: ${okName}`);
 
-      let resultEmbed;
-
-      // 조건 1 : notOkName.join(", ") !== "" - 사사게 검색 결과 존재
-      // 조건 2 : okName.join(", ") !== "" - 사사게 검색 결과 없음
-      // 조건 3 : sumObj["errorList"].join(", ") !== "" - 닉네임 잘못 입력(찾을 수 없는 닉네임)
-
-      if(notOkName.join(", ") !== "") { // 조건 1이 true인 경우
-        if(okName.join(", ") !== "") { // 조건 1은 true, 조건 2이 true인 경우
-          if(sumObj["errorList"].join(", ") !== "") { // 조건 1은 true, 조건 2 true, 조건 3이 true인 경우
-            resultEmbed = new MessageEmbed()
+      let resultEmbed = new MessageEmbed()
               .setColor("#ff3399")
               .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
               .addFields(
                 {
                   name: `\`검 색 결 과\``,
-                  value: `${notOkName.join(", ")} 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n${okName.join(", ")} 는(은) 사사게 검색 결과가 존재하지 않습니다.\n\n${sumObj["errorList"].join(", ")} 는(은) 닉네임을 잘못 입력하신 것 같군요!`,
+                  value: `${notOkName.join(", ") !== "" ? notOkName.join(", ")+" 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n" : ""}${okName.join(", ") !== "" ? okName.join(", ")+" 는(은) 사사게 검색 결과가 존재하지 않습니다.\n\n" : ""}${sumObj["errorList"].join(", ") !== "" ? sumObj["errorList"].join(", ")+" 는(은) 닉네임을 잘못 입력하신 것 같군요!" : ""}`
                 },
                 {
                   name: `\`참 고 사 항\``,
@@ -291,113 +282,6 @@ const sasagaeUserSearch = async (username, interaction) => {
                           - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
                 }
               );
-          } else { // 조건 1 true, 조건 2 true, 조건 3이 false인 경우
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${notOkName.join(", ")} 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n${okName.join(", ")} 는(은) 사사게 검색 결과가 존재하지 않습니다.`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          }
-        } else { // 조건 1은 true, 조건 2이 false인 경우
-          if(sumObj["errorList"].join(", ") !== "") { // 조건 1 true, 조건 2 false, 조건 3 true
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${notOkName.join(", ")} 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n${sumObj["errorList"].join(", ")} 는(은) 닉네임을 잘못 입력하신 것 같군요!`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          } else { // 조건 1 true, 조건 2 false, 조건 3 false
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${notOkName.join(", ")} 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          }
-        }
-      } else { // 조건 1이 false인 경우
-        if(okName.join(", ") !== "") { // 조건 1은 false, 조건 2이 true인 경우
-          if(sumObj["errorList"].join(", ") !== "") { // 조건 1은 false, 조건 2 true, 조건 3이 true인 경우
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${okName.join(", ")} 는(은) 사사게 검색 결과가 존재하지 않습니다.\n\n${sumObj["errorList"].join(", ")} 는(은) 닉네임을 잘못 입력하신 것 같군요!`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          } else {  // 조건 1은 false, 조건 2 true, 조건 3이 false인 경우
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${okName.join(", ")} 는(은) 사사게 검색 결과가 존재하지 않습니다.`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          }
-        } else { // 조건 1은 false, 조건 2이 false인 경우
-          if(sumObj["errorList"].join(", ") !== "") { // 조건 1은 false, 조건 2 false, 조건 3이 true인 경우
-            resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${sumObj["errorList"].join(", ")} 는(은) 닉네임을 잘못 입력하신 것 같군요!`,
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
-          }
-        }
-      }
 
       interaction.reply({ embeds: [resultEmbed] });
     } catch(error) {

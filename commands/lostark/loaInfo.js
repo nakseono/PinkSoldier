@@ -17,113 +17,117 @@ const getUserInfo = (userName) => {
     )
     .then((html) => {
       const $ = cheerio.load(html.data);
-
       let json = {};
 
-      //! <-- 기본 정보 -->
+      if ($(`.profile-character-info__name`).text()) {
+        //! <-- 기본 정보 -->
 
-      json["userName"] = $(`.profile-character-info__name`).text(); // 닉네임
+        json["userName"] = $(`.profile-character-info__name`).text(); // 닉네임
 
-      json["server"] = $(`.profile-character-info__server`)
-        .text()
-        .replace("@", ""); // 서버명
+        json["server"] = $(`.profile-character-info__server`)
+          .text()
+          .replace("@", ""); // 서버명
 
-      json["job"] = $(".profile-character-info__img").attr("alt"); // 직업명
+        json["job"] = $(".profile-character-info__img").attr("alt"); // 직업명
 
-      json["guild"] = $(".game-info__guild").text().replace("길드", ""); // 길드명
+        json["guild"] = $(".game-info__guild").text().replace("길드", ""); // 길드명
 
-      json["title"] = $(".game-info__title").text().replace("칭호", ""); // 장착중인 칭호
+        json["title"] = $(".game-info__title").text().replace("칭호", ""); // 장착중인 칭호
 
-      json["level"] = $(".level-info__item").text().replace("전투 레벨", ""); // 전투 레벨
+        json["level"] = $(".level-info__item").text().replace("전투 레벨", ""); // 전투 레벨
 
-      $(".level-info2__item > span").each(function (index, item) {
-        if (index === 1) json["itemLevel"] = $(this).text();
-      }); // 아이템 레벨
+        $(".level-info2__item > span").each(function (index, item) {
+          if (index === 1) json["itemLevel"] = $(this).text();
+        }); // 아이템 레벨
 
-      json["userGroupLevel"] = $(".level-info__expedition")
-        .text()
-        .replace("원정대 레벨", ""); // 원정대 레벨
+        json["userGroupLevel"] = $(".level-info__expedition")
+          .text()
+          .replace("원정대 레벨", ""); // 원정대 레벨
 
-      $("div.game-info__wisdom")
-        .children()
-        .each(function (index, item) {
-          if (index === 1) json["garden_level"] = $(this).text();
-          // 영지 레벨
-          else if (index === 2) json["garden_name"] = $(this).text(); // 영지 이름
-        });
+        $("div.game-info__wisdom")
+          .children()
+          .each(function (index, item) {
+            if (index === 1) json["garden_level"] = $(this).text();
+            // 영지 레벨
+            else if (index === 2) json["garden_name"] = $(this).text(); // 영지 이름
+          });
 
-      //! <-- 착용 장비 --> <보류>
+        //! <-- 착용 장비 --> <보류>
 
-      // let equip = $(
-      //   "#profile-ability.lui-tab__content.profile-ability > script"
-      // )[0].children[0].data;
+        // let equip = $(
+        //   "#profile-ability.lui-tab__content.profile-ability > script"
+        // )[0].children[0].data;
 
-      //! <-- 기본 특성 정보 -->
+        //! <-- 기본 특성 정보 -->
 
-      let count = 0;
-      let temp = [];
+        let count = 0;
+        let temp = [];
 
-      $(".profile-ability-basic > ul > li")
-        .children()
-        .each(function (index, item) {
-          if ($(this).attr("class") !== "profile-ability-tooltip") {
-            if ($(this).text() !== undefined) {
-              temp[count] = $(this).text();
-              count = count + 1;
+        $(".profile-ability-basic > ul > li")
+          .children()
+          .each(function (index, item) {
+            if ($(this).attr("class") !== "profile-ability-tooltip") {
+              if ($(this).text() !== undefined) {
+                temp[count] = $(this).text();
+                count = count + 1;
+              }
             }
-          }
-        });
+          });
 
-      json["basic-ability"] = temp;
+        json["basic-ability"] = temp;
 
-      //! <-- 전투 특성 정보 -->
+        //! <-- 전투 특성 정보 -->
 
-      count = 0;
-      temp = [];
+        count = 0;
+        temp = [];
 
-      $(".profile-ability-battle > ul > li")
-        .children()
-        .each(function (index, item) {
-          if ($(this).attr("class") !== "profile-ability-tooltip") {
-            if ($(this).text() !== undefined) {
-              temp[count] = $(this).text();
-              count = count + 1;
+        $(".profile-ability-battle > ul > li")
+          .children()
+          .each(function (index, item) {
+            if ($(this).attr("class") !== "profile-ability-tooltip") {
+              if ($(this).text() !== undefined) {
+                temp[count] = $(this).text();
+                count = count + 1;
+              }
             }
-          }
+          });
+
+        json["ability"] = temp;
+
+        //! <<- 각인 효과 ->>
+
+        count = 0;
+        temp = [];
+
+        $(".profile-ability-engrave > div > div > ul > li > span").each(function (
+          index,
+          item
+        ) {
+          temp[count] = $(this).text();
+          count = count + 1;
         });
 
-      json["ability"] = temp;
+        json["engrave"] = temp;
 
-      //! <<- 각인 효과 ->>
-
-      count = 0;
-      temp = [];
-
-      $(".profile-ability-engrave > div > div > ul > li > span").each(function (
-        index,
-        item
-      ) {
-        temp[count] = $(this).text();
-        count = count + 1;
-      });
-
-      json["engrave"] = temp;
-
-      // console.log(`json data : ${JSON.stringify(json)}`)
+        // console.log(`json data : ${JSON.stringify(json)}`)
+      } else {
+        json = "notExistUser"
+      }
+      // console.log(json);
       return json;
     });
 };
 
-const createLoaInfoEmbed = (userName, data) => {
+const createLoaInfoEmbed = async (userName, data) => {
   // console.log(`임베드 메시지 : ${JSON.stringify(data)}`);
   let embedMessage;
 
-  if(data["userName"] === ""){
+  if(data === "notExistUser" || data["itemLevel"] === "Lv.0.00"){
     embedMessage = new MessageEmbed()
       .setColor("#ff3399")
       .setTitle(`오류가 발생했습니다!`)
       .setDescription(
-        `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`
+        `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.\n또는 해당 캐릭터의 레벨이 너무 낮아 표기가 안될 수 있습니다.`
       );
   } else {
   //? ------- 기본 특성 정보 가공 -------

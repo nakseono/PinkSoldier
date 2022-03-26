@@ -4,8 +4,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('경매')
-		.setDescription('입력된 [가격]에 대하여 최대 얼마까지 입찰해야 이득인지 계산합니다.')
+		.setName('분배')
+		.setDescription('입력된 [가격]에 대하여 얼마를 입찰하면 공대원들과 나눴을 때 1/N이 되는지 계산합니다.')
     .addStringOption(option =>
       option.setName('가격') //! 옵션 이름에는 공백이 들어가면 안된다. 에러 발생함.
         .setDescription('계산할 경매 금액을 입력합니다.')
@@ -14,21 +14,21 @@ module.exports = {
     let now = new Date();
     let amount = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
     
-    const people4 = Math.floor(amount * 0.6478);
-    const people8 = Math.floor(amount * 0.7556);
+    const people4 = Math.floor(amount * 0.95 * (3 / 4));
+    const people8 = Math.floor(amount * 0.95 * (7 / 8));
 
     const embedMessage = new MessageEmbed()
     .setColor("#ff3399")
-    .setTitle(`경매 최대 입찰금 계산 - ${amount}골드`)
+    .setTitle(`경매 분배금 계산 - ${amount}골드`)
     .addFields(
       {
         name: `4인 기준`,
-        value: `\`${people4}\` 골드까지만 입찰하세요.`,
+        value: `\`${people4}\` 골드 입찰!`,
         // inline: true,
       },
       {
         name: "8인 기준",
-        value: `\`${people8}\` 골드까지만 입찰하세요.`,
+        value: `\`${people8}\` 골드 입찰!`,
         // inline: true,
       }
     );
@@ -43,9 +43,9 @@ module.exports = {
     try {
       fs.appendFile(
         "logs/useLog.txt",
-        `${now} || /경매 ${amount}\n`,
+        `${now} || /분배 ${amount}\n`,
         (err) => {
-          // console.log(`경매 에러 : ${err}`);
+          // console.log(`분배 에러 : ${err}`);
         }
       );
 
@@ -56,9 +56,9 @@ module.exports = {
 
       fs.appendFile(
         "logs/bugLog.txt",
-        `${now} || /경매 ${amount} / ${error}\n`,
+        `${now} || /분배 ${amount} / ${error}\n`,
         (err) => {
-          // console.log(`경매 에러 : ${err}`);
+          // console.log(`분배 에러 : ${err}`);
         }
       );
     }

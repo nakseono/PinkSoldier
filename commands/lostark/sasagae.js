@@ -268,20 +268,20 @@ const sasagaeUserSearch = async (username, interaction) => {
       // console.log(`okName: ${okName}`);
 
       let resultEmbed = new MessageEmbed()
-              .setColor("#ff3399")
-              .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
-              .addFields(
-                {
-                  name: `\`검 색 결 과\``,
-                  value: `${notOkName.join(", ") !== "" ? notOkName.join(", ")+" 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n" : ""}${okName.join(", ") !== "" ? okName.join(", ")+" 는(은) 사사게 검색 결과가 존재하지 않습니다.\n\n" : ""}${sumObj["errorList"].join(", ") !== "" ? sumObj["errorList"].join(", ")+" 는(은) 닉네임을 잘못 입력하신 것 같군요!" : ""}`
-                },
-                {
-                  name: `\`참 고 사 항\``,
-                  value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
-                          - 게시글 1만개 단위로 검색됩니다.
-                          - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
-                }
-              );
+        .setColor("#ff3399")
+        .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
+        .addFields(
+          {
+            name: `\`검 색 결 과\``,
+            value: `${notOkName.join(", ") !== "" ? notOkName.join(", ")+" 는(은) \`사사게 검색 결과가 존재\`합니다!\n\`/사사게 [닉네임]\` 명령어를 통해 개개인별 상세 내역을 확인하실 수 있습니다.\n\n" : ""}${okName.join(", ") !== "" ? okName.join(", ")+" 는(은) 사사게 검색 결과가 존재하지 않습니다.\n\n" : ""}${sumObj["errorList"].join(", ") !== "" ? sumObj["errorList"].join(", ")+" 는(은) 닉네임을 잘못 입력하신 것 같군요!" : ""}`
+          },
+          {
+            name: `\`참 고 사 항\``,
+            value: `- 사건/사고 게시판에서 제목+내용 으로 검색한 결과입니다.
+                    - 게시글 1만개 단위로 검색됩니다.
+                    - 더 자세한 내용은 인벤 사건/사고 게시판을 이용해주시길 바랍니다.`,
+          }
+        );
 
       interaction.reply({ embeds: [resultEmbed] });
     } catch(error) {

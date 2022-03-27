@@ -135,7 +135,7 @@ const sasagaeUserSearch = async (username, interaction) => {
                     );
                   }
 
-                  interaction.reply({ embeds: [resultEmbed] });
+                  interaction.editReply({ embeds: [resultEmbed] });
                 }
               )
           } else { // 개인 검색 중 없는 경우.
@@ -146,7 +146,7 @@ const sasagaeUserSearch = async (username, interaction) => {
               `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`
             );
 
-            interaction.reply({ embeds: [resultEmbed] });
+            interaction.editReply({ embeds: [resultEmbed] });
           }
         }
       )
@@ -283,7 +283,7 @@ const sasagaeUserSearch = async (username, interaction) => {
           }
         );
 
-      interaction.reply({ embeds: [resultEmbed] });
+      interaction.editReply({ embeds: [resultEmbed] });
     } catch(error) {
       console.error(`사사게 단체 검색 중 에러 발생 : ${error}`);
 
@@ -312,6 +312,7 @@ module.exports = {
     // console.log(`input name : ${userNickName}`);
 
     try {
+      await interaction.deferReply();
       await sasagaeUserSearch(userNickName, interaction);
     } catch(error) {
       console.error(`error: ${error}`)

@@ -246,9 +246,14 @@ module.exports = {
     let now = new Date();
 
     try {
+      await interaction.deferReply();
+
       let userData = await getUserInfo(userNickName)
       let returnEmbed = await (createLoaInfoEmbed(userNickName, userData));
-      await interaction.reply({ embeds: [returnEmbed] });
+
+      if(returnEmbed !== "") {
+        await interaction.editReply({ embeds: [returnEmbed] });
+      }
 
       fs.appendFile(
         "logs/useLog.txt",

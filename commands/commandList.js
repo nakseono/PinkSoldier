@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require("discord.js");
 
 const embedMessage = new MessageEmbed()
-.setColor("#ff3399")
+.setColor("#8B00FF")
 .setTitle(`믹스테잎 명령어 리스트`)
 .addFields(
   {

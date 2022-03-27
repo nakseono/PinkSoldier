@@ -84,8 +84,8 @@ const incomeCalc = async (username) => {
           reward.abrelshudHard34 * 2000 +
           reward.abrelshudHard56 * 3000;
 
-        return await new MessageEmbed()
-          .setColor("#ff3399")
+        return new MessageEmbed()
+          .setColor("#8B00FF")
           // .setThumbnail(`${moyahoURL}`)
           .setTitle(`${username}님의 주간 수입 정산`)
           .addFields(
@@ -150,7 +150,6 @@ const incomeCalc = async (username) => {
             - 순수히 \`클리어했을 때 보상으로 주는 골드\`만을 계산했습니다.
             - 보유중인 각 캐릭터의 레벨을 기준으로 레벨이 가장 높은 상위 6캐릭이
             가장 상위 단계의 컨텐츠를 클리어한다고 가정한 값입니다.
-            -
             `,
             }
           );
@@ -353,7 +352,7 @@ module.exports = {
     let username = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
 
     // const errorEmbedMessage = new MessageEmbed()
-    //   .setColor("#ff3399")
+    //   .setColor("#8B00FF")
     //   .setTitle(`에러가 발생했습니다!`)
     //   .setDescription(
     //     `아마도 숫자가 아닌 문자를 입력하신 것 같아요!\n그게 아니라면 올바른 명령을 요청했는지 \`/명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`

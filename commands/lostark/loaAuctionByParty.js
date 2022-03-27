@@ -18,7 +18,7 @@ module.exports = {
     const people8 = Math.floor(amount * 0.95 * (7 / 8));
 
     const embedMessage = new MessageEmbed()
-    .setColor("#ff3399")
+    .setColor("#8B00FF")
     .setTitle(`경매 분배금 계산 - ${amount}골드`)
     .addFields(
       {
@@ -34,7 +34,7 @@ module.exports = {
     );
 
     const errorEmbedMessage = new MessageEmbed()
-      .setColor("#ff3399")
+      .setColor("#8B00FF")
       .setTitle(`에러가 발생했습니다!`)
       .setDescription(
         `아마도 숫자가 아닌 문자를 입력하신 것 같아요!\n그게 아니라면 올바른 명령을 요청했는지 \`/명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`

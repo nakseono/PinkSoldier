@@ -124,7 +124,7 @@ const createLoaInfoEmbed = async (userName, data) => {
 
   if(data === "notExistUser" || data["itemLevel"] === "Lv.0.00"){
     embedMessage = new MessageEmbed()
-      .setColor("#ff3399")
+      .setColor("#8B00FF")
       .setTitle(`오류가 발생했습니다!`)
       .setDescription(
         `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.\n또는 해당 캐릭터의 레벨이 너무 낮아 표기가 안될 수 있습니다.`
@@ -188,7 +188,7 @@ const createLoaInfoEmbed = async (userName, data) => {
     //? ------- 종합해서 임베드 만들기 -------
 
     embedMessage = new MessageEmbed()
-      .setColor("#ff3399")
+      .setColor("#8B00FF")
       .setTitle(`${userName}`)
       .setThumbnail(`${thumbnailURL}`)
       .addFields(

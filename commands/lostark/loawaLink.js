@@ -18,14 +18,14 @@ const createLoawaLinkEmbed = async (userName) => {
 
       if ($(`.profile-character-info__name`).text()) {
         embedMessage = new MessageEmbed()
-        .setColor("#ff3399")
+        .setColor("#8B00FF")
         .addFields({
           name: `링크 클릭시 로아와 페이지로 이동합니다.`,
           value: `https://loawa.com/char/${userName}`,
         });
       } else {
         embedMessage = new MessageEmbed()
-          .setColor("#ff3399")
+          .setColor("#8B00FF")
           .setTitle(`오류가 발생했습니다!`)
           .setDescription(
             `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`

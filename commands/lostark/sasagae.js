@@ -83,7 +83,7 @@ const sasagaeUserSearch = async (username, interaction) => {
                     // console.log("사사게 분기 - 검색결과 없음");
 
                     resultEmbed = new MessageEmbed()
-                    .setColor("#ff3399")
+                    .setColor("#8B00FF")
                     .setTitle(`${username} 에 대한 사사게 검색 결과입니다.`)
                     .addFields(
                       {
@@ -101,7 +101,7 @@ const sasagaeUserSearch = async (username, interaction) => {
                     // console.log("사사게 분기 - 3개 미만");
 
                     resultEmbed = new MessageEmbed()
-                    .setColor("#ff3399")
+                    .setColor("#8B00FF")
                     .setTitle(`${username} 에 대한 사사게 검색 결과입니다.`)
                     .addFields(
                       {
@@ -119,7 +119,7 @@ const sasagaeUserSearch = async (username, interaction) => {
                     // console.log("사사게 분기 - 3개 이상");
 
                     resultEmbed = new MessageEmbed()
-                    .setColor("#ff3399")
+                    .setColor("#8B00FF")
                     .setTitle(`${username} 에 대한 사사게 검색 결과입니다.`)
                     .addFields(
                       {
@@ -140,7 +140,7 @@ const sasagaeUserSearch = async (username, interaction) => {
               )
           } else { // 개인 검색 중 없는 경우.
             resultEmbed = new MessageEmbed()
-            .setColor("#ff3399")
+            .setColor("#8B00FF")
             .setTitle(`오류가 발생했습니다!`)
             .setDescription(
               `정보를 찾을 수 없습니다.\n입력한 닉네임이 정확한지 확인해주세요.`
@@ -268,7 +268,7 @@ const sasagaeUserSearch = async (username, interaction) => {
       // console.log(`okName: ${okName}`);
 
       let resultEmbed = new MessageEmbed()
-        .setColor("#ff3399")
+        .setColor("#8B00FF")
         .setTitle(`${searchGroup.join(", ")} 에 대한 사사게 검색 결과입니다.`)
         .addFields(
           {

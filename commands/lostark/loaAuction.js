@@ -13,7 +13,7 @@ module.exports = {
 	async execute(interaction) {
     let now = new Date();
     let amount = (JSON.stringify(interaction.options._hoistedOptions[0]["value"])).replace(/\"/gi, "");
-    
+
     const people4 = Math.floor(amount * 0.6478);
     const people8 = Math.floor(amount * 0.7556);
 

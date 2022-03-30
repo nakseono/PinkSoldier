@@ -2,28 +2,8 @@ const { Client, Collection, Intents, MessageEmbed } = require("discord.js");
 
 const { token, prefix } = require("./config.json");
 const fs = require("fs");
-
-
-const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
-const {
-  createLoaInfoEmbed,
-  createLoawaLinkEmbed,
-} = require("./lostark/loaInfo/loaInfoEmbed");
-const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
-const { createAuctionEmbed } = require("./lostark/loaAuction");
-const { returnOrderList } = require("./orderList");
-const { addRoleEmbed } = require("./lostark/alarmSetting/addAlarmRole");
-// const { doMessageClear } = require("./messageClear");
-const { loaEvent } = require("./lostark/loaEvent");
-const { incomeCalc } = require("./lostark/incomeCalc");
-const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
-const { makeRole } = require("./lostark/alarmSetting/makeRole");
-const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
-const { madeNotice } = require("./allServerNotice");
-const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
-const { sasagaeEmbed } = require("./lostark/sasagae");
-const { makeMusicChannel } = require("./music/makeMusicChannel");
-const { musicOrder } = require("./music/music");
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
 
 const client = new Client({
   disableEveryone: true,
@@ -31,18 +11,22 @@ const client = new Client({
     Intents.FLAGS.GUILDS, // GUILDS = server
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
     "GUILDS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
+    "GUILD_VOICE_STATES",
   ],
   partials: ["CHANNEL", "MESSAGE", "REACTION"],
 });
 
-
 client.commands = new Collection();
 
+
+// 아래 내용은 commands/ 에 들어있는 명령어들을 하나씩 뽑아내서 등록하는 절차.
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const loaCommandFiles = fs.readdirSync('./commands/lostark').filter(file => file.endsWith('.js'));
+const musicCommandFiles = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -54,29 +38,22 @@ for (const file of loaCommandFiles) {
 	client.commands.set(loaCommand.data.name, loaCommand);
 }
 
+for (const file of musicCommandFiles) {
+	const musicCommand = require(`./commands/music/${file}`);
+	client.commands.set(musicCommand.name, musicCommand);
+}
 
-const errorMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`에러가 발생했습니다!`)
-  .setDescription(
-    `올바른 명령을 요청했는지 \`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
-  );
+client.distube = new DisTube(client, {
+  emitNewSongOnly: true,
+  leaveOnFinish: true,
+  emitAddSongWhenCreatingQueue: false,
+  plugins: [new SpotifyPlugin()]
+});
 
-const alreadyMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`\`!알람세팅\` 또는 \`!음악세팅\` 명령어를 이미 실행했습니다.`)
-  .setDescription(`게시판의 이름을 변경하지는 않았는지 확인해주세요.`);
+module.exports = client;
 
-const watingMessage = (message, userName) => {
-  const waitingEmbed = new MessageEmbed()
-    .setColor("#ff3399")
-    // .setThumbnail(`${loadingBar}`)
-    .setTitle(`${userName}님의 데이터를 불러오는 중입니다.`)
-    .setDescription(
-      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용`
-    );
-  message.channel.send({ embeds: [waitingEmbed] });
-};
+// <!--  -->
+
 
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");

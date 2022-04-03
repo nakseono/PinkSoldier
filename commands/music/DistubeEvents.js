@@ -1,6 +1,8 @@
 const client = require("../../index.js");
 const { MessageEmbed } = require("discord.js");
 
+
+//TODO : 공식문서에 사용되는 형식으로 리팩토링 필요.
 const status = queue =>
   `Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
     queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'

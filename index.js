@@ -1,27 +1,9 @@
-const { Client, Intents, MessageEmbed } = require("discord.js");
+const { Client, Collection, Intents, MessageEmbed } = require("discord.js");
 
 const { token, prefix } = require("./config.json");
 const fs = require("fs");
-const { getUserInfo } = require("./lostark/loaInfo/loaInfoData.js");
-const {
-  createLoaInfoEmbed,
-  createLoawaLinkEmbed,
-} = require("./lostark/loaInfo/loaInfoEmbed");
-const { createAuctionbyPartyEmbed } = require("./lostark/loaAuctionbyParty");
-const { createAuctionEmbed } = require("./lostark/loaAuction");
-const { returnOrderList } = require("./orderList");
-const { addRoleEmbed } = require("./lostark/alarmSetting/addAlarmRole");
-// const { doMessageClear } = require("./messageClear");
-const { loaEvent } = require("./lostark/loaEvent");
-const { incomeCalc } = require("./lostark/incomeCalc");
-const { makeAlarmChannel } = require("./lostark/alarmSetting/makeChannel");
-const { makeRole } = require("./lostark/alarmSetting/makeRole");
-const { loaAlarm } = require("./lostark/alarmSetting/loaAlarm");
-const { madeNotice } = require("./allServerNotice");
-const { alarmExeComment } = require("./lostark/alarmSetting/alarmExeComment");
-const { sasagaeEmbed } = require("./lostark/sasagae");
-const { makeMusicChannel } = require("./music/makeMusicChannel");
-const { musicOrder } = require("./music/music");
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
 
 const client = new Client({
   disableEveryone: true,
@@ -29,42 +11,76 @@ const client = new Client({
     Intents.FLAGS.GUILDS, // GUILDS = server
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
     "GUILDS",
     "GUILD_MESSAGES",
     "DIRECT_MESSAGES",
+    "GUILD_VOICE_STATES",
   ],
   partials: ["CHANNEL", "MESSAGE", "REACTION"],
 });
 
-const errorMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`에러가 발생했습니다!`)
-  .setDescription(
-    `올바른 명령을 요청했는지 \`!명령어\` 를 통해 다시 한번 용례를 확인해주시고,\n에러가 지속된다면 개발자에게 문의해주세요.`
-  );
+client.commands = new Collection();
 
-const alreadyMessage = new MessageEmbed()
-  .setColor("#ff3399")
-  .setTitle(`\`!알람세팅\` 또는 \`!음악세팅\` 명령어를 이미 실행했습니다.`)
-  .setDescription(`게시판의 이름을 변경하지는 않았는지 확인해주세요.`);
 
-const watingMessage = (message, userName) => {
-  const waitingEmbed = new MessageEmbed()
-    .setColor("#ff3399")
-    // .setThumbnail(`${loadingBar}`)
-    .setTitle(`${userName}님의 데이터를 불러오는 중입니다.`)
-    .setDescription(
-      `데이터를 불러오고 가공하는데 시간이 좀 걸립니다. 조금만 기다려주세용`
-    );
-  message.channel.send({ embeds: [waitingEmbed] });
-};
+// 아래 내용은 commands/ 에 들어있는 명령어들을 하나씩 뽑아내서 등록하는 절차.
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const loaCommandFiles = fs.readdirSync('./commands/lostark').filter(file => file.endsWith('.js'));
+const musicCommandFiles = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
+
+for (const file of loaCommandFiles) {
+	const loaCommand = require(`./commands/lostark/${file}`);
+	client.commands.set(loaCommand.data.name, loaCommand);
+}
+
+for (const file of musicCommandFiles) {
+	const musicCommand = require(`./commands/music/${file}`);
+	client.commands.set(musicCommand.name, musicCommand);
+}
+
+client.distube = new DisTube(client, {
+  emitNewSongOnly: true,
+  leaveOnFinish: true,
+  emitAddSongWhenCreatingQueue: false,
+  plugins: [new SpotifyPlugin()]
+});
+
+module.exports = client;
+
+// <!--  -->
+
 
 client.once("ready", () => {
   console.log("믹스테잎 준비 완료");
 
   client.user.setPresence({
-    activities: [{ name: "도움말은 !명령어" }],
+    activities: [{ name: "도움말은 /명령어" }],
   });
+});
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) return;
+
+  // let testItem = interaction.slice(0,1);
+
+  // console.log(`interaction: ${interaction}`);
+  // console.log(`testItem: ${JSON.stringify(interaction.options._hoistedOptions[0]["value"])}`); //! 특정 커맨드 options를 가져오는 변수.
+
+	const command = client.commands.get(interaction.commandName);
+
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
 });
 
 client.on("messageCreate", async (message) => {

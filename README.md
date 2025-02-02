@@ -28,15 +28,12 @@ discord.js v13이 출시됨에 따라 슬래시(/) 커맨드로 명령어를 추
 
 ## ScreenShots
 
-<center>
+![명령어리스트](./images/commandList.png)
 
-<img src="https://drive.google.com/uc?export=download&id=1W48x2edH983SdvAHdeGY6IMfRlyG46vT" width="600" height="">
+![이벤트리스트](./images/callEvents.png)
 
-<img src="https://drive.google.com/uc?export=download&id=1_hGFc08viF6_cZ27P7BEwMZdT8EoFNNQ" width="600" height="">
+![정보](./images/callStatus.png)
 
-<img src="https://drive.google.com/uc?export=download&id=1sSeSPZhNd19fEbKosFtIRWjAEOVgd32W" width="600" height="">
+![정산](./images/callTotal.png)
 
-<img src="https://drive.google.com/uc?export=download&id=1jfgacge-aEVuC1QzFNmtJRC2LmW1TcD4" width="600" height="">
-
-<img src="https://drive.google.com/uc?export=download&id=170NMxzrU2WWmHrm_KxNZuWVyt6Y2WR-h" width="600" height="">
-</center>
+![알람](./images/alarm.png)

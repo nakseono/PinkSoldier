@@ -26,6 +26,8 @@ discord.js v13이 출시됨에 따라 슬래시(/) 커맨드로 명령어를 추
 
 [커뮤니티 공개 링크](https://www.inven.co.kr/board/lostark/4811/3541376)
 
+[회고록 링크](https://bit.ly/reviewMixTape)
+
 ## ScreenShots
 
 ![명령어리스트](./images/commandList.png)
